@@ -1,0 +1,33 @@
+{% extends 'layout.html' %} 
+{% load static %}
+
+{% block title %} Login {% endblock title %}
+
+{% block navbar %}
+{% endblock navbar%}
+
+{% block content %} 
+<div class="container-1">
+
+    <div class="intro1">
+        <h1>Welcome <br> Sign in to continue</h1>
+    </div>
+
+    <form action="" method="post">
+        <div class="space-form">
+            {% csrf_token %}
+            {{ form }}
+
+            <di v class="info-box">
+                <button class="btn btn-cus2" style="width: 100%;">Sign in</button>
+                <p>Don't have an account? <a href="{% url 'register' %}">Create account</a></p>
+            </di>
+        </div>
+    </form>
+    
+</div>
+
+{% endblock content %}
+
+{% block footer %}
+{% endblock footer %}

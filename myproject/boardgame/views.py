@@ -5,6 +5,10 @@ from .models import *
 
 from .forms import * 
 
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # Create your views here.
 
 class indexView(View):
@@ -12,6 +16,7 @@ class indexView(View):
         return render(request, 'index.html')
 
 
+# Reservation
 class ReservationFormView(View):
     template_name = "reservation_form.html"
 
@@ -29,13 +34,44 @@ class ReservationFormView(View):
             form.save()
 
             return redirect('Reservation_form')  # กลับไปหน้าจองโต๊ะ
-        
+
+
+# cashier     
 class CashierView(View):
     def get(self, request):
         return render(request, 'cashier.html')
 
 
 
+# login & register
+
+class LoginView(View):
+
+    template_name = "login.html"
+
+    def get(self, request):
+        form = AuthenticationForm()
+        return render(request, self.template_name, {"form":form})
+    
+    def post(self, request):
+        form = AuthenticationForm(request, data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('index')
+        
+        return render(request, self.template_name, {"form":form})
     
 
-        
+class LogoutView(View):
+    
+    def get(self, request):
+        logout(request)
+        return redirect('index')
+  
+    
+
+class RegisterView(View):
+    def get(self, request):
+        return render(request, 'register.html')

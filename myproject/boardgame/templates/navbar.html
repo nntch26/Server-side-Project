@@ -27,8 +27,14 @@
             </li>
             
             <li class="nav-item">
-                <a class=" btn btn-cus2" href="intro.html">เข้าสู่ระบบ</a>
+                <a class=" btn btn-cus2" href="{% url 'login' %}">เข้าสู่ระบบ</a>
             </li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class=" btn btn-cus2" href="{% url 'logout' %}">ออกจากระบบ</a>
+            </li>
+            {% endif %}
         </ul>
         </div>
     </div>

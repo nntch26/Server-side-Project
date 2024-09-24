@@ -255,7 +255,7 @@
 }
 .but{
     width: 100%;
-    background: #bd081c;
+    background: #F4313F;
     color: white;
     border-radius: 5px;
     width: 100%;
@@ -269,7 +269,7 @@
     padding: 2.5rem 2rem;
     height: 100vh;
 }
-h1{
+.intro1 h1{
     display: flex;
     text-align: center;
     align-items: center;
@@ -363,7 +363,7 @@ input{
     text-decoration: none;
     color: #F4313F;
 }
-.card{
+.card-cus{
     color: #000000;
     background-color: rgba(255, 255, 255, 0.827);
     border: 1px solid #ccc;
@@ -379,9 +379,9 @@ input{
     border-radius: 8px;
     text-align: center;
 }
-.card-body{
+.card-body-1{
     width: 20%;
-    background-color: #bd081c;
+    background-color: #F4313F;
     color: white;
     border: none;
     border-radius: 5px;
