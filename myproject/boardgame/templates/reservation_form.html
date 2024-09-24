@@ -36,7 +36,8 @@ body{
                     <div class="col-12">
     
                         <!---alert -->
-    
+                        {{ form.non_field_errors }}
+
                         <!-- ส่วนของฟอร์ม -->
                         <form action="" method="post">
                             {% csrf_token %}
