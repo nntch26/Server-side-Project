@@ -1,5 +1,6 @@
 {% extends 'layout.html' %} 
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %} Login {% endblock title %}
 
@@ -13,10 +14,10 @@
         <h1>Welcome <br> Sign in to continue</h1>
     </div>
 
-    <form action="" method="post">
+    <form action="{% url 'login' %}" method="post">
         <div class="space-form">
             {% csrf_token %}
-            {{ form }}
+            {{ form|crispy }}
 
             <di v class="info-box">
                 <button class="btn btn-cus2" style="width: 100%;">Sign in</button>

@@ -6,6 +6,8 @@ from .models import *
 
 from datetime import date
 from django.utils import timezone
+from django.contrib.auth.forms import UserCreationForm
+
 
 
 class ReservationForm(forms.ModelForm):
@@ -59,5 +61,20 @@ class ReservationForm(forms.ModelForm):
             return cleaned_data
 
 
+class CustomUserCreationForm(UserCreationForm):
+    
+    phone_number = forms.CharField(max_length=15)
+    
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name', 
+            'username', 
+            'phone_number', 
+            'email', 
+            'password1', 
+            'password2'
+            ]
         
 

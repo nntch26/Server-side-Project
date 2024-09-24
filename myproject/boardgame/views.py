@@ -9,6 +9,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from .forms import CustomUserCreationForm  
+
 # Create your views here.
 
 class indexView(View):
@@ -31,6 +33,7 @@ class ReservationFormView(View):
         form = ReservationForm(request.POST)
 
         if form.is_valid():
+            form.instance.user = request.user  # กำหนดผู้ใช้ที่ล็อกอิน
             form.save()
 
             return redirect('Reservation_form')  # กลับไปหน้าจองโต๊ะ
@@ -64,6 +67,29 @@ class LoginView(View):
         return render(request, self.template_name, {"form":form})
     
 
+class RegisterView(View):
+    def get(self, request):
+        form = CustomUserCreationForm()
+        return render(request, 'register.html', {"form": form})
+    
+    def post(self, request):
+        form = CustomUserCreationForm(request.POST)
+
+        if form.is_valid():
+            user1 = form.save()
+
+            UserDetail.objects.create(
+                user = user1, #ยัด obj user เข้าไป
+                phone_number = form.cleaned_data['phone_number']
+            )
+            return redirect('login')
+        
+        return render(request, 'register.html', {"form": form})
+    
+
+    
+
+
 class LogoutView(View):
     
     def get(self, request):
@@ -72,6 +98,3 @@ class LogoutView(View):
   
     
 
-class RegisterView(View):
-    def get(self, request):
-        return render(request, 'register.html')

@@ -262,12 +262,13 @@
     height: 40px;
 }
 .container-1{
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2.5rem 2rem;
-    height: 100vh;
+    margin-top: 4rem;
 }
 .intro1 h1{
     display: flex;
@@ -279,14 +280,15 @@ input{
     margin-bottom: 10px;
     border-radius: 5px;
 }
-.space-form{
+/* .space-form{
     display: flex;
     flex-direction: column;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
+
+} */
 .info-box, .info-box2{
     display: flex;
     flex: 1;
@@ -307,14 +309,15 @@ input{
 
 
 /* register */
-.intro2{
+/* .intro2{
     top: 5%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: fixed;
     display: flex;
     margin-top: 4rem;
-}
+    
+} */
 .info-box, .info-box2{
     display: flex;
     flex: 1;
