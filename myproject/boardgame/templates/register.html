@@ -1,0 +1,58 @@
+{% extends 'layout.html' %} 
+{% load static %}
+
+{% block title %}]register{% endblock title %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock navbar%}
+
+{% block content %} 
+<div class="container-1">
+    <div class="intro2">
+        <h1>Create an account</h1>
+    </div>
+    <div class="space-form">
+        <div class="group">
+            <div class="info-box">
+                <label for="">Username</label>
+                <input type="text" name="" id="">
+            </div>
+            <div class="info-box">
+                <label for="">Phone number</label>
+                <input type="text" name="" id="">
+            </div>
+        </div>
+        <div class="group">
+            <div class="info-box">
+                <label for="">First Name</label>
+                <input type="text" name="" id="">
+            </div>
+            <div class="info-box">
+                <label for="">Last Name</label>
+                <input type="text" name="" id="">
+            </div>
+        </div>
+        <div class="info-box">
+            <label for="">Email address</label>
+            <input type="text" name="" id="">
+        </div>
+        <div class="group">
+            <div class="info-box">
+                <label for="">Password</label>
+                <input type="text" name="" id="">
+            </div>
+            <div class="info-box">
+                <label for="">Confirm password</label>
+                <input type="text" name="" id="">
+            </div>
+        </div>
+        <div class="info-box2">
+            <button class="but">Create account</button>
+            <p class="txt">Already have an account? <a href="login_form.html">Log in</a></p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block footer %}
+{% endblock footer %}

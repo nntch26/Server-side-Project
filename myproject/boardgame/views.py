@@ -29,6 +29,10 @@ class ReservationFormView(View):
             form.save()
 
             return redirect('Reservation_form')  # กลับไปหน้าจองโต๊ะ
+        
+class CashierView(View):
+    def get(self, request):
+        return render(request, 'cashier.html')
 
 
 
