@@ -4,6 +4,16 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+class UserDetail(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # เชื่อมกับตาราง User 
+    phone_number = models.CharField(max_length=15, unique=True)
+    points = models.IntegerField(default=0)
+
+
+    def __str__(self):
+        return self.user.username 
+
+
 class Table(models.Model):
     STATUS_CHOICES = [
         ('Available', 'Available'),
