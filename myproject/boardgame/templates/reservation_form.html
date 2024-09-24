@@ -1,0 +1,85 @@
+<!-- extends ก่อน ค่อย load -->
+{% extends 'layout.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}จองโต๊ะ{% endblock title %}
+
+{% block styles %}
+<style>
+body{
+    background-color: #eef3fe;
+}            
+</style>
+
+{% endblock styles %}
+
+
+{% block navbar %}
+
+{% endblock navbar%}
+
+
+{% block content %}
+    <div class="section booking-sec">
+        <div class="container">
+    
+            <div class="section-title mt-5 text-center">
+                <h1>สำหรับจองโต๊ะหน้าร้าน</h1>
+                <p style="color: crimson;">สำหรับการจองโต๊ะในร้านสามารถกำหนดเวลาการจองได้ไม่เกิน 1 วัน <br>
+                เวลาเปิดปิดร้าน 10.00 น. - 23.00 น.</p>
+            </div>
+    
+            <!-- ฟอร์มสำหรับจองโต๊ะ -->
+            <div class="form-booking">
+                <div class="row">
+                    <div class="col-12">
+    
+                        <!---alert -->
+    
+                        <!-- ส่วนของฟอร์ม -->
+                        <form action="" method="post">
+                            {% csrf_token %}
+
+                            <div class="form-group row cont-numtable">
+                                <div class="col-sm-12">
+                                    <label for="table_id">เลือกโต๊ะ : </label>
+                                     {{ form.table }}
+                                    
+                                </div>
+                            </div>
+                            
+    
+                            <div class="form-group row cont-date mb-5">
+                                <div class="mb-3 col-12 col-md-4">
+                                    {{ form.reservation_date|as_crispy_field }}
+                                </div>
+    
+                                <div class="mb-3 col-12 col-md-4">
+                                    {{ form.reservation_time|as_crispy_field }}
+                                </div>
+    
+                                <div class="mb-3 col-12 col-md-4">
+                                    {{ form.reservation_cap|as_crispy_field }}
+                                </div>
+                            </div>
+    
+                            <div class="btn-footer mb-5">
+                                <a href="{% url 'index' %}"  class="btn btn-secondary me-2">ยกเลิก</a>
+                                <button type="submit" name="submit_booking_insert" class="btn btn-cus2">บันทึก</button>
+
+                            </div>
+    
+                        </form>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block footer %}
+
+{% endblock footer %}

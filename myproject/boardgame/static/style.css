@@ -1,0 +1,273 @@
+
+*{
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+}
+
+
+/* ////////////// Tob navbar ////////////// */
+.navbar-cus{
+    background-color: #f3f3f3;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.196);
+    color: #1C252C;
+
+}
+
+.nav-link{
+    font-size: 18px;
+}
+
+.navbar-brand{
+    font-size: 30px;
+    font-weight: bold;
+    color: #F4313F;
+}
+
+.nav-link:hover{
+    color: #F4313F;
+
+}
+
+.btn-cus {
+    color: #1C252C;
+    border: 1px solid #1C252C;
+    width: 100px;
+
+}
+
+.btn-cus2 {
+    color: #ffffff;
+   background: #F4313F;
+    width: 100px;
+
+}
+
+.btn-cus:hover {
+    color: #ffffff;
+    background: #1C252C;
+
+}
+
+.btn-cus2:hover {
+    color: #F4313F;
+    border: 1px solid #F4313F;
+
+}
+
+.navbar-nav{
+    padding: 5px;
+}
+
+
+/* ////////////// bottom navbar ////////////// */
+.navbar-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1030;
+}
+
+.navbar-bottom .nav-link {
+    font-size: 12px;
+    text-align: center;
+}
+
+.navbar-bottom .nav-item {
+    flex-grow: 1;
+}
+
+.navbar-bottom .nav-icon {
+    font-size: 20px;
+}
+
+
+.navbar-bottom .active {
+    background-color: #F4313F;
+    color: #ffffff !important;
+}
+
+
+.navbar-bottom .nav-link:hover {
+    background-color: #7070702b;
+    color: #F4313F ;
+}
+
+
+/* ////////////// header styles ////////////// */
+
+ .header{
+    text-align: center;
+    color: #212529;
+    padding-top: 8rem;
+    padding-bottom: 16rem;
+    background-color: #212529;
+    background-image: url("https://thematter.co/wp-content/uploads/2018/02/boardgame-web.png");
+    background-size: cover;
+    background-position: center;
+} 
+
+
+/* ////////////// categories-sec styles ////////////// */
+
+.categories-sec, .boardgame-sec{
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+}
+
+.categories-card{
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+.card-img-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+   
+
+}
+
+.card-img-overlay:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+
+}
+.categories-card{
+    transition-property: transform;
+    transition-duration: 0.3s;
+}
+
+.categories-card:hover{
+    transform: scale(0.95, 0.95);
+}
+
+
+
+.categories-img{
+    background-size: cover; 
+    background-position: center; 
+    width: 100%; 
+    height: 200px;
+}
+
+.cate-title{
+    color: #ffffff;
+}
+
+
+
+
+/* ////////////// boardgame-sec styles ////////////// */
+
+/* .boardgame-sec{
+    background-color: #2E373E;
+} */
+
+.boardgame-card{
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+
+/* ////////////// booking styles ////////////// */
+
+
+.form-booking {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cont-numtable {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 15px;
+    width: 300px;
+}
+
+.text-num {
+    margin-top: 5px;
+    font-size: 20px;
+}
+
+.inp-num {
+    width: 100px;
+    font-size: 18px;
+}
+
+.cont-user {
+    margin-top: 30px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.cont-date {
+    margin-top: 30px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.a_nav2 {
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #F4313F;
+    border-radius: 30px;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+}
+
+.a_nav2:hover {
+    font-size: 18px;
+    color: #F4313F;
+    border: 2px solid #F4313F;
+}
+
+
+
+/* ////////////// Footer styles ////////////// */
+.text-footer {
+    font-size: 1.5rem;
+}
+
+.p-footer {
+    font-size: 1rem;
+}
+
+
+
+
+
+/* ////////////// mobile  //////////////*/
+
+@media (max-width: 768px) {
+
+    .navbar-brand{
+        font-size: 1.2rem;
+    }
+
+    .content-header {
+        font-size: 0.9rem;
+    }
+
+    .section-title h1 {
+        font-size: 1.5rem;
+    }
+
+    .game-card h5 {
+        font-size: 1.2rem;
+    }
+
+    .p-footer {
+        font-size: 0.5rem;
+    }
+
+    .text-footer {
+        font-size: 1.2rem;
+    }
+}

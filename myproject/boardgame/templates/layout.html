@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--- bootstrap --->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!--- stylesheet --->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <!--- fonts.google --->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+    <title>{% block title %} title {% endblock title %}</title>
+
+    {% block styles %}
+   
+    {% endblock styles %}
+
+    
+
+    
+</head>
+<body>
+
+    {% block navbar %}
+        {% include 'navbar.html' %}
+    {% endblock navbar%}
+
+
+    {% block content %} 
+    
+    {% endblock content %}
+    
+
+    
+    
+    {% block footer %}
+    
+    <!-- footer -->
+    <footer class="text-center text-white" style="background-color: #2E373E;">
+
+        <div class="row d-flex justify-content-center text-center" style="margin-right: 15px">
+            <div class="col-lg-8 mb-3">
+                <hr class="mt-5 mb-4 mx-auto" width="80%">
+                <h4 class="text-footer mb-2">- PLAY BOARDGAME -</h4>
+                <p class="p-footer">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid maxime, ipsa, harum earum repellendus odit repellat illum repudiandae temporibus id ea facere at, doloremque magni eaque incidunt accusantium cupiditate. Eos.</p>
+            </div>
+        </div>
+        
+
+        <div class="text-center p-3" style="background-color: #1C252C;">© Copyrights. All rights reserved.
+            <a class="text-white" href="#">PLAY BOARDGAME</a>
+        </div>
+    </footer>
+    
+    {% endblock footer %}
+
+
+</body>
+</html>

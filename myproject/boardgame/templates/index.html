@@ -1,0 +1,169 @@
+
+<!-- extends ก่อน ค่อย load -->
+{% extends 'layout.html' %} 
+{% load static %}
+
+
+
+{% block title %}หน้าแรก{% endblock title %}
+
+{% block content %}
+
+<!-- Header -->
+
+<div class="container-fuild">
+    <div class="header" id="home">
+        <div class="content-header container">
+            <!-- <h1>BOARD GAME</h1>
+            <h3>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi facilis sequi recusandae eum dolor ipsam laudantium quisquam assumenda quidem, optio quibusdam porro unde maiores accusamus, voluptatum voluptatibus provident ratione consequuntur.</h3>
+            <p>Includes PHP, PHP Basics, PHP and HTML, and more.</p>
+            <a href="#intro"><button type="button" class="btn mt-5">Get Started</button></a> -->
+        </div>
+    </div>
+</div>
+
+
+ <!-- หมวดหมู่บอร์ดเกม  -->
+<div class="section categories-sec">
+    <div class="container">
+        <div class="section-title m-3 d-flex align-items-center">
+            <i class="bi bi-dice-1 me-3" style="font-size: 3rem;"></i>
+            <h1>หมวดหมู่บอร์ดเกม</h1>
+        </div>
+
+        <div class="row">
+
+            <!-- แถว 1 -->
+            <div class="col-md-6 mb-4">
+                <div class="card categories-card">
+                    <div class="categories-img" 
+                    style="background-image: url('https://mercular.s3.ap-southeast-1.amazonaws.com/images/products/2022/01/top-5-board-game-for-kid-rhino-hero-super-battle-board-game-02.jpg');"></div>
+                    <div class="card-body card-img-overlay">
+                        <h1 class="card-title cate-title">บอร์ดเกมเด็กและครอบครัว</h1>
+                        <a href="#" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
+                    </div>
+                </div>
+            </div>
+         
+            <div class="col-md-6 mb-4">
+                <div class="card categories-card">
+                    <div class="categories-img" 
+                    style="background-image: url('https://mercular.s3.ap-southeast-1.amazonaws.com/images/products/2022/01/board-game-buying-guide-for-beginner-900x500-02.jpg');"></div>
+                    <div class="card-body card-img-overlay">
+                        <h1 class="card-title cate-title">บอร์ดเกมปาร์ตี้</h1>
+                        <a href="#" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- แถว 2 -->
+            <div class="col-md-6 mb-4">
+                <div class="card categories-card">
+                    <div class="categories-img" 
+                    style="background-image: url('https://img.pptvhd36.com/thumbor/2021/03/08/645fb4e7f0.jpg');"></div>
+                    <div class="card-body card-img-overlay">
+                        <h1 class="card-title cate-title">บอร์ดเกมกลยุทธ์</h1>
+                        <a href="#" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
+                    </div>
+                </div>
+            </div>
+      
+            <div class="col-md-6 mb-4">
+                <div class="card categories-card">
+                    <div class="categories-img" 
+                    style="background-image: url('https://www.countup.life/wp-content/uploads/2022/10/boardgame-2-02-1024x683.jpg');"></div>
+                    <div class="card-body card-img-overlay">
+                        <h1 class="card-title cate-title">บอร์ดเกมเล่น 2 คน</h1>
+                        <a href="#" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+ <!-- บอร์ดเกมแนะนำ  -->
+<div class="section boardgame-sec">
+    <div class="container">
+
+        <div class="section-title m-3 d-flex align-items-center" >
+            <i class="bi bi-dice-2 me-3" style="font-size: 3rem;"></i>
+            <h1>บอร์ดเกมแนะนำ</h1>
+        </div>
+
+        <div class="row">
+
+            <!-- แถว 1 -->
+            <div class="col-md-3 mb-4">
+                <div class="card boardgame-card" style="width: 18rem;">
+                    <img src="https://strongholdbg.com/wp-content/uploads/2022/06/99.png" 
+                    class="card-img-top " alt="...">
+                    <div class="card-body">
+                    <h4 class="card-title boardgame-title">Sheriff of Nottingham: 2nd Edition</h4>
+                    <p class="card-text"> เกมนี้เราจะผลัดกันเป็นผู้ตรวจการ และเหล่าพ่อค้าที่จะแอบขนสินค้าเข้ามาขายในนอตทิงแฮม</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="price" style="color: #F4313F ;">฿1,390.00</h2>
+                        <a href="#" class="btn btn-cus2">รายละเอียด</a>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3 mb-4">
+                <div class="card boardgame-card" style="width: 18rem;">
+                    <img src="https://strongholdbg.com/wp-content/uploads/2021/12/1.-Cover-33.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                    <h4 class="card-title boardgame-title">คาเมลอัพ Camel Up Second Edition</h4>
+                    <p class="card-text">เจ้าอูฐจากเกม Camel Up กลับมาอีกครั้ง มาลุ้นกันว่าอูฐของใครจะวิ่งเข้าเส้นชัยก่อน</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="price" style="color: #F4313F ;">฿1,650.00</h3>
+                        <a href="#" class="btn btn-cus2">รายละเอียด</a>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card boardgame-card" style="width: 18rem;">
+                    <img src="https://strongholdbg.com/wp-content/uploads/2021/12/Lotto-TH-1.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                    <h4 class="card-title boardgame-title">Lotto ล็อตโต้ (TH)</h4>
+                    <p class="card-text">เกมปาร์ตี้เล่นง่ายสุดสนุกจาก ทีมงานบอร์ดเกมไนท์ ที่เหล่าคอหวยต้องใช้วิธีต่างๆให้ได้มาซึ่งเลขเด็ด</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="price" style="color: #F4313F ;">฿670.00</h3>
+                        <a href="#" class="btn btn-cus2">รายละเอียด</a>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card boardgame-card" style="width: 18rem;">
+                    <img src="https://strongholdbg.com/wp-content/uploads/2021/12/1.-Cover-33.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                    <h4 class="card-title boardgame-title">คาเมลอัพ Camel Up Second Edition</h4>
+                    <p class="card-text">เจ้าอูฐจากเกม Camel Up กลับมาอีกครั้ง มาลุ้นกันว่าอูฐของใครจะวิ่งเข้าเส้นชัยก่อน</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="price" style="color: #F4313F ;">฿1,650.00</h3>
+                        <a href="#" class="btn btn-cus2">รายละเอียด</a>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+
+    
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock content %}
+
