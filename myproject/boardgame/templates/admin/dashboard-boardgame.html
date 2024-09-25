@@ -1,0 +1,104 @@
+<!-- extends ก่อน ค่อย load -->
+{% extends 'admin/layout_admin.html' %} 
+{% load static %}
+
+
+
+{% block title %} Dashboard {% endblock title %}
+
+{% block styles %}
+<style>
+    
+    body{
+        display: flex;
+        margin: 0; 
+        background-color: #eef3fe;
+    }
+    
+    .sidebar {
+            height: 100vh; 
+            position: sticky;
+            padding-top: 50px; 
+    }
+ 
+    .boardgame-list{
+       background-color: #ffffff;
+       border-radius: 5px;
+       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+       padding: 20px;
+
+    }
+    
+</style>
+{% endblock styles %}
+
+{% block content %}
+
+
+<div class="row">
+
+    <div class="col-md-11">
+        <h2>BOARDGAME</h2>
+        <p>Your content goes here.</p>
+
+        <div class="boardgame-list">
+            <div class="d-flex">
+                <div class="btnAdd ms-auto">
+                    <a href="{% url 'des-boardgame-add' %}" class="btn btn-primary mb-3">
+                        <i class="fs-5 bi bi-plus-circle-fill"></i><span class="ms-1">เพิ่มบอร์ดเกม</span>
+                    </a>
+                </div>
+            </div>
+            
+
+            <table id="dataTable" class="table table-striped" style="width:100%; text-align: left;">
+                <thead>
+                    <tr>
+                        <th>รหัส</th>
+                        <th>รูปภาพ</th>
+                        <th>ชื่อบอร์ดเกม</th>
+                        <th>หมวดหมู่บอร์ดเกม</th>
+                        <th>จำนวนผู้เล่น</th>
+                        <th>เวลาในการเล่น(นาที)</th>
+                        <th>จัดการ</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for product in product_list %}
+
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td><img src='{{ product.image.url }}' style='max-width: 100px; max-height: 100px;'></td>
+                    <td>{{ product.game_name }}</td>
+                    <td>
+                        {% for category in product.category.all %}
+                            {{ category.name }} {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ product.min_players }} - {{ product.max_players }}</td>
+                    <td>{{ product.play_time }}</td>
+
+                    <td>
+                        <button type="button" class="btn btn-warning btnEdit">
+                            <i class="fs-5 bi bi-pencil-square"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-danger btnDelete">
+                            <i class="fs-5 bi-trash3-fill"></i>
+                        </button>
+
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </table>
+
+        </div>
+
+       
+    </div>
+
+</div>
+{% endblock %}

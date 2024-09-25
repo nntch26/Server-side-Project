@@ -22,6 +22,7 @@ class UserDetail(models.Model):
         return self.user.username 
 
 
+
 class Table(models.Model):
     STATUS_CHOICES = [
         ('Available', 'Available'),
@@ -34,6 +35,7 @@ class Table(models.Model):
 
     def __str__(self):
         return f"โต๊ะที่ : {self.id} รองรับ: {self.table_cap}" 
+
 
 
 class Reservation(models.Model):
@@ -51,3 +53,28 @@ class Reservation(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')  
     created_at = models.DateTimeField(auto_now_add=True)  
 
+
+
+
+class Categories(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+
+class BoardGames(models.Model):
+    game_name = models.CharField(max_length=255)
+    description = models.TextField()
+    category = models.ManyToManyField(Categories)  
+    min_players = models.IntegerField()
+    max_players = models.IntegerField(null=True, blank=True)
+    play_time = models.IntegerField()
+    image = models.FileField(upload_to='upload')
+    video_url = models.URLField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+            return self.game_name

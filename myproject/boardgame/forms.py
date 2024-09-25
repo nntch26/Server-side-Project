@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.contrib.auth.forms import UserCreationForm
 
 
-
+# ฟอร์มจองโต๊ะ
 class ReservationForm(forms.ModelForm):
     table = forms.ModelChoiceField(queryset=Table.objects.filter(status='Available')) # แสดงเฉพาะโต๊ะที่ว่าง
 
@@ -67,7 +67,7 @@ class ReservationForm(forms.ModelForm):
         return res_cap
 
 
-
+# ฟอร์ม Register
 class CustomUserCreationForm(UserCreationForm):
     
     phone_number = forms.CharField(max_length=15)
@@ -82,7 +82,7 @@ class CustomUserCreationForm(UserCreationForm):
             'email', 
             'password1', 
             'password2'
-            ]
+        ]
         
 
     # เช็คว่าเบอร์ซ้ำมั้ย
@@ -95,6 +95,7 @@ class CustomUserCreationForm(UserCreationForm):
             raise ValidationError("Phone number Already Exist")  
         return phone_number  
     
+
     # เช็คว่าอีเมลซ้ำมั้ย
     def clean_email(self):
         email = self.cleaned_data["email"]
@@ -106,3 +107,32 @@ class CustomUserCreationForm(UserCreationForm):
         return email  
 
 
+class BoardGamesForm(forms.ModelForm):
+
+    class Meta:
+        model = BoardGames
+        fields = [
+            "game_name", 
+            "description", 
+            "min_players", 
+            "max_players",
+            "play_time",
+            "image",
+            "video_url",
+            "category" 
+        ]
+
+        widgets = {
+            "description": forms.Textarea(),
+        }
+
+        labels = {
+            'game_name': 'ชื่อบอร์ดเกม', 
+            'description': 'รายละเอียด',
+            'min_players': 'จำนวนคนขั้นต่ำ',
+            'max_players': 'จำนวนคนไม่เกิน',
+            'play_time': 'เวลาในการเล่น(นาที)',
+            'image': 'รูปภาพ',
+            'video_url': 'วิดีโอวิธีเล่น (URL)',
+            'category': 'หมวดหมู่',
+        }

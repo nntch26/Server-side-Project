@@ -1,0 +1,56 @@
+<!-- extends ก่อน ค่อย load -->
+{% extends 'admin/layout_admin.html' %} 
+{% load static %}
+
+
+
+{% block title %} Dashboard {% endblock title %}
+
+
+{% block content %}
+<div class="row">
+
+    <div class="col-md-9">
+        <h2>BOARDGAME</h2>
+        <p>Your content goes here.</p>
+
+        <table id="dataTable" class="table table-striped" style="width:100%; text-align: left;">
+            <thead>
+                <tr>
+                    <th>รหัส</th>
+                    <th>ชื่อ</th>
+                    <th>นามสกุล</th>
+                    <th>ชื่อผู้ใช้</th>
+                    <th>เบอร์โทรศัพท์</th>
+                    <th>อีเมล</th>
+                    <th>คะแนนสะสม</th>
+                    <th>จัดการ</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+            <td>
+                <button type="button" class="btn btn-warning btnEdit">
+                    <i class="fs-5 bi bi-pencil-square"></i>
+                </button>
+
+                <button type="button" class="btn btn-danger btnDelete">
+                    <i class="fs-5 bi-trash3-fill"></i>
+                </button>
+
+            </td>
+        </tr>
+    </div>
+
+</div>
+{% endblock %}

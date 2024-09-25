@@ -13,7 +13,13 @@ urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login"),
     path("logout/", views.LogoutView.as_view(), name="logout"),
     path("register/", views.RegisterView.as_view(), name="register"),
-    
+
+
+    # dashboard
+    path("dashboard/", views.DashboardView.as_view(), name="dashboard"),
+    path("dashboard/boardgame", views.DashboardBoardgameView.as_view(), name="des-boardgame"),
+    path("dashboard/boardgame/add", views.DashboardBoardgameAddView.as_view(), name="des-boardgame-add"),
+
 
     # path("product/", views.ProductView.as_view(), name="product"),
     # path("product/<int:cat_id>/", views.ProductView.as_view(), name="product_filter"),

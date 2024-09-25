@@ -89,8 +89,6 @@ class RegisterView(View):
         return render(request, 'register.html', {"form": form})
     
 
-    
-
 
 class LogoutView(View):
     
@@ -98,5 +96,39 @@ class LogoutView(View):
         logout(request)
         return redirect('index')
   
+
+# Dashboard 
+
+class DashboardView(View):
+
+    template_name = "admin/dashboard.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class DashboardBoardgameView(View):
+    template_name = "admin/dashboard-boardgame.html"
+
+    def get(self, request):
+        product_list = BoardGames.objects.all()
+        return render(request, self.template_name, {"product_list": product_list})
+
+
+class DashboardBoardgameAddView(View):
+    template_name = "admin/boardgame_add.html"
+
+    def get(self, request):
+        form = BoardGamesForm()
+        return render(request, self.template_name, {"form": form})
     
 
+    def post(self, request):
+        form = BoardGamesForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('des-boardgame')
+        
+        return render(request, self.template_name, {"form": form})
+    
