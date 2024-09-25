@@ -37,6 +37,8 @@ class ReservationFormView(View):
             form.save()
 
             return redirect('Reservation_form')  # กลับไปหน้าจองโต๊ะ
+        
+        return render(request, self.template_name, {"form": form})
 
 
 # cashier     

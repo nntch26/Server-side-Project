@@ -5,10 +5,18 @@ from django.contrib.auth.models import User
 
 
 class UserDetail(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)  # เชื่อมกับตาราง User 
-    phone_number = models.CharField(max_length=15, unique=True)
-    points = models.IntegerField(default=0)
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('othor', 'Othor'),
+    ]
 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # เชื่อมกับตาราง User 
+    phone_number = models.CharField(max_length=10, unique=True)
+    gender = models.CharField(max_length=10, null=True, blank=True, choices=GENDER_CHOICES)
+    birth_date = models.DateField(null=True, blank=True)
+    points = models.IntegerField(default=0)
+    
 
     def __str__(self):
         return self.user.username 

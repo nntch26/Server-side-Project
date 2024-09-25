@@ -18,11 +18,11 @@
             <a class="nav-link" aria-current="page" href="#home">หน้าแรก</a>
             </li>
 
-            <li class="nav-item me-3 mb-2">
+            <li class="nav-item me-3 mb-1">
             <a class="nav-link" href="intro.html">บอร์ดเกม</a>
             </li>
 
-            <li class="nav-item me-3 mb-2">
+            <li class="nav-item me-3 mb-1">
                 <a class=" btn btn-cus" href="{% url 'Reservation_form' %}">จองที่นั่ง</a>
             </li>
             {% if not user.is_authenticated %}
@@ -32,11 +32,16 @@
 
             {% elif user.is_authenticated %}
             <li class="nav-item me-3 mb-2">
-                <a class=" btn" href="{% url 'Reservation_form' %}">โปรไฟล์</a>
+                <a class="" href="{% url 'Reservation_form' %}">
+                    <i class="bi bi-person nav-icon" style="font-size: 1.8rem; color: #F4313F;"></i>
+                </a>
             </li>
 
             <li class="nav-item">
-                <a class=" btn btn-cus2" href="{% url 'logout' %}">ออกระบบ</a>
+                <a class="" href="{% url 'logout' %}">
+                    <i class="bi bi-box-arrow-right" style="font-size: 1.8rem; color: black;"></i>
+                   
+                </a>
             </li>
             {% endif %}
         </ul>
