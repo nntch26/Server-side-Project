@@ -5,8 +5,15 @@
 {% block title %} Register {% endblock title %}
 
 {% block navbar %}
-{% endblock navbar%}
+    <div class="container mt-3">
+        <a class="navbar-brand " href="{% url 'index' %}">
+            <i class="bi bi-arrow-left-square ms-2"></i> 
+            <span> Back</span>
+        </a>
+    </div>
 
+
+{% endblock navbar%}
 
 {% block content %} 
 <div class="container-1">
