@@ -349,7 +349,7 @@ input{
     flex: 1;
     flex-direction: column;
 }
-.info-box2{
+.info-box2, .info-box2-2{
     margin-top: 0.5rem;
 }
 .info-box label{

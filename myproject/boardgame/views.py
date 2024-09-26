@@ -237,3 +237,10 @@ class DashboardMemberDelView(View):
 class ProfileView(View):
     def get(self, request):
         return render(request, 'profile.html')
+    
+class ProfileEditView(View):
+    def get(self, request):
+        profile = User.objects.get(pk=1)
+        form = ProfileEditForm(instance=profile)
+        pack = {'form': form}
+        return render(request, 'editprofile-form.html', pack)
