@@ -19,6 +19,8 @@ urlpatterns = [
     path("dashboard/", views.DashboardView.as_view(), name="dashboard"),
     path("dashboard/boardgame", views.DashboardBoardgameView.as_view(), name="des-boardgame"),
     path("dashboard/boardgame/add", views.DashboardBoardgameAddView.as_view(), name="des-boardgame-add"),
+    path("dashboard/boardgame/delete/<int:game_id>/", views.DashboardBoardgameDelView.as_view(), name="des-boardgame-del"),
+    path("dashboard/boardgame/edit/<int:game_id>/", views.DashboardBoardgameEditView.as_view(), name="des-boardgame-edit"),
 
 
     # path("product/", views.ProductView.as_view(), name="product"),

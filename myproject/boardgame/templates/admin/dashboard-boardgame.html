@@ -81,13 +81,13 @@
                     <td>{{ product.play_time }}</td>
 
                     <td>
-                        <button type="button" class="btn btn-warning btnEdit">
+                        <a href="{% url 'des-boardgame-edit' product.id %}" class="btn btn-warning btnEdit">
                             <i class="fs-5 bi bi-pencil-square"></i>
-                        </button>
+                        </a>
 
-                        <button type="button" class="btn btn-danger btnDelete">
+                        <a href="{% url 'des-boardgame-del' product.id %}" class="btn btn-danger btnDelete">
                             <i class="fs-5 bi-trash3-fill"></i>
-                        </button>
+                        </a>
 
                     </td>
                 </tr>

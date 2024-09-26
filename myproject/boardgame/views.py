@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponseNotAllowed
 from django.views import View
 from .models import *
 
@@ -124,11 +125,45 @@ class DashboardBoardgameAddView(View):
     
 
     def post(self, request):
-        form = BoardGamesForm(request.POST)
+        form = BoardGamesForm(request.POST , request.FILES)
 
         if form.is_valid():
             form.save()
             return redirect('des-boardgame')
         
         return render(request, self.template_name, {"form": form})
+
+
+class DashboardBoardgameDelView(View):
+    def get(self, request, game_id):
+
+        project_data = BoardGames.objects.get(pk=game_id)
+        project_data.delete()
+        return redirect('des-boardgame')
+
+
+class DashboardBoardgameEditView(View):
+    template_name = "admin/boardgame_edit.html"
+
+    def get(self, request, game_id):
+
+        # ดึง obj มาแสดงในฟอร์มด้วย
+        boardgame = BoardGames.objects.get(pk=game_id)
+        form = BoardGamesForm(instance=boardgame)
+
+        return render(request, self.template_name, {"form": form})
     
+
+    def post(self, request, game_id):
+
+        # ดึง obj ที่จะแก้ไข
+        boardgame = BoardGames.objects.get(pk=game_id)
+
+        # ส่ง instance ของ obj ที่จะถูกแก้ไขเข้าไปในฟอร์ม
+        form = BoardGamesForm(request.POST , request.FILES, instance=boardgame)
+
+        if form.is_valid():
+            form.save()
+            return redirect('des-boardgame')
+        
+        return render(request, self.template_name, {"form": form})
