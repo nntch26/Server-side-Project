@@ -8,6 +8,7 @@ urlpatterns = [
     path("", views.indexView.as_view(), name="index"),
     path("Reservation_form/", views.ReservationFormView.as_view(), name="Reservation_form"),
     path("Cashier/", views.CashierView.as_view(), name="cashier"),
+    path("Profile/", views.ProfileView.as_view(), name="profile"),
 
     # login & register
     path("login/", views.LoginView.as_view(), name="login"),

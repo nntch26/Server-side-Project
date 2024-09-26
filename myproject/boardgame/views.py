@@ -183,3 +183,9 @@ class DashboardMemberDelView(View):
         member_data = User.objects.get(pk=mem_id)
         member_data.delete()
         return redirect('des-member')
+    
+
+# profile
+class ProfileView(View):
+    def get(self, request):
+        return render(request, 'profile.html')

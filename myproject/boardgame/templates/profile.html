@@ -1,0 +1,53 @@
+{% extends 'layout.html' %} 
+{% load static %}
+
+{% block title %}โปรไฟล์{% endblock title %}
+{% block styles %}
+<style>
+    body{
+        overflow-y: hidden;
+    }
+</style>
+{% endblock styles %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="container-1">
+        <div class="intro2">
+            <h1>Profile</h1>
+        </div>
+        <div class="space-form">
+            <img src="" alt="Profile Picture">
+            <div class="group">
+                <div class="info-box-1">
+                    <label for="">Username: {{user.username}}</label>
+                </div>
+                <div class="info-box-1">
+                    <label for="">Phone number: {{user.userdetail.phone_number}}</label>
+                </div>
+            </div>
+            <div class="group">
+                <div class="info-box-1">
+                    <label for="">First Name: {{user.first_name}}</label>
+                </div>
+                <div class="info-box-1">
+                    <label for="">Last Name: {{user.last_name}}</label>
+                </div>
+            </div>
+            <div class="info-box-1">
+                <label for="">Email address: {{user.email}}</label>
+            </div>
+            <div class="info-box-1">
+                <label for="">Password: </label>
+                <label for="">รหัสผ่าน</label>
+            </div>
+            <div class="info-box2-2">
+                <a href="#" class="but">edit</a></button>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block footer %}
+{% endblock footer %}
