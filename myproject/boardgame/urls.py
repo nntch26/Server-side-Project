@@ -21,7 +21,9 @@ urlpatterns = [
     path("boardgame/", views.BoardgameView.as_view(), name="boardgame"),
     path("boardgame/<str:cate_name>", views.BoardgameView.as_view(), name="boardgame-filter"),
 
-    
+    # search
+    path("boardgame/seach/", views.BoardgameSearchView.as_view(), name="seach"),
+
 
 
     # dashboard

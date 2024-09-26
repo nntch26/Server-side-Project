@@ -95,65 +95,33 @@
             <h1>บอร์ดเกมแนะนำ</h1>
         </div>
 
-        <div class="row">
+        <div class="col-md-12 mb-5">
 
-             <!-- แถว 1 -->
-            <div class="col-6 col-md-3 mb-4">
-                <div class="card boardgame-card">
-                    <img src="https://strongholdbg.com/wp-content/uploads/2022/06/99.png" 
-                    class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h4 class="card-title boardgame-title">Sheriff of Nottingham: 2nd Edition</h4>
-                        <p class="card-text">เกมนี้เราจะผลัดกันเป็นผู้ตรวจการ และเหล่าพ่อค้าที่จะแอบขนสินค้าเข้ามาขายในนอตทิงแฮม</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a href="#" class="btn btn-cus2">รายละเอียด</a>
+            <div class="row">
+
+                {% for boardgame in boardgame_list %}
+
+                <div class="col-6 col-md-3 mb-2"> 
+                    <div class="card product-card">
+                        <img src="{{ boardgame.image.url }}" alt="Product Image">
+                        <div class="card-body card-body-cus text-center">
+                            <h5 class="product-category">{{ boardgame.game_name }}</h5>
+                            <p class="category-name" style="color: rgb(100, 100, 100);">
+                                แนวเกม : 
+                                {% for cate in boardgame.category.all %}
+                                    {{ cate.name }}
+                                    {% if not forloop.last %} , {% endif %}
+                                {% endfor %}
+                            </p>
+                            <a href="#" class="btn btn-cusdetail">เพิ่มเติม</a>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
+            
             </div>
-
-            <div class="col-6 col-md-3 mb-4">
-                <div class="card boardgame-card">
-                    <img src="https://strongholdbg.com/wp-content/uploads/2021/12/1.-Cover-33.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h4 class="card-title boardgame-title">คาเมลอัพ Camel Up Second Edition</h4>
-                        <p class="card-text">เจ้าอูฐจากเกม Camel Up กลับมาอีกครั้ง มาลุ้นกันว่าอูฐของใครจะวิ่งเข้าเส้นชัยก่อน</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a href="#" class="btn btn-cus2">รายละเอียด</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-             <!-- แถว 1 -->
-             <div class="col-6 col-md-3 mb-4">
-                <div class="card boardgame-card">
-                    <img src="https://strongholdbg.com/wp-content/uploads/2022/06/99.png" 
-                    class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h4 class="card-title boardgame-title">Sheriff of Nottingham: 2nd Edition</h4>
-                        <p class="card-text">เกมนี้เราจะผลัดกันเป็นผู้ตรวจการ และเหล่าพ่อค้าที่จะแอบขนสินค้าเข้ามาขายในนอตทิงแฮม</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a href="#" class="btn btn-cus2">รายละเอียด</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-3 mb-4">
-                <div class="card boardgame-card">
-                    <img src="https://strongholdbg.com/wp-content/uploads/2021/12/1.-Cover-33.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h4 class="card-title boardgame-title">คาเมลอัพ Camel Up Second Edition</h4>
-                        <p class="card-text">เจ้าอูฐจากเกม Camel Up กลับมาอีกครั้ง มาลุ้นกันว่าอูฐของใครจะวิ่งเข้าเส้นชัยก่อน</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a href="#" class="btn btn-cus2">รายละเอียด</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-    
         </div>
+
     </div>
 
 </div>

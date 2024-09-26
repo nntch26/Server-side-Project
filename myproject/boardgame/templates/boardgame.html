@@ -16,8 +16,8 @@
                 <div class="sidebar">
                     <div class="mb-4">
 
-                        <form class="" action="" method="get">
-                            <input type="text"  placeholder="Search.." name="search" class="form-search">
+                        <form class="" action="{% url 'seach'%}" method="get">
+                            <input type="text"  placeholder="ค้นหาชื่อบอร์ดเกม.." name="search" class="form-search">
                             <button type="submit" class="btn btn-cus3"><i class="bi bi-search me-2"></i>ค้นหา</button>
                         </form>
                     </div>
@@ -31,7 +31,7 @@
                         
                     </div>
 
-                    <div class="game_choice mt-3">
+                    <div class="game_choice mt-3 mb-2">
                         <form class="" action="" method="get"></form>
                             <button type="submit" class="btn btn-cus3"><i class="bi bi-controller me-2"></i></i>ค้นหาเกมแนะนำ</button>
                         </form>

@@ -15,8 +15,16 @@ from .forms import CustomUserCreationForm
 # Create your views here.
 
 class indexView(View):
+
+    template_name = "index.html"
+
     def get(self, request):
-        return render(request, 'index.html')
+        boardgame_list = BoardGames.objects.all()[0:4]
+
+        context = {
+            "boardgame_list": boardgame_list
+        }
+        return render(request, self.template_name, context)
 
 
 # Reservation
@@ -118,6 +126,22 @@ class BoardgameView(View):
             "boardgame_list": boardgame_list
         }
         return render(request, self.template_name, context)
+
+
+# Search
+
+class BoardgameSearchView (View):
+    template_name = "boardgame.html"
+
+    def get(self, request):
+        data = request.GET.get('search') #ดึงค่าของ search จาก url ที่ส่งมา
+
+        print(data)
+        boardgame_list = BoardGames.objects.filter(game_name__icontains= data)
+
+        return render(request, self.template_name, {"boardgame_list": boardgame_list})
+
+
 
 
 
