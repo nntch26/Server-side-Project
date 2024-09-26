@@ -116,6 +116,7 @@ class DashboardBoardgameView(View):
         return render(request, self.template_name, {"product_list": product_list})
 
 
+
 class DashboardBoardgameAddView(View):
     template_name = "admin/boardgame_add.html"
 
@@ -167,3 +168,18 @@ class DashboardBoardgameEditView(View):
             return redirect('des-boardgame')
         
         return render(request, self.template_name, {"form": form})
+
+
+class DashboardMemberView(View):
+    template_name = "admin/dashboard-member.html"
+
+    def get(self, request):
+        member_list = User.objects.all()
+        return render(request, self.template_name, {"member_list": member_list})
+
+class DashboardMemberDelView(View):
+    def get(self, request, mem_id):
+
+        member_data = User.objects.get(pk=mem_id)
+        member_data.delete()
+        return redirect('des-member')

@@ -22,6 +22,9 @@ urlpatterns = [
     path("dashboard/boardgame/delete/<int:game_id>/", views.DashboardBoardgameDelView.as_view(), name="des-boardgame-del"),
     path("dashboard/boardgame/edit/<int:game_id>/", views.DashboardBoardgameEditView.as_view(), name="des-boardgame-edit"),
 
+    path("dashboard/member", views.DashboardMemberView.as_view(), name="des-member"),
+    path("dashboard/member/delete/<int:mem_id>/", views.DashboardMemberDelView.as_view(), name="des-member-del"),
+
 
     # path("product/", views.ProductView.as_view(), name="product"),
     # path("product/<int:cat_id>/", views.ProductView.as_view(), name="product_filter"),

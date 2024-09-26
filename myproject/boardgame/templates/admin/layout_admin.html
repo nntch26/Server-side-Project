@@ -46,7 +46,7 @@
 <body>
     {% block navbar %}
     <div class="sidebar bg-dark">
-        <h2 class="text-center title-admin" style="color: aliceblue;">Admin Dashboard</h2>
+        <h2 class="text-center title-admin mb-4" style="color: aliceblue;">Admin Dashboard</h2>
 
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -56,11 +56,11 @@
                 <a class="nav-link" href="{% url 'des-boardgame' %}">จัดการบอร์ดเกม</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Users</a>
+                <a class="nav-link" href="{% url 'des-member' %}">จัดการสมาชิก</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Settings</a>
-            </li>
+
+            <hr  style="color: rgb(255, 255, 255); width: 80%; border-width: 3px ; margin: 20px auto;">
+
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a>
             </li>

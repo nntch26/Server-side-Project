@@ -1,0 +1,83 @@
+<!-- extends ก่อน ค่อย load -->
+{% extends 'admin/layout_admin.html' %} 
+{% load static %}
+
+
+
+{% block title %} Dashboard {% endblock title %}
+
+{% block styles %}
+<style>
+    
+    body{
+        display: flex;
+        margin: 0; 
+        background-color: #eef3fe;
+    }
+    
+    .sidebar {
+            height: 200vh; 
+            position: sticky;
+            padding-top: 50px; 
+    }
+ 
+    .boardgame-list{
+       background-color: #ffffff;
+       border-radius: 5px;
+       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+       padding: 20px;
+
+    }
+    
+</style>
+{% endblock styles %}
+
+{% block content %}
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <h1 class="mt-2">จัดการข้อมูลสมาชิก</h1>
+
+        <div class="boardgame-list">
+            <table id="dataTable" class="table table-striped" style="width:100%; text-align: left;">
+                <thead>
+                    <tr>
+                        <th>รหัส</th>
+                        <th>ชื่อ-นามสกุล</th>
+                        <th>อีเมล</th>
+                        <th>เบอร์</th>
+                        <th>คะแนนสะสม</th>
+                        <th>จัดการ</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for member in member_list %}
+
+                <tr>
+                    <td>{{ member.id }}</td>
+                    <td>{{ member.first_name }} {{ member.last_name }}</td>
+                    <td>{{ member.email }}</td>
+                    <td>{{ member.userdetail.phone_number }}</td>
+                    <td>{{ member.userdetail.points }}</td>
+                    <td>
+                        <a href="{% url 'des-member-del' member.id %}" class="btn btn-danger btnDelete">
+                            <i class="fs-5 bi-trash3-fill"></i>
+                        </a>
+
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </table>
+
+        </div>
+
+       
+    </div>
+
+</div>
+{% endblock %}
