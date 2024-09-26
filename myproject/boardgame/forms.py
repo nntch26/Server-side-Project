@@ -85,14 +85,18 @@ class CustomUserCreationForm(UserCreationForm):
         ]
         
 
-    # เช็คว่าเบอร์ซ้ำมั้ย
+    # เช็คว่าเบอร์ซ้ำมั้ย และต้องมี 10 หลัก ห้ามเป็นตัวอักษร
     def clean_phone_number(self):
         phone_number = self.cleaned_data["phone_number"]
 
         data = UserDetail.objects.filter(phone_number= phone_number)
 
         if data.count():  
-            raise ValidationError("Phone number Already Exist")  
+            raise ValidationError("Phone number Already Exist")
+
+        if len(phone_number) != 10 or not phone_number.isdigit():  
+            raise ValidationError("Phone number must have 10 digits")  
+
         return phone_number  
     
 
