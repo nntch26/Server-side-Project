@@ -45,7 +45,9 @@ class ReservationFormView(View):
 # cashier     
 class CashierView(View):
     def get(self, request):
-        return render(request, 'cashier.html')
+        tables = Table.objects.all()
+        pack = {'tables': tables}
+        return render(request, 'cashier-pay.html', pack)
 
 
 
