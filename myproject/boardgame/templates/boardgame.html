@@ -1,0 +1,77 @@
+<!-- extends ก่อน ค่อย load -->
+{% extends 'layout.html' %} 
+{% load static %}
+
+
+
+{% block title %}บอร์ดเกม{% endblock title %}
+
+{% block content %}
+
+<div class="section showboardgame-sec">
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <div class="mb-4">
+
+                        <form class="" action="" method="get">
+                            <input type="text"  placeholder="Search.." name="search" class="form-search">
+                            <button type="submit" class="btn btn-cus3"><i class="bi bi-search me-2"></i>ค้นหา</button>
+                        </form>
+                    </div>
+    
+                    <div class="list-group">
+                        
+                        <a href="{% url 'boardgame' %}" class="list-group-item category-item active">ทั้งหมด</a>
+                        {% for cate in category_list %}
+                        <a href="{% url 'boardgame-filter' cate.name %}" class="list-group-item category-item">{{ cate.name }}</a>
+                        {% endfor %}
+                        
+                    </div>
+
+                    <div class="game_choice mt-3">
+                        <form class="" action="" method="get"></form>
+                            <button type="submit" class="btn btn-cus3"><i class="bi bi-controller me-2"></i></i>ค้นหาเกมแนะนำ</button>
+                        </form>
+                    </div>
+                   
+
+                </div>
+            </div>
+    
+            <!-- boardgame list -->
+            <div class="col-md-9 mb-5">
+
+                <div class="row">
+                    <h1 class="mt-2 mb-4">บอร์ดเกมทั้งหมด</h1>
+
+                    {% for boardgame in boardgame_list %}
+
+                    <div class="col-4 col-md-4 mb-2"> 
+                        <div class="card product-card">
+                            <img src="{{ boardgame.image.url }}" alt="Product Image">
+                            <div class="card-body card-body-cus text-center">
+                                <h5 class="product-category">{{ boardgame.game_name }}</h5>
+                                <p class="category-name" style="color: rgb(100, 100, 100);">
+                                    แนวเกม : 
+                                    {% for cate in boardgame.category.all %}
+                                        {{ cate.name }}
+                                        {% if not forloop.last %} , {% endif %}
+                                    {% endfor %}
+                                </p>
+                                <a href="#" class="btn btn-cusdetail">เพิ่มเติม</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

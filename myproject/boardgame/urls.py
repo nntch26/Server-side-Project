@@ -16,6 +16,14 @@ urlpatterns = [
     path("register/", views.RegisterView.as_view(), name="register"),
 
 
+
+    # boardgame
+    path("boardgame/", views.BoardgameView.as_view(), name="boardgame"),
+    path("boardgame/<str:cate_name>", views.BoardgameView.as_view(), name="boardgame-filter"),
+
+    
+
+
     # dashboard
     path("dashboard/", views.DashboardView.as_view(), name="dashboard"),
     path("dashboard/boardgame", views.DashboardBoardgameView.as_view(), name="des-boardgame"),

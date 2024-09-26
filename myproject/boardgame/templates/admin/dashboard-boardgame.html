@@ -73,7 +73,8 @@
                     <td>{{ product.game_name }}</td>
                     <td>
                         {% for category in product.category.all %}
-                            {{ category.name }} {% if not forloop.last %}, {% endif %}
+                            {{ category.name }} 
+                            {% if not forloop.last %}, {% endif %}
                         {% endfor %}
                     </td>
                     <td>{{ product.min_players }} - {{ product.max_players }}</td>

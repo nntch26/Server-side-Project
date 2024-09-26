@@ -46,6 +46,7 @@
                     <tr>
                         <th>รหัส</th>
                         <th>ชื่อ-นามสกุล</th>
+                        <th>ชื่อผู้ใช้</th>
                         <th>อีเมล</th>
                         <th>เบอร์</th>
                         <th>คะแนนสะสม</th>
@@ -60,6 +61,7 @@
                 <tr>
                     <td>{{ member.id }}</td>
                     <td>{{ member.first_name }} {{ member.last_name }}</td>
+                    <td>{{ member.username }}</td>
                     <td>{{ member.email }}</td>
                     <td>{{ member.userdetail.phone_number }}</td>
                     <td>{{ member.userdetail.points }}</td>

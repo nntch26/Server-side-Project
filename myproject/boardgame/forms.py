@@ -70,7 +70,7 @@ class ReservationForm(forms.ModelForm):
 # ฟอร์ม Register
 class CustomUserCreationForm(UserCreationForm):
     
-    phone_number = forms.CharField(max_length=15)
+    phone_number = forms.CharField(max_length=10)
     
     class Meta:
         model = User

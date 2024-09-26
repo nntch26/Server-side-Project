@@ -100,6 +100,28 @@ class LogoutView(View):
         return redirect('index')
   
 
+# Boardgame 
+
+class BoardgameView(View):
+    
+    template_name = "boardgame.html"
+
+    def get(self, request, cate_name=None):
+        category_list = Categories.objects.all()
+        boardgame_list = BoardGames.objects.all()
+
+        if cate_name:
+            boardgame_list = BoardGames.objects.filter(category__name = cate_name)
+
+        context = {
+            "category_list" : category_list,
+            "boardgame_list": boardgame_list
+        }
+        return render(request, self.template_name, context)
+
+
+
+
 # Dashboard 
 
 class DashboardView(View):
@@ -162,7 +184,7 @@ class DashboardBoardgameEditView(View):
         # ดึง obj ที่จะแก้ไข
         boardgame = BoardGames.objects.get(pk=game_id)
 
-        # ส่ง instance ของ obj ที่จะถูกแก้ไขเข้าไปในฟอร์ม
+        # ส่ง obj นั้น ที่จะแก้ไขเข้าไปในฟอร์ม 
         form = BoardGamesForm(request.POST , request.FILES, instance=boardgame)
 
         if form.is_valid():
@@ -176,7 +198,7 @@ class DashboardMemberView(View):
     template_name = "admin/dashboard-member.html"
 
     def get(self, request):
-        member_list = User.objects.all()
+        member_list = User.objects.exclude(username='admin') # ไม่เอา admin
         return render(request, self.template_name, {"member_list": member_list})
 
 class DashboardMemberDelView(View):
