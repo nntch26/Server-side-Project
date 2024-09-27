@@ -23,10 +23,10 @@
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3">
-                <div class="sidebar">
+                <div class="sidebar fixed-sidebar">
                     <div class="mb-4">
 
-                        <form class="" action="{% url 'seach'%}" method="get">
+                        <form  action="{% url 'seach'%}" method="get">
                             <input type="text"  placeholder="ค้นหาชื่อบอร์ดเกม.." name="search" class="form-search">
                             <button type="submit" class="btn btn-cus3"><i class="bi bi-search me-2"></i>ค้นหา</button>
                         </form>
@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="game_choice mt-3 mb-2">
-                        <button type="submit" class="btn btn-cus3"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="submit" class="btn btn-cusdetail"  data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <i class="bi bi-controller me-2"></i></i>ค้นหาเกมแนะนำ
                         </button>
                     </div>
@@ -61,6 +61,7 @@
 
                     <div class="col-4 col-md-4 mb-2"> 
                         <div class="card product-card">
+                            
                             <img src="{{ boardgame.image.url }}" alt="Product Image">
                             <div class="card-body card-body-cus text-center">
                                 <h5 class="product-category">{{ boardgame.game_name }}</h5>
@@ -71,7 +72,7 @@
                                         {% if not forloop.last %} , {% endif %}
                                     {% endfor %}
                                 </p>
-                                <a href="#" class="btn btn-cusdetail">เพิ่มเติม</a>
+                                <a href="{% url 'boardgame-detail' boardgame.id %}" class="btn btn-cusdetail">เพิ่มเติม</a>
                             </div>
                         </div>
                     </div>

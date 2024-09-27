@@ -1,0 +1,79 @@
+<!-- extends ก่อน ค่อย load -->
+{% extends 'layout.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}บอร์ดเกม | รายละเอียด{% endblock title %}
+
+{% block styles %}
+<style>
+/* body{
+    background-color: #eef3fe;
+}             */
+</style>
+
+{% endblock styles %}
+
+{% block content %}
+
+<div class="section boardgamedetail-sec">
+    <div class="container mt-5">
+        <div class="row detail1-cus">
+
+            <div class="col-md-6 product-image ">
+                <img src="{{  boardgame_detail.image.url }}" alt="Product Image">
+            </div>
+
+            <div class="col-md-6">
+                <h1>{{ boardgame_detail.game_name }}</h1>
+                <p><i class="bi bi-fire me-2"></i> หมวดหมู่: <strong>
+                    {% for cate in boardgame_detail.category.all %}
+                        {{ cate.name }}
+                        {% if not forloop.last %} , {% endif %}
+                    {% endfor %}
+                </strong></p>
+                <p><i class="bi bi-people-fill me-2"></i>
+                    จำนวนผู้เล่น: {{boardgame_detail.min_players}} - {{boardgame_detail.max_players}} คน</p>
+                <p><i class="bi bi-hourglass-split me-2"></i>
+                    ระยะเวลาเล่น: {{boardgame_detail.play_time }} นาที</p>
+
+                <!-- <div class="d-flex align-items-center">
+                    <input type="number" class="form-control mr-2" value="1" min="1" style="width: 70px;">
+                    <button class="btn btn-primary">เพิ่มไปยังตะกร้า</button>
+                </div> -->
+            </div>
+        </div>
+
+
+        <div class="row mt-4 mb-5 detail2-cus">
+            <div class="col">
+                <div class="detail mb-5">
+                    <h1>รายละเอียด</h1>
+                    <p class="product-description">
+                        {{boardgame_detail.description }}
+                    </p>
+                </div>
+    
+                <hr style="color: rgb(42, 42, 42); width: 100%; border-width: 5px ; margin: 20px auto;">
+    
+                <div class="howtoplay">
+                    <h1>วิธีเล่นบอร์ดเกม</h1>
+                    <iframe width="560" height="315" 
+                    src="{{ boardgame_detail_url }}" 
+                    title="YouTube video player" 
+                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                    </iframe>
+                    
+                </div>
+               
+                
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}

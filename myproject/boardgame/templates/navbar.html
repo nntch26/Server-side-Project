@@ -32,9 +32,12 @@
 
             {% elif user.is_authenticated %}
             <li class="nav-item me-3 mb-2">
-                <a class="" href="{% url 'profile' %}">
-                    <i class="bi bi-person nav-icon" style="font-size: 1.8rem; color: #F4313F;"></i>
-                </a>
+                
+                <a class=" btn btn-cus2" href="{% url 'profile' %}" style="font-size: 0.91rem;">บัญชีของฉัน</a>
+
+                <!-- <a class="" href="{% url 'profile' %}">
+                    <i class="bi bi-person-circle" style="font-size: 1.8rem; color: #F4313F;"></i>
+                </a> -->
             </li>
 
             <li class="nav-item">
@@ -50,21 +53,21 @@
 </nav>
 
 <!-- Bottom Navbar -->
-<nav class="navbar navbar-expand navbar-bottom d-md-none">
+<nav class="navbar navbar-expand navbar-bottom d-lg-none">
     <ul class="navbar-nav mx-auto w-100 d-flex justify-content-between">
 
         <li class="nav-item">
-            <a class="nav-link active" href="#home"><i class="bi bi-house-door nav-icon"></i><br>หน้าแรก</a>
+            <a class="nav-link active" href="{% url 'index' %}"><i class="bi bi-house-door nav-icon"></i><br>หน้าแรก</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#game"><i class="bi bi-controller nav-icon"></i><br>บอร์ดเกม</a>
+            <a class="nav-link" href="{% url 'boardgame' %}"><i class="bi bi-controller nav-icon"></i><br>บอร์ดเกม</a>
         </li>
         <li class="nav-item">
             <a class="nav-link " href="#cart"><i class="bi bi-cart nav-icon"></i><br>ตะกร้าสินค้า</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#profile"><i class="bi bi-person nav-icon"></i><br>บัญชีของฉัน</a>
+            <a class="nav-link" href="{% url 'profile' %}"><i class="bi bi-person nav-icon"></i><br>บัญชีของฉัน</a>
         </li>
     </ul>
 </nav>

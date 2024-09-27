@@ -9,6 +9,7 @@ urlpatterns = [
     path("Reservation_form/", views.ReservationFormView.as_view(), name="Reservation_form"),
     path("Cashier/", views.CashierView.as_view(), name="cashier"),
     path("Profile/", views.ProfileView.as_view(), name="profile"),
+
     path("Profile_edit/<int:user_id>/", views.ProfileEditView.as_view(), name="profile_edit"),
 
     # login & register
@@ -21,6 +22,7 @@ urlpatterns = [
     # boardgame
     path("boardgame/", views.BoardgameView.as_view(), name="boardgame"),
     path("boardgame/<str:cate_name>", views.BoardgameView.as_view(), name="boardgame-filter"),
+    path("boardgame/<int:game_id>/detail", views.BoardgameDetailView.as_view(), name="boardgame-detail"),
 
     # search
     path("boardgame/seach/", views.BoardgameSearchView.as_view(), name="seach"),
