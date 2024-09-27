@@ -25,22 +25,34 @@
             <div class="col-md-3">
                 <div class="sidebar fixed-sidebar">
                     <div class="mb-4">
-
+                         <!-- ค้นหา -->
                         <form  action="{% url 'seach'%}" method="get">
                             <input type="text"  placeholder="ค้นหาชื่อบอร์ดเกม.." name="search" class="form-search">
                             <button type="submit" class="btn btn-cus3"><i class="bi bi-search me-2"></i>ค้นหา</button>
                         </form>
                     </div>
     
+                    <!-- หมวดหมู่ -->
                     <div class="list-group list-cus">
+                        <a href="{% url 'boardgame' %}" class="list-group-item category-item" 
+                        style=" background-color: #F4313F; color: #ffffff;">ทั้งหมด</a>
                         
-                        <a href="{% url 'boardgame' %}" class="list-group-item category-item active">ทั้งหมด</a>
                         {% for cate in category_list %}
-                        <a href="{% url 'boardgame-filter' cate.name %}" class="list-group-item category-item">{{ cate.name }}</a>
+                            <!-- ถ้ากดแล้วให้ active เช็คค่าที่เลือกว่าตรงกันมั้ย -->
+                            {% if cate.name == select_cate%}
+                                <a href="{% url 'boardgame-filter' cate.name %}" 
+                                class="list-group-item category-item active">{{ cate.name }}</a>
+                            {% else %}
+                             <!-- อันไม่ได้เลือกก็ปกติ -->
+                                <a href="{% url 'boardgame-filter' cate.name %}" 
+                                class="list-group-item category-item">{{ cate.name }}</a>
+                            {% endif %}
+
+                            
                         {% endfor %}
                         
                     </div>
-
+                     <!-- เกมแนะนำ -->
                     <div class="game_choice mt-3 mb-2">
                         <button type="submit" class="btn btn-cusdetail"  data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <i class="bi bi-controller me-2"></i></i>ค้นหาเกมแนะนำ

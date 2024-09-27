@@ -205,9 +205,10 @@
 
 
 .list-group-item.active{
-    background-color: #F4313F;
-    color: #ffffff !important;
-    border: 2px solid #F4313F;
+    background-color: #ffffff;
+    color: #F4313F !important;
+    border: 1px solid #F4313F;
+    border-radius: 5px;
 
 }
 
@@ -251,6 +252,15 @@
     padding-top: 6rem;
 
 }
+
+
+iframe{
+    width:80%;
+    height:480px;
+}
+
+
+
 
 /* ////////////// booking styles ////////////// */
 
@@ -613,6 +623,10 @@ input{
     .fixed-sidebar {
         position: relative; 
     }
+    iframe{
+        width:350px;
+        height:260px;
+    }
 }
 
 @media (max-width: 1500px) {
@@ -621,3 +635,9 @@ input{
     }
 }
 
+@media (max-width: 480px) {
+    iframe{
+        width:250px;
+        height:160px;
+    }
+}

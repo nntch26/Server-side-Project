@@ -121,14 +121,18 @@ class BoardgameView(View):
         boardgame_list = BoardGames.objects.all()
 
         form = BoardGamesForm()
+        select_cate = None # อันที่กด
 
         if cate_name:
             boardgame_list = BoardGames.objects.filter(category__name = cate_name)
+            select_cate = cate_name # เก็บชื่ออันที่กด
 
+        print(select_cate)
         context = {
             "category_list" : category_list,
             "boardgame_list": boardgame_list,
-            "form":form
+            "form":form,
+            "select_cate":select_cate
         }
         return render(request, self.template_name, context)
 
@@ -167,7 +171,7 @@ class BoardgameFilterView(View):
         maxp = request.GET.get('max_players')
 
         boardgame_list = BoardGames.objects.filter(
-            category__id=cate , play_time__gte=time,
+            category__id=cate , play_time__lte=time,
             min_players__gte = minp , max_players__lte = maxp
             )
         print(boardgame_list)
