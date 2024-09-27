@@ -280,8 +280,8 @@ class ProfileView(View):
         return render(request, 'profile.html')
     
 class ProfileEditView(View):
-    def get(self, request):
-        profile = User.objects.get(pk=1)
+    def get(self, request, user_id):
+        profile = User.objects.get(pk=user_id)
         form = ProfileEditForm(instance=profile)
         pack = {'form': form}
         return render(request, 'editprofile-form.html', pack)
