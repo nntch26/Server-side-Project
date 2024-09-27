@@ -183,6 +183,22 @@ class BoardgameFilterView(View):
         return render(request, self.template_name, context)
 
 
+class BoardgameDetailView(View):
+    template_name = "boardgame_detail.html"
+
+    def get(self, request, game_id):
+
+        print(game_id)
+        
+        boardgame_detail = BoardGames.objects.get(pk= game_id)
+
+        boardgame_detail_url = boardgame_detail.video_url.replace('youtu.be/', 'www.youtube.com/embed/')
+        
+        context = {
+            "boardgame_detail": boardgame_detail,
+            "boardgame_detail_url":boardgame_detail_url
+        }
+        return render(request, self.template_name, context)
 
 
 
