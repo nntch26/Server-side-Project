@@ -282,6 +282,15 @@ class ProfileView(View):
 class ProfileEditView(View):
     def get(self, request, user_id):
         profile = User.objects.get(pk=user_id)
-        form = ProfileEditForm(instance=profile)
+        phone = UserDetail.objects.get(pk=user_id)
+        form = ProfileEditForm(instance=profile, initial={'phone_number': phone.phone_number})
         pack = {'form': form}
         return render(request, 'editprofile-form.html', pack)
+    
+    def post(self, request, user_id):
+        profile = User.objects.get(pk=user_id)
+        form = ProfileEditForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+        return render(request, 'editprofile-form.html', {'form': form})

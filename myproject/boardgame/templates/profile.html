@@ -11,7 +11,13 @@
 {% endblock styles %}
 
 {% block navbar %}
-{% endblock navbar %}
+    <div class="container mt-3">
+        <a class="navbar-brand " href="{% url 'index' %}">
+            <i class="bi bi-arrow-left-square ms-2"></i> 
+            <span> ย้อนกลับ</span>
+        </a>
+    </div>
+{% endblock navbar%}
 
 {% block content %}
     <div class="container-1">
@@ -40,7 +46,7 @@
                 <label for="email"><strong>Email address:</strong> {{user.email}}</label>
             </div>
             <div class="info-box-1">
-                <label for="password"><strong>Password:</strong> </label>
+                <label for="password"><strong>Password: *********</strong> </label>
             </div>
             <div class="info-box2-2">
                 <a href="{% url 'profile_edit' user.id %}" class="but">edit</a></button>

@@ -28,38 +28,38 @@
         <form action="{% url 'profile_edit' user.id %}" method="post">
             {% csrf_token %}
 
-            {{ form.as_p }}
-            <!-- <div class="group">
+
+            <div class="group">
                 <div class="info-box">
                     <label for="">Username</label>
-                    <input type="text" name="" id="">
+                    {{ form.username }}
                 </div>
                 <div class="info-box">
                     <label for="">Phone number</label>
-                    <input type="text" name="" id="">
+                    {{ form.phone_number }}
+                    {% if form.phone_number.errors %}
+                        {{ form.phone_number.errors }}
+                    {% endif %}
                 </div>
-            </div> -->
-            <!-- <div class="group">
+            </div>
+            <div class="group">
                 <div class="info-box">
                     <label for="">First Name</label>
-                    <input type="text" name="" id="">
+                    {{ form.first_name }}
                 </div>
                 <div class="info-box">
                     <label for="">Last Name</label>
-                    <input type="text" name="" id="">
+                    {{ form.last_name }}
                 </div>
             </div>
             <div class="info-box">
                 <label for="">Email address</label>
-                <input type="text" name="" id="">
+                {{ form.email }}
             </div>
-            <div class="info-box">
-                <label for="">Password</label>
-                <input type="text" name="" id="">
-            </div> -->
             <div class="info-box2-2">
                 <a href="{% url 'profile' %}" class="but">cancel</a>
                 <a href="#" class="but">change password</a>
+                <button class="but">save</button>
             </div> 
     </div>
 </div>
