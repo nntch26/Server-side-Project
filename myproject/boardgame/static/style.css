@@ -347,10 +347,9 @@ iframe{
     justify-content: space-between;
 }
 .but{
-    background: #bd081c;
+    background: #F4313F;
     color: white;
-    border-radius: 5px;
-    border: 2px solid #000;
+    border-radius: 8px;
     width: 100%;
     height: 40px;
     cursor: pointer;
@@ -359,6 +358,11 @@ iframe{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.but:hover {
+    background: #ffffff;
+    color: #F4313F;
+    border: 1px solid #F4313F;
 }
 .container-1{
     top: 40%;

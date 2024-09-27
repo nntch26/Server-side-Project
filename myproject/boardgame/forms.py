@@ -145,7 +145,7 @@ class BoardGamesForm(forms.ModelForm):
 
 # profile
 class ProfileEditForm(forms.ModelForm):
-    phone_number = forms.CharField(max_length=15)
+    phone_number = forms.CharField(max_length=12)
     class Meta:
         model = User
         fields = [
@@ -154,5 +154,17 @@ class ProfileEditForm(forms.ModelForm):
             'first_name',
             'last_name',
             'email',
-            'password'
         ]
+    
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data['phone_number']
+        # ยกเว้นตัวมันเอง
+        user_id = self.instance.id
+        data = UserDetail.objects.filter(phone_number = phone_number).exclude(user_id=user_id)
+        if data.count():  
+            raise ValidationError("Phone number Already Exist")
+
+        if len(phone_number) != 10 or not phone_number.isdigit():  
+            raise ValidationError("Phone number must have 10 digits")  
+
+        return phone_number
