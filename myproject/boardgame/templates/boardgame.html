@@ -1,10 +1,20 @@
 <!-- extends ก่อน ค่อย load -->
 {% extends 'layout.html' %} 
 {% load static %}
+{% load crispy_forms_tags %}
 
 
 
 {% block title %}บอร์ดเกม{% endblock title %}
+
+{% block styles %}
+<style>
+/* body{
+    background-color: #eef3fe;
+}             */
+</style>
+
+{% endblock styles %}
 
 {% block content %}
 
@@ -22,7 +32,7 @@
                         </form>
                     </div>
     
-                    <div class="list-group">
+                    <div class="list-group list-cus">
                         
                         <a href="{% url 'boardgame' %}" class="list-group-item category-item active">ทั้งหมด</a>
                         {% for cate in category_list %}
@@ -32,9 +42,9 @@
                     </div>
 
                     <div class="game_choice mt-3 mb-2">
-                        <form class="" action="" method="get"></form>
-                            <button type="submit" class="btn btn-cus3"><i class="bi bi-controller me-2"></i></i>ค้นหาเกมแนะนำ</button>
-                        </form>
+                        <button type="submit" class="btn btn-cus3"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="bi bi-controller me-2"></i></i>ค้นหาเกมแนะนำ
+                        </button>
                     </div>
                    
 
@@ -71,6 +81,54 @@
             </div>
 
         </div>
+
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">กรอกข้อมูลเกมที่คุณต้องการ</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form action="{% url 'filter' %}" method="get" class="product-form">
+                        {% csrf_token %}
+                       
+                        <div class="form-group row mb-4">
+                            <div class="mb-3 col-12 col-md-12">
+                                {{ form.category|as_crispy_field }}
+                            </div>
+                            <div class="mb-3 col-12 col-md-12">
+                                {{ form.play_time|as_crispy_field }}
+                            </div>
+                            <div class="mb-3 col-12 col-md-6">
+                                {{ form.min_players|as_crispy_field }}
+                            </div>
+                            <div class="mb-3 col-12 col-md-6">
+                                {{ form.max_players|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="btn-footer mb-5">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                            <button type="submit" class="btn btn-primary">ค้นหา</button>
+    
+                        </div>
+                    </form>
+                    
+
+                    
+                </div>
+            </div>
+        </div>
+  </div>
+
+
+
+       
+
+
     </div>
 
 </div>

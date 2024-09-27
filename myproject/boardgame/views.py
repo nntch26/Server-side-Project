@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.views import View
+from django.db.models import F, Q, Count, Value as V, Avg, Max, Min
+from django.db.models.functions import Length, Upper, Concat
 from .models import *
 
 from .forms import * 
@@ -118,12 +120,15 @@ class BoardgameView(View):
         category_list = Categories.objects.all()
         boardgame_list = BoardGames.objects.all()
 
+        form = BoardGamesForm()
+
         if cate_name:
             boardgame_list = BoardGames.objects.filter(category__name = cate_name)
 
         context = {
             "category_list" : category_list,
-            "boardgame_list": boardgame_list
+            "boardgame_list": boardgame_list,
+            "form":form
         }
         return render(request, self.template_name, context)
 
@@ -139,7 +144,43 @@ class BoardgameSearchView (View):
         print(data)
         boardgame_list = BoardGames.objects.filter(game_name__icontains= data)
 
-        return render(request, self.template_name, {"boardgame_list": boardgame_list})
+        category_list = Categories.objects.all()
+        form = BoardGamesForm()
+
+        context = {
+            "category_list" : category_list,
+            "boardgame_list": boardgame_list,
+            "form":form
+        }
+        return render(request, self.template_name, context)
+
+# filter
+
+class BoardgameFilterView(View):
+    
+    template_name = "boardgame.html"
+    
+    def get(self, request):
+        cate = request.GET.get('category')
+        time = request.GET.get('play_time')
+        minp = request.GET.get('min_players')
+        maxp = request.GET.get('max_players')
+
+        boardgame_list = BoardGames.objects.filter(
+            category__id=cate , play_time__gte=time,
+            min_players__gte = minp , max_players__lte = maxp
+            )
+        print(boardgame_list)
+
+        category_list = Categories.objects.all()
+        form = BoardGamesForm()
+
+        context = {
+            "category_list" : category_list,
+            "boardgame_list": boardgame_list,
+            "form":form
+        }
+        return render(request, self.template_name, context)
 
 
 

@@ -23,7 +23,7 @@ urlpatterns = [
 
     # search
     path("boardgame/seach/", views.BoardgameSearchView.as_view(), name="seach"),
-
+    path("boardgame/filter/", views.BoardgameFilterView.as_view(), name="filter"),
 
 
     # dashboard
