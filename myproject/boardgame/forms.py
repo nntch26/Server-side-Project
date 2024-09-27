@@ -140,3 +140,17 @@ class BoardGamesForm(forms.ModelForm):
             'video_url': 'วิดีโอวิธีเล่น (URL)',
             'category': 'หมวดหมู่',
         }
+
+# profile
+class ProfileEditForm(forms.ModelForm):
+    phone_number = forms.CharField(max_length=15)
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'phone_number',
+            'first_name',
+            'last_name',
+            'email',
+            'password'
+        ]

@@ -19,32 +19,31 @@
             <h1>Profile</h1>
         </div>
         <div class="space-form">
-            <img src="" alt="Profile Picture">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" class="profile-pic">
             <div class="group">
                 <div class="info-box-1">
-                    <label for="">Username: {{user.username}}</label>
+                    <label for="username"><strong>Username:</strong> {{user.username}}</label>
                 </div>
                 <div class="info-box-1">
-                    <label for="">Phone number: {{user.userdetail.phone_number}}</label>
+                    <label for="phone"><strong>Phone number:</strong> {{user.userdetail.phone_number}}</label>
                 </div>
             </div>
             <div class="group">
                 <div class="info-box-1">
-                    <label for="">First Name: {{user.first_name}}</label>
+                    <label for="firstname"><strong>First Name:</strong> {{user.first_name}}</label>
                 </div>
                 <div class="info-box-1">
-                    <label for="">Last Name: {{user.last_name}}</label>
+                    <label for="lastname"><strong>Last Name:</strong> {{user.last_name}}</label>
                 </div>
             </div>
             <div class="info-box-1">
-                <label for="">Email address: {{user.email}}</label>
+                <label for="email"><strong>Email address:</strong> {{user.email}}</label>
             </div>
             <div class="info-box-1">
-                <label for="">Password: </label>
-                <label for="">รหัสผ่าน</label>
+                <label for="password"><strong>Password:</strong> </label>
             </div>
             <div class="info-box2-2">
-                <a href="#" class="but">edit</a></button>
+                <a href="{% url 'profile_edit' user.id %}" class="but">edit</a></button>
             </div>
         </div>
     </div>
