@@ -141,6 +141,8 @@ class BoardGamesForm(forms.ModelForm):
             'category': 'หมวดหมู่',
         }
 
+
+
 # profile
 class ProfileEditForm(forms.ModelForm):
     phone_number = forms.CharField(max_length=10)
