@@ -8,8 +8,8 @@ from .models import *
 
 from .forms import * 
 
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, SetPasswordForm
+from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import CustomUserCreationForm  
@@ -296,17 +296,33 @@ class ProfileView(View):
         return render(request, 'profile.html')
     
 class ProfileEditView(View):
-    def get(self, request, user_id):
-        profile = User.objects.get(pk=user_id)
-        phone = UserDetail.objects.get(pk=user_id)
+    def get(self, request):
+        profile = request.user # ดึงข้อมูลผู้ใช้ / ตัวที่เข้าถึงข้อมูลของ user ที่เข้าสู่ระบบ
+        phone = UserDetail.objects.get(user=profile) # user = user login
+        # initial ตั้งค่าเริ่มต้นคนละตารางกับ user, instance ดึงข้อมูลจาก user มาใส่ฟอร์ม
         form = ProfileEditForm(instance=profile, initial={'phone_number': phone.phone_number})
         pack = {'form': form}
         return render(request, 'editprofile-form.html', pack)
     
-    def post(self, request, user_id):
-        profile = User.objects.get(pk=user_id)
+    def post(self, request):
+        profile = request.user
         form = ProfileEditForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
             return redirect('profile')
         return render(request, 'editprofile-form.html', {'form': form})
+    
+class PasswordChangeView(View):
+    def get(self, request):
+        new = request.user
+        form = SetPasswordForm(user=new) # ใช้ของdjango ให้รู้ว่า user คนไหนที่ต้องการเปลี่ยนรหัส
+        return render(request, 'password.html', {'form': form})
+    
+    def post(self, request):
+        new = request.user
+        form = SetPasswordForm(data=request.POST, user=new)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, request.user) # ไม่ให้มัน logout ออกหลังจากเปลี่ยนรหัส เป็นการอัปเดตเซสชันหลังบ้าน import มา
+            return redirect('profile')
+        return render(request, 'password.html', {'form': form})

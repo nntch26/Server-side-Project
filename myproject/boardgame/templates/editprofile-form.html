@@ -25,7 +25,7 @@
         <h1>Edit Profile</h1>
     </div>
     <div class="space-form">
-        <form action="{% url 'profile_edit' user.id %}" method="post">
+        <form action="{% url 'profile_edit' %}" method="post">
             {% csrf_token %}
 
 
@@ -37,9 +37,7 @@
                 <div class="info-box">
                     <label for="">Phone number</label>
                     {{ form.phone_number }}
-                    {% if form.phone_number.errors %}
-                        {{ form.phone_number.errors }}
-                    {% endif %}
+                    {{ form.phone_number.errors }}
                 </div>
             </div>
             <div class="group">
@@ -55,12 +53,14 @@
             <div class="info-box">
                 <label for="">Email address</label>
                 {{ form.email }}
+                {{ form.email.errors }}
             </div>
             <div class="info-box2-2">
                 <a href="{% url 'profile' %}" class="but">cancel</a>
-                <a href="#" class="but">change password</a>
+                <a href="{% url 'change_password' %}" class="but">change password</a>
                 <button class="but">save</button>
-            </div> 
+            </div>
+        </form>
     </div>
 </div>
 {% endblock content %}

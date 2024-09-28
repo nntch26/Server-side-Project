@@ -143,26 +143,41 @@ class BoardGamesForm(forms.ModelForm):
 
 # profile
 class ProfileEditForm(forms.ModelForm):
-    phone_number = forms.CharField(max_length=12)
+    phone_number = forms.CharField(max_length=10)
+    gender = forms.CharField(max_length=10, required=False)
+    birth_date = forms.DateField(required=False)
     class Meta:
         model = User
         fields = [
             'username',
             'phone_number',
+            'gender',
             'first_name',
             'last_name',
             'email',
+            'birth_date',
         ]
+        widgets = {
+            'birth_date': forms.DateInput(attrs={'type': 'date'}),
+        }
     
     def clean_phone_number(self):
         phone_number = self.cleaned_data['phone_number']
         # ยกเว้นตัวมันเอง
         user_id = self.instance.id
         data = UserDetail.objects.filter(phone_number = phone_number).exclude(user_id=user_id)
-        if data.count():  
+        if data.count():
             raise ValidationError("Phone number Already Exist")
 
         if len(phone_number) != 10 or not phone_number.isdigit():  
             raise ValidationError("Phone number must have 10 digits")  
 
         return phone_number
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        user_id = self.instance.id
+        data = User.objects.filter(email = email).exclude(pk=user_id) # ยกเว้นตัวมันเอง จากตาราง user
+        if data.count():
+            raise ValidationError("Email Already Exist")
+        return email
