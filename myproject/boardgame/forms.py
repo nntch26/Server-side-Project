@@ -147,7 +147,7 @@ class BoardGamesForm(forms.ModelForm):
 class ProfileEditForm(forms.ModelForm):
     phone_number = forms.CharField(max_length=10)
     gender = forms.CharField(max_length=10, required=False)
-    birth_date = forms.DateField(required=False)
+    birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'})) # ต้องใส่ตรงนี้ด้วยไม่งั้นไม่ขึ้นเป็น type:date
     class Meta:
         model = User
         fields = [

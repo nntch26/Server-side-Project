@@ -302,9 +302,9 @@ class ProfileView(View):
 class ProfileEditView(View):
     def get(self, request):
         profile = request.user # ดึงข้อมูลผู้ใช้ / ตัวที่เข้าถึงข้อมูลของ user ที่เข้าสู่ระบบ
-        phone = UserDetail.objects.get(user=profile) # user = user login
+        userdetail = UserDetail.objects.get(user=profile) # user = user login
         # initial ตั้งค่าเริ่มต้นคนละตารางกับ user, instance ดึงข้อมูลจาก user มาใส่ฟอร์ม
-        form = ProfileEditForm(instance=profile, initial={'phone_number': phone.phone_number})
+        form = ProfileEditForm(instance=profile, initial={'phone_number': userdetail.phone_number, 'gender': userdetail.gender, 'birth_date': userdetail.birth_date})
         pack = {'form': form}
         return render(request, 'editprofile-form.html', pack)
     
@@ -313,6 +313,12 @@ class ProfileEditView(View):
         form = ProfileEditForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
+            userdetail = UserDetail.objects.get(user=profile) # ชี้หา user คนนี้ที่ต้องการเปลี่ยนข้อมูลใหม่
+            # clean_date ก่อนไม่งั้นบันทึกไม่ได้
+            userdetail.phone_number = form.cleaned_data['phone_number']
+            userdetail.gender = form.cleaned_data['gender']
+            userdetail.birth_date = form.cleaned_data['birth_date']
+            userdetail.save() # บันทึกลงใน user_deatil
             return redirect('profile')
         return render(request, 'editprofile-form.html', {'form': form})
     
