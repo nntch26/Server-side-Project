@@ -78,3 +78,19 @@ class BoardGames(models.Model):
 
     def __str__(self) -> str:
             return self.game_name
+    
+
+
+# add
+class PlaySession(models.Model):
+    table_id = models.ForeignKey(Table, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(null=False)
+    end_time = models.DateTimeField(null=True)
+    total_hours = models.DecimalField(max_digits=5, decimal_places=2)
+
+
+class Payments(models.Model):
+    session_id = models.ForeignKey(PlaySession, on_delete=models.CASCADE)
+    payment_amount = models.DecimalField(max_digits=5, decimal_places=2, null=False)
+    payment_date = models.DateTimeField(null=False)
