@@ -39,6 +39,10 @@ urlpatterns = [
     path("dashboard/member", views.DashboardMemberView.as_view(), name="des-member"),
     path("dashboard/member/delete/<int:mem_id>/", views.DashboardMemberDelView.as_view(), name="des-member-del"),
 
+    path("dashboard/categories", views.DashboardCategoriesView.as_view(), name="des-categories"),
+    path("dashboard/categories/add", views.DashboardCategoriesAddView.as_view(), name="des-categories-add"),
+    path("dashboard/categories/delete/<int:cate_id>/", views.DashboardCategoriesDelView.as_view(), name="des-categories-del"),
+    path("dashboard/categories/edit/<int:cate_id>/", views.DashboardCategoriesEditView.as_view(), name="des-categories-edit"),
 
     # path("product/", views.ProductView.as_view(), name="product"),
     # path("product/<int:cat_id>/", views.ProductView.as_view(), name="product_filter"),

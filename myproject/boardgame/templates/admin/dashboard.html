@@ -1,5 +1,4 @@
 
-
 <!-- extends ก่อน ค่อย load -->
 {% extends 'admin/layout_admin.html' %} 
 {% load static %}
@@ -10,12 +9,74 @@
 
 
 {% block content %}
-<div class="row">
+<div class="container mt-5">
+    <div class="row">
 
-    <div class="col-md-9">
-        <h2>Welcome to the Admin Dashboard</h2>
-        <p>Your content goes here.</p>
+        <div class="col-md-4">
+            <div class="stat-card bg-light">
+                <h5>บอร์ดเกม</h5>
+                <h2>{{ boardgame_list }}</h2>
+                <p class="para">จำนวนบอร์ดเกมทั้งหมดในร้าน</p>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-card bg-light">
+                <h5>จำนวนสมาชิก</h5>
+                <h2>{{ member_list }}</h2>
+                <p class="para">คนที่เป็นสมาชิกของร้าน</p>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-card bg-light">
+                <h5>รวมบิลทั้งหมด</h5>
+                <h2>19,000</h2>
+                <p class="para">ยอดรวมของทุกบิลทั้งหมด</p>
+            </div>
+        </div>
     </div>
 
+    <div class="card mt-4">
+        <div class="card-header" style="color: rgb(255, 255, 255);">
+            รายการจองโต๊ะหน้าร้าน
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>หมายเลขโต๊ะ</th>
+                        <th>ชื่อ-นามกสุลผู้จอง</th>
+                        <th>เบอร์โทร</th>
+                        <th>วันที่จอง</th>
+                        <th>เวลาที่จอง</th>
+                        <th>จำนวนคน</th>
+                        <th>สถานะ</th>
+                        <th>วันเวลาที่สร้าง</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for res in reservation_list %}
+                    <tr>
+                        <td>{{ res.table.id }}</td>
+                        <td>{{ res.user.first_name }} {{ res.user.last_name }}</td>
+                        <td>{{ res.user.userdetail.phone_number }}</td>
+                        <td>{{ res.reservation_date }}</td>
+                        <td>{{ res.reservation_time }}</td>
+                        <td>{{ res.reservation_cap }}</td>
+                        <td>{{ res.status }}</td>
+                        <td>{{ res.created_at }}</td>
+                    </tr>
+
+                    {% endfor %}
+                   
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

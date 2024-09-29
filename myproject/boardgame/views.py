@@ -224,8 +224,24 @@ class DashboardView(View):
 
     template_name = "admin/dashboard.html"
 
+
     def get(self, request):
-        return render(request, self.template_name)
+        boardgame_list = BoardGames.objects.all().count()
+        member_list = User.objects.exclude(username='admin').count()
+        reservation_list = Reservation.objects.all()
+        table_list = Table.objects.all().count()
+
+
+        print(boardgame_list)
+
+       
+        context = {
+            "boardgame_list": boardgame_list,
+            "member_list":member_list,
+            "reservation_list":reservation_list,
+            "table_list":table_list
+        }
+        return render(request, self.template_name, context)
 
 
 class DashboardBoardgameView(View):
@@ -234,7 +250,6 @@ class DashboardBoardgameView(View):
     def get(self, request):
         product_list = BoardGames.objects.all()
         return render(request, self.template_name, {"product_list": product_list})
-
 
 
 class DashboardBoardgameAddView(View):
@@ -290,6 +305,7 @@ class DashboardBoardgameEditView(View):
         return render(request, self.template_name, {"form": form})
 
 
+# member
 class DashboardMemberView(View):
     template_name = "admin/dashboard-member.html"
 
@@ -304,6 +320,69 @@ class DashboardMemberDelView(View):
         member_data.delete()
         return redirect('des-member')
     
+
+# หมวดหมู่ 
+class DashboardCategoriesView(View):
+    template_name = "admin/dashboard-categories.html"
+
+    def get(self, request):
+        categories_list = Categories.objects.all()
+        
+        return render(request, self.template_name, {"categories_list": categories_list})
+
+class DashboardCategoriesAddView(View):
+    template_name = "admin/categories_add.html"
+
+    def get(self, request):
+        form = CategoriesForm()
+        return render(request, self.template_name, {"form": form})
+    
+
+    def post(self, request):
+        form = CategoriesForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('des-categories')
+        
+        return render(request, self.template_name, {"form": form})
+
+
+class DashboardCategoriesDelView(View):
+    def get(self, request, cate_id):
+
+        data = Categories.objects.get(pk=cate_id)
+        data.delete()
+        return redirect('des-categories')
+
+
+class DashboardCategoriesEditView(View):
+    template_name = "admin/categories_edit.html"
+
+    def get(self, request, cate_id):
+
+        # ดึง obj มาแสดงในฟอร์มด้วย
+        categories = Categories.objects.get(pk=cate_id)
+        form = CategoriesForm(instance=categories)
+
+        return render(request, self.template_name, {"form": form})
+    
+
+    def post(self, request, cate_id):
+
+        # ดึง obj ที่จะแก้ไข
+        categories = Categories.objects.get(pk=cate_id)
+
+        # ส่ง obj นั้น ที่จะแก้ไขเข้าไปในฟอร์ม 
+        form = CategoriesForm(request.POST, instance=categories)
+
+        if form.is_valid():
+            form.save()
+            return redirect('des-categories')
+        
+        return render(request, self.template_name, {"form": form})
+
+
 
 # profile
 class ProfileView(View):

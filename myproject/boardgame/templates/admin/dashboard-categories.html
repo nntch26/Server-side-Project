@@ -1,0 +1,91 @@
+<!-- extends ก่อน ค่อย load -->
+{% extends 'admin/layout_admin.html' %} 
+{% load static %}
+
+
+
+{% block title %} Dashboard {% endblock title %}
+
+{% block styles %}
+<style>
+    
+    body{
+        display: flex;
+        margin: 0; 
+        background-color: #eef3fe;
+    }
+    
+    .sidebar {
+            height: 200vh; 
+            position: sticky;
+            padding-top: 50px; 
+    }
+ 
+    .boardgame-list{
+       background-color: #ffffff;
+       border-radius: 5px;
+       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+       padding: 20px;
+
+    }
+    
+</style>
+{% endblock styles %}
+
+{% block content %}
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <h1 class="mt-2">จัดการหมวดหมู่</h1>
+
+        <div class="boardgame-list">
+            <div class="d-flex">
+                <div class="btnAdd ms-auto">
+                    <a href="{% url 'des-categories-add' %}" class="btn btn-primary mb-3">
+                        <i class="fs-5 bi bi-plus-circle-fill"></i><span class="ms-1">เพิ่มหมวดหมู่</span>
+                    </a>
+                </div>
+            </div>
+            
+
+            <table id="dataTable" class="table table-striped" style="width:100%; text-align: left;">
+                <thead>
+                    <tr>
+                        <th>รหัส</th>
+                        <th>ชื่อประเภท</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for cate in categories_list %}
+
+                <tr>
+                    <td>{{ cate.id }}</td>
+                    <td>{{ cate.name }}</td>
+              
+
+                    <td>
+                        <a href="{% url 'des-categories-edit' cate.id %}" class="btn btn-warning btnEdit">
+                            <i class="fs-5 bi bi-pencil-square"></i>
+                        </a>
+
+                        <a href="{% url 'des-categories-del' cate.id %}" class="btn btn-danger btnDelete">
+                            <i class="fs-5 bi-trash3-fill"></i>
+                        </a>
+
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </table>
+
+        </div>
+
+       
+    </div>
+
+</div>
+{% endblock %}

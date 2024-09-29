@@ -70,7 +70,7 @@ class ReservationForm(forms.ModelForm):
 
 # ฟอร์ม Register
 class CustomUserCreationForm(UserCreationForm):
-    
+
     #  เพิ่มฟิลด์จากตารางอื่น เข้ามาในฟอร์มด้วย
     phone_number = forms.CharField(max_length=10)
     
@@ -109,7 +109,7 @@ class CustomUserCreationForm(UserCreationForm):
         data = User.objects.filter(email= email)
 
         if data.count():  
-            raise ValidationError("Email Already Exist5555")  
+            raise ValidationError("Email Already Exist")  
         return email  
 
 
@@ -141,6 +141,40 @@ class BoardGamesForm(forms.ModelForm):
             'image': 'รูปภาพ',
             'video_url': 'วิดีโอวิธีเล่น (URL)',
             'category': 'หมวดหมู่',
+        }
+    
+    # เช็ค ต้องใส่เลขมากกว่า 0
+    def clean_min_players(self):
+        min_players = self.cleaned_data["min_players"]
+
+        if min_players <= 0:
+            raise forms.ValidationError("กำหนดต้องมากกว่า 0")
+        return min_players
+
+    def clean_max_players(self):
+        max_players = self.cleaned_data["max_players"]
+
+        if max_players <= 0:
+            raise forms.ValidationError("กำหนดต้องมากกว่า 0")
+        return max_players
+    
+    def clean_play_time(self):
+        play_time = self.cleaned_data["play_time"]
+
+        if play_time <= 0:
+            raise forms.ValidationError("กำหนดต้องมากกว่า 0")
+        return play_time
+
+
+# เพิ่มประเภทข้อมูล
+class CategoriesForm(forms.ModelForm):
+    class Meta:
+        model = Categories
+        fields = [
+            "name"
+        ]
+        labels = {
+            'name': 'ชื่อหมวดหมู่',
         }
 
 

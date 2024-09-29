@@ -26,7 +26,10 @@
     <style>
         body {
             display: flex;
-            margin: 0; 
+            margin: 0;
+            background-color: #eef3fe;
+ 
+
         }
         .sidebar {
             height: 200vh;
@@ -57,6 +60,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'des-member' %}">จัดการสมาชิก</a>
+            </li>
+            <li class="nav-item"></li>
+                <a class="nav-link" href="{% url 'des-categories' %}">จัดการหมวดหมู่</a>
             </li>
 
             <hr  style="color: rgb(255, 255, 255); width: 80%; border-width: 3px ; margin: 20px auto;">
