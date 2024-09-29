@@ -1,159 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cashier</title>
-</head>
-<style>
-    body{
-        margin: 0;
-    }
-    .big{
-        display: flex;
-        flex-direction: row;
-        height: 100vh;
-    }
-    .left{
-        background-color: #1C252C;
-        color: #F4313F;
-        padding: 10px;
-    }
-    .right{
-        padding: 10px;
-        background-color: #2e373ee6;
-        width: 100%;
-        color: white;
-        flex-grow: 1;
-        overflow-y: auto;
-    }
-    .box{
-        display: flex;
-        justify-content: center;
-    }
-    .bar{
-        text-decoration: none;
-        color: #F4313F;
-    }
-    .card{
-        color: #000000;
-        background-color: rgba(255, 255, 255, 0.827);
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgb(0, 0, 0);
-        margin: 20px;
-        padding: 15px;
-        width: 100%;
-    }
-    .card-header{
-        background-color: #F4313F;
-        padding: 10px;
-        border-radius: 8px;
-        text-align: center;
-    }
-    .card-body{
-        width: 20%;
-        background-color: #bd081c;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 5px;
-        margin-bottom: 10px;
-        text-align: center;
-        float: right;
-    }
-    .card-footer-1{
-        text-align: center;
-        margin-top: 10px;
-    }
-    .card-footer-1 button{
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 15px;
-        cursor: pointer;
-        margin: 5px;
-    }
-    .card-footer-1 button:hover{
-        background-color: #0056b3;
-    }
-    .total{
-        width: 30%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        text-align: center;
-    }
-    .total a{
-        color: #ffffff;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 15px;
-        cursor: pointer;
-        margin: 5px;
-        text-decoration: none;
-    }
-    .total a:hover{
-        color: #F4313F;
-    }
-    .all-card{
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 8%;
-        width: 80%;
-        margin: 0 auto;
-        margin-bottom: 50px;
-    }
-    .item{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-    .but-1, .but-2{
-        width: 100%;
-        padding: 5px;
-        background: #bd081c;
-        color: white;
-        border-radius: 5px;
-        width: 100%;
-        height: 40px;
-        cursor: pointer;
-        text-decoration: none;
-        margin: 5px;
-    }
-    .but-1{
-        background: #0077ff;
-    }
+{% extends 'admin/layout_admin.html' %} 
+{% load static %}
 
-</style>
-<body>
-    <div class="big">
-        <div class="left">
-            <h1>แคชเชียร์</h1><hr>
-            <div class="manage"><br>
-                <label for=""><a href="cashier-pay.html" class="bar">ระบบชำระเงิน</a></label><br><br>
-                <label for=""><a href="cashier-table.html" class="bar">ระบบจัดการโต๊ะ</a></label><br><br>
-                <label for=""><a href="cashier-confirm.html" class="bar">ระบบการจองโต๊ะ</a></label><br><br><hr><br>
-                <label for=""><a href="#" class="bar">ออกจากระบบ</a></label><br><br><hr>
+{% block title %}แคชเชียร์{% endblock title %}
+
+
+{% block navbar %}
+<div class="sidebar bg-dark pe-2">
+    <h2 class="text-center title-admin mb-4" style="color: aliceblue;">แคชเชียร์</h2>
+
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'cashier_table' %}">จัดการโต๊ะ</a>
+        </li>
+        <li class="nav-item"></li>
+            <a class="nav-link" href="{% url 'cashier_confirm' %}">จัดการการจองโต๊ะ</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'cashier_table' %}">จัดการการชำระเงิน</a>
+        </li>
+
+        <hr  style="color: rgb(255, 255, 255); width: 80%; border-width: 3px ; margin: 20px auto;">
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a>
+        </li>
+    </ul>
+</div>
+{% endblock navbar %}
+
+{% block content %}
+<div class="big">
+    <div class="right">
+        <h1>จัดการการจองโต๊ะ</h1>
+        <hr>
+        {% for i in reserv %}
+        <div class="item-1">
+            <div>{{i.user.username}}</div>
+            <div>{{i.reservation_date}} : {{i.reservation_time}}</div>
+            <div class="item-2">
+                <button class="btn but-1">ยืนยัน</button>
+                <button class="btn but-2">ปฏิเสธ</button>
             </div>
         </div>
-        <div class="right">
-            <h1>ระบบจัดการโต๊ะ</h1>
-            <hr>
-            <div class="item">
-                <div>Username</div>
-                <div>วันเวลา</div>
-                <div>
-                    <a href="" class="but-1">ยืนยัน</a>
-                    <a href="" class="but-2">ปฏิเสธ</a>
-                </div>
-            </div>
-        </div>
+        <br>
+        {% endfor %}
     </div>
-</body>
-</html>
+</div>
+{% endblock content %}
+{% block footer %}
+{% endblock footer %}

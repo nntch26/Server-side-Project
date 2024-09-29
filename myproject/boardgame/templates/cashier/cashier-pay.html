@@ -1,32 +1,35 @@
-{% extends 'layout.html' %} 
+{% extends 'admin/layout_admin.html' %} 
 {% load static %}
 
 {% block title %}แคชเชียร์{% endblock title %}
 
 
-{% block styles %}
-<style>
-    body{
-        margin: 0;
-    }
-</style>
-{% endblock styles %}
-
-
 {% block navbar %}
+<div class="sidebar bg-dark pe-2">
+    <h2 class="text-center title-admin mb-4" style="color: aliceblue;">แคชเชียร์</h2>
+
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'cashier_table' %}">จัดการโต๊ะ</a>
+        </li>
+        <li class="nav-item"></li>
+            <a class="nav-link" href="{% url 'cashier_confirm' %}">จัดการการจองโต๊ะ</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'cashier_table' %}">จัดการการชำระเงิน</a>
+        </li>
+
+        <hr  style="color: rgb(255, 255, 255); width: 80%; border-width: 3px ; margin: 20px auto;">
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a>
+        </li>
+    </ul>
+</div>
 {% endblock navbar %}
 
 {% block content %}
 <div class="big">
-    <div class="left">
-        <h1>แคชเชียร์</h1><hr>
-        <div class="manage"><br>
-            <label for=""><a href="#" class="bar">ระบบชำระเงิน</a></label><br><br>
-            <label for=""><a href="#" class="bar">ระบบการจองโต๊ะ</a></label><br><br>
-            <label for=""><a href="#" class="bar">ระบบจัดการโต๊ะ</a></label><br><br><hr><br>
-            <label for=""><a href="#" class="bar">ออกจากระบบ</a></label><br><br><hr>
-        </div>
-    </div>
     <div class="right">
         <h1>ระบบชำระเงิน</h1>
         <div class="box">
