@@ -14,6 +14,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import CustomUserCreationForm  
 
+import random
+
+
 # Create your views here.
 
 class indexView(View):
@@ -21,7 +24,11 @@ class indexView(View):
     template_name = "index.html"
 
     def get(self, request):
-        boardgame_list = BoardGames.objects.all()[0:4]
+        boardgame_list = list(BoardGames.objects.all())  # แปลง QuerySet เป็น  list เอาไปใส่ใน random
+
+        # ให้ข้อมูลสลับกันมั่วๆ ไม่เรียงกัน สุ่มเลือกจากทั้งก้อน มา 4 ตัว
+        boardgame_list = random.sample(boardgame_list, k=4)
+        print(boardgame_list)
 
         context = {
             "boardgame_list": boardgame_list
@@ -118,7 +125,11 @@ class BoardgameView(View):
 
     def get(self, request, cate_name=None):
         category_list = Categories.objects.all()
-        boardgame_list = BoardGames.objects.all()
+
+        boardgame_list = list(BoardGames.objects.all())
+        # ให้แสดงผลแบบสุ่มมั่วๆ สลับๆ ไม่เรียงลำดับ
+        random.shuffle(boardgame_list)
+        print(boardgame_list)
 
         form = BoardGamesForm()
         select_cate = None # อันที่กด

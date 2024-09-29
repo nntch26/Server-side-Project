@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 
 class UserDetail(models.Model):
     GENDER_CHOICES = [
-        ('M', 'Male'),
-        ('F', 'Female'),
+        ('male', 'Male'),
+        ('female', 'Female'),
         ('othor', 'Othor'),
     ]
 

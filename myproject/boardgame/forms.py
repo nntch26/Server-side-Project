@@ -11,6 +11,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 # ฟอร์มจองโต๊ะ
 class ReservationForm(forms.ModelForm):
+    #  เพิ่มฟิลด์จากตารางอื่น เข้ามาในฟอร์มด้วย
     table = forms.ModelChoiceField(queryset=Table.objects.filter(status='Available')) # แสดงเฉพาะโต๊ะที่ว่าง
 
 
@@ -70,6 +71,7 @@ class ReservationForm(forms.ModelForm):
 # ฟอร์ม Register
 class CustomUserCreationForm(UserCreationForm):
     
+    #  เพิ่มฟิลด์จากตารางอื่น เข้ามาในฟอร์มด้วย
     phone_number = forms.CharField(max_length=10)
     
     class Meta:
@@ -107,7 +109,7 @@ class CustomUserCreationForm(UserCreationForm):
         data = User.objects.filter(email= email)
 
         if data.count():  
-            raise ValidationError("Email Already Exist")  
+            raise ValidationError("Email Already Exist5555")  
         return email  
 
 
@@ -145,9 +147,22 @@ class BoardGamesForm(forms.ModelForm):
 
 # profile
 class ProfileEditForm(forms.ModelForm):
+
+    #  เพิ่มฟิลด์จากตารางอื่น เข้ามาในฟอร์มด้วย
+    GENDER_CHOICES = [
+        ('', 'เลือกเพศ'),
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('othor', 'Othor'),
+    ]
+
+     
+    gender = forms.ChoiceField( required=False, choices=GENDER_CHOICES) #  ChoiceField ทำเปนตัวเลือก
+
     phone_number = forms.CharField(max_length=10)
-    gender = forms.CharField(max_length=10, required=False)
-    birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'})) # ต้องใส่ตรงนี้ด้วยไม่งั้นไม่ขึ้นเป็น type:date
+    birth_date = forms.DateField(required=False, 
+                                 widget=forms.DateInput(attrs={'type': 'date'})) # ต้องใส่ตรงนี้ด้วยไม่งั้นไม่ขึ้นเป็น type:date เพราะเปนตารางอื่น
+    
     class Meta:
         model = User
         fields = [
@@ -159,9 +174,9 @@ class ProfileEditForm(forms.ModelForm):
             'email',
             'birth_date',
         ]
-        widgets = {
-            'birth_date': forms.DateInput(attrs={'type': 'date'}),
-        }
+ 
+
+
     
     def clean_phone_number(self):
         phone_number = self.cleaned_data['phone_number']

@@ -1,5 +1,6 @@
 {% extends 'layout.html' %} 
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}โปรไฟล์{% endblock title %}
 {% block styles %}
@@ -31,39 +32,33 @@
 
             <div class="group">
                 <div class="info-box">
-                    <label for="">Username</label>
-                    {{ form.username }}
+                    {{ form.username|as_crispy_field }}
                 </div>
                 <div class="info-box">
-                    <label for="">Phone number</label>
-                    {{ form.phone_number }}
-                    {{ form.phone_number.errors }}
-                </div>
-            </div>
-            <div class="group">
-                <div class="info-box">
-                    <label for="">First Name</label>
-                    {{ form.first_name }}
-                </div>
-                <div class="info-box">
-                    <label for="">Last Name</label>
-                    {{ form.last_name }}
+                    {{ form.phone_number|as_crispy_field }}
+                    <!-- {{ form.phone_number.errors }} 
+                      crispy จะแสดงผล validation errors ให้อัตโนมัติ ไม่ต้องกำหนด -->
                 </div>
             </div>
             <div class="group">
                 <div class="info-box">
-                    <label for="">Gender</label>
-                    {{ form.gender }}
+                    {{ form.first_name|as_crispy_field }}
                 </div>
                 <div class="info-box">
-                    <label for="">Birth Date</label>
-                    {{ form.birth_date }}
+                    {{ form.last_name|as_crispy_field }}
+                </div>
+            </div>
+            <div class="group">
+                <div class="info-box">
+                    {{ form.gender|as_crispy_field }}
+                </div>
+                <div class="info-box">
+                    {{ form.birth_date|as_crispy_field }}
                 </div>
             </div>
             <div class="info-box">
-                <label for="">Email address</label>
-                {{ form.email }}
-                {{ form.email.errors }}
+                {{ form.email|as_crispy_field  }}
+                <!-- {{ form.email.errors }} -->
             </div>
             <div class="info-box2-2">
                 <a href="{% url 'profile' %}" class="but">cancel</a>
