@@ -67,7 +67,13 @@ class CashierView(View):
     def get(self, request):
         tables = Table.objects.all()
         pack = {'tables': tables}
-        return render(request, 'cashier-pay.html', pack)
+        return render(request, 'cashier/cashier-table.html', pack)
+    
+class CashierConfirmView(View):
+    def get(self, request):
+        reserv = Reservation.objects.all()
+        pack = {'reserv': reserv}
+        return render(request, 'cashier/cashier-confirm.html', pack)
 
 
 

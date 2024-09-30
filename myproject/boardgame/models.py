@@ -85,9 +85,13 @@ class BoardGames(models.Model):
 class PlaySession(models.Model):
     table_id = models.ForeignKey(Table, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    num_players = models.IntegerField(null=False, default=1)
     start_time = models.DateTimeField(null=False)
     end_time = models.DateTimeField(null=True)
-    total_hours = models.DecimalField(max_digits=5, decimal_places=2)
+    price_per_player = models.IntegerField(default=30)
+    total_hours = models.DecimalField(max_digits=5, decimal_places=2, null=False)
+    total_cost = models.DecimalField(max_digits=8, decimal_places=2, null=False)
+    is_paid = models.BooleanField(default=False) #บันทึกสถานะจ่ายตัง ว่าจ่ายตังไปยัง
 
 
 class Payments(models.Model):
