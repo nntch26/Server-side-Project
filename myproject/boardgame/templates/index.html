@@ -14,10 +14,7 @@
 <div class="container-fuild">
     <div class="header" id="home">
         <div class="content-header container">
-            <!-- <h1>BOARD GAME</h1>
-            <h3>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi facilis sequi recusandae eum dolor ipsam laudantium quisquam assumenda quidem, optio quibusdam porro unde maiores accusamus, voluptatum voluptatibus provident ratione consequuntur.</h3>
-            <p>Includes PHP, PHP Basics, PHP and HTML, and more.</p>
-            <a href="#intro"><button type="button" class="btn mt-5">Get Started</button></a> -->
+            <!-- <h1>BOARD GAME</h1> -->
         </div>
     </div>
 </div>
@@ -40,7 +37,7 @@
                     style="background-image: url('https://mercular.s3.ap-southeast-1.amazonaws.com/images/products/2022/01/top-5-board-game-for-kid-rhino-hero-super-battle-board-game-02.jpg');"></div>
                     <div class="card-body card-img-overlay">
                         <h1 class="card-title cate-title">บอร์ดเกมเด็กและครอบครัว</h1>
-                        <a href="#" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
+                        <a href="{% url 'boardgame-filter' 'เด็กและครอบครัว' %}" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
                     </div>
                 </div>
             </div>
@@ -51,7 +48,7 @@
                     style="background-image: url('https://mercular.s3.ap-southeast-1.amazonaws.com/images/products/2022/01/board-game-buying-guide-for-beginner-900x500-02.jpg');"></div>
                     <div class="card-body card-img-overlay">
                         <h1 class="card-title cate-title">บอร์ดเกมปาร์ตี้</h1>
-                        <a href="#" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
+                        <a href="{% url 'boardgame-filter' 'ปาร์ตี้' %}" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +60,7 @@
                     style="background-image: url('https://img.pptvhd36.com/thumbor/2021/03/08/645fb4e7f0.jpg');"></div>
                     <div class="card-body card-img-overlay">
                         <h1 class="card-title cate-title">บอร์ดเกมกลยุทธ์</h1>
-                        <a href="#" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
+                        <a href="{% url 'boardgame-filter' 'กลยุทธ์' %}" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
                     </div>
                 </div>
             </div>
@@ -74,7 +71,7 @@
                     style="background-image: url('https://www.countup.life/wp-content/uploads/2022/10/boardgame-2-02-1024x683.jpg');"></div>
                     <div class="card-body card-img-overlay">
                         <h1 class="card-title cate-title">บอร์ดเกมเล่น 2 คน</h1>
-                        <a href="#" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
+                        <a href="{% url 'boardgame-filter' 'เล่น 2 คน' %}" class="btn  btn btn-cus2">ดูเพิ่มเติม</a>
                     </div>
                 </div>
             </div>
@@ -113,7 +110,7 @@
                                     {% if not forloop.last %} , {% endif %}
                                 {% endfor %}
                             </p>
-                            <a href="#" class="btn btn-cusdetail">เพิ่มเติม</a>
+                            <a href="{% url 'boardgame-detail' boardgame.id %}" class="btn btn-cusdetail">เพิ่มเติม</a>
                         </div>
                     </div>
                 </div>
