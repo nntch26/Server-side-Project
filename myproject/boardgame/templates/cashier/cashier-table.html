@@ -13,10 +13,10 @@
             <a class="nav-link active" href="{% url 'cashier_table' %}">จัดการโต๊ะ</a>
         </li>
         <li class="nav-item"></li>
-            <a class="nav-link" href="{% url 'cashier_confirm' %}">จัดการการจองโต๊ะ</a>
+            <a class="nav-link" href="{% url 'cashier_list' %}">จัดการการจองโต๊ะ</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'cashier_table' %}">จัดการการชำระเงิน</a>
+            <a class="nav-link" href="{% url 'cashier_pay' %}">จัดการการชำระเงิน</a>
         </li>
 
         <hr  style="color: rgb(255, 255, 255); width: 80%; border-width: 3px ; margin: 20px auto;">
@@ -42,16 +42,53 @@
     <div class="right">
         <h1>จัดการโต๊ะ</h1>
         <hr>
+        <div class="box">
+            <div class="total">
+                <button class="but-4"><strong>Available</strong></button>
+                <button class="but-5"><strong>Reserved</strong></button>
+                <button class="but-6"><strong>Occupied</strong></button>
+            </div>
+        </div>
         <div class="all-card">
             {% for i in tables %}
             <div class="card-cus">
-                <div class="card-body-1">
-                    <p><strong>{{i.status}}</strong></p>
-                </div><br>
-                <p><strong>จำนวนคน {{i.table_cap}}</strong></p>
-                <div class="card-header-1">
-                    <h2>โต๊ะ {{i.id}}</h2>
-                </div>
+                {% if i.status == 'Available' %}
+                    <div class="card-body-2">
+                        <div class="card-header-1">
+                            <h2 class="tab">โต๊ะ {{ i.id }}</h2>
+                        </div>
+                        <p><strong>{{ i.status }}</strong></p>
+                    </div><br>
+                    <p><strong>จำนวนคน {{ i.table_cap }}</strong></p>
+                    <a href="{% url 'cashier_serve' i.id %}" class="btn but-3">รับโต๊ะ</a>
+
+                {% elif i.status == 'Reserved' %}
+                    <div class="card-body-3">
+                        <div class="card-header-1">
+                            <h2 class="tab">โต๊ะ {{ i.id }}</h2>
+                        </div>
+                        <p><strong>{{ i.status }}</strong></p>
+                    </div><br>
+                    <p><strong>จำนวนคน {{ i.table_cap }}</strong></p>
+                    <div class="butt">
+                        <a href="" class="btn but-3">รายละเอียด</a>
+                        <a href="{% url 'cashier_serve' i.id %}" class="btn but-3">ยกเลิก</a>
+                    </div>
+                    
+
+                {% elif i.status == 'Occupied' %}
+                    <div class="card-body-4">
+                        <div class="card-header-1">
+                            <h2 class="tab">โต๊ะ {{ i.id }}</h2>
+                        </div>
+                        <p><strong>{{ i.status }}</strong></p>
+                    </div><br>
+                    <p><strong>จำนวนคน {{ i.table_cap }}</strong></p>
+                    <div class="butt">
+                        <a href="" class="btn but-3">รายละเอียด</a>
+                        <a href="{% url 'cashier_serve' i.id %}" class="btn but-3">เช็คบิล</a>
+                    </div>
+                {% endif %}
             </div>
             {% endfor %}
         </div>

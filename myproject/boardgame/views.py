@@ -66,11 +66,53 @@ class CashierView(View):
         pack = {'tables': tables}
         return render(request, 'cashier/cashier-table.html', pack)
     
-class CashierConfirmView(View):
+class CashierPayView(View):
+    def get(self, request):
+        tables = Table.objects.all()
+        pack = {'tables': tables}
+        return render(request, 'cashier/cashier-pay.html', pack)
+    
+class CashierListView(View):
     def get(self, request):
         reserv = Reservation.objects.all()
         pack = {'reserv': reserv}
         return render(request, 'cashier/cashier-confirm.html', pack)
+
+# กด confirm
+class CashierConfirmView(View):
+    def get(self, request, reservation_id):
+        reservation = Reservation.objects.get(id=reservation_id)
+        table = Table.objects.get(id=reservation.table.id) # getidจองของidโต๊ะนั้นที่จอง
+        reservation.status = 'Confirmed' # เปลี่ยนสถานะของตารางจอง
+        reservation.save()
+        table.status = 'Reserved' # เปลี่ยนสถานะของตารางโต๊ะ
+        table.save()
+        return redirect('cashier_list')
+
+# กด cancel
+class CashierCancelView(View):
+    def get(self, request, reservation_id):
+        reservation = Reservation.objects.get(id=reservation_id)
+        table = Table.objects.get(id=reservation.table.id)
+        reservation.status = 'Cancelled' # เปลี่ยนสถานะของตารางจอง
+        reservation.save()
+        table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะ
+        table.save()
+        return redirect('cashier_list')
+    
+# พนักงานกดรับโต๊ะ
+class CashierServeView(View):
+    def get(self, request, table_id):
+        table = Table.objects.get(id=table_id)
+        if table.status == 'Available':
+            table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะ
+            table.save()
+        elif table.status == 'Reserved':
+            table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะ
+            table.save()
+        return redirect('cashier_table')
+    
+
 
 
 

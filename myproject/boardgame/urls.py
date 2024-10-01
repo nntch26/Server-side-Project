@@ -10,7 +10,11 @@ urlpatterns = [
 
     # cashier
     path("Cashier/", views.CashierView.as_view(), name="cashier_table"),
-    path("Cashier_confirm/", views.CashierConfirmView.as_view(), name="cashier_confirm"),
+    path("Cashier/pay", views.CashierPayView.as_view(), name="cashier_pay"),
+    path("Cashier-list/", views.CashierListView.as_view(), name="cashier_list"),
+    path("Cashier/confirm/<int:reservation_id>", views.CashierConfirmView.as_view(), name="cashier_confirm"),
+    path("Cashier/cancel/<int:reservation_id>", views.CashierCancelView.as_view(), name="cashier_cancel"),
+    path("Cashier/serve/<int:table_id>", views.CashierServeView.as_view(), name="cashier_serve"),
 
     # profile
     path("Profile/", views.ProfileView.as_view(), name="profile"),

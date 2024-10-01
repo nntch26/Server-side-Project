@@ -13,10 +13,10 @@
             <a class="nav-link active" href="{% url 'cashier_table' %}">จัดการโต๊ะ</a>
         </li>
         <li class="nav-item"></li>
-            <a class="nav-link" href="{% url 'cashier_confirm' %}">จัดการการจองโต๊ะ</a>
+            <a class="nav-link" href="{% url 'cashier_list' %}">จัดการการจองโต๊ะ</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'cashier_table' %}">จัดการการชำระเงิน</a>
+            <a class="nav-link" href="{% url 'cashier_pay' %}">จัดการการชำระเงิน</a>
         </li>
 
         <hr  style="color: rgb(255, 255, 255); width: 80%; border-width: 3px ; margin: 20px auto;">
@@ -34,15 +34,17 @@
         <h1>จัดการการจองโต๊ะ</h1>
         <hr>
         {% for i in reserv %}
-        <div class="item-1">
-            <div>{{i.user.username}}</div>
-            <div>{{i.reservation_date}} : {{i.reservation_time}}</div>
-            <div class="item-2">
-                <button class="btn but-1">ยืนยัน</button>
-                <button class="btn but-2">ปฏิเสธ</button>
-            </div>
-        </div>
-        <br>
+            <!-- ถ้าอยู่ในสถานะนี้ให้แสดงข้อมูล -->
+            {% if i.status == 'Pending' %}
+                <div class="item-1">
+                    <div>{{i.user.username}} <mark> โต๊ะ {{i.table_id}} </mark></div>
+                    <div>{{i.reservation_date}} : {{i.reservation_time}}</div>
+                    <div class="item-2">
+                        <a href="{% url 'cashier_confirm' i.id %}" class="btn but-1">ยืนยัน</a>
+                        <a href="{% url 'cashier_cancel' i.id %}" class="btn but-2">ปฏิเสธ</a>
+                    </div>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 </div>
