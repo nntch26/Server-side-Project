@@ -30,8 +30,11 @@ class indexView(View):
         boardgame_list = random.sample(boardgame_list, k=4)
         print(boardgame_list)
 
+        category_list = Categories.objects.all()
+
         context = {
-            "boardgame_list": boardgame_list
+            "boardgame_list": boardgame_list,
+            "category_list ":category_list 
         }
         return render(request, self.template_name, context)
 
@@ -230,8 +233,10 @@ class BoardgameFilterView(View):
         maxp = request.GET.get('max_players')
 
         boardgame_list = BoardGames.objects.filter(
-            category__id=cate , play_time__lte=time,
-            min_players__gte = minp , max_players__lte = maxp
+            category__id=cate , 
+            play_time__lte=time,
+            min_players__gte = minp , 
+            max_players__lte = maxp
             )
         print(boardgame_list)
 

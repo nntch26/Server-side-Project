@@ -27,7 +27,6 @@ urlpatterns = [
     path("register/", views.RegisterView.as_view(), name="register"),
 
 
-
     # boardgame
     path("boardgame/", views.BoardgameView.as_view(), name="boardgame"),
     path("boardgame/<str:cate_name>", views.BoardgameView.as_view(), name="boardgame-filter"),
@@ -52,8 +51,5 @@ urlpatterns = [
     path("dashboard/categories/add", views.DashboardCategoriesAddView.as_view(), name="des-categories-add"),
     path("dashboard/categories/delete/<int:cate_id>/", views.DashboardCategoriesDelView.as_view(), name="des-categories-del"),
     path("dashboard/categories/edit/<int:cate_id>/", views.DashboardCategoriesEditView.as_view(), name="des-categories-edit"),
-
-    # path("product/", views.ProductView.as_view(), name="product"),
-    # path("product/<int:cat_id>/", views.ProductView.as_view(), name="product_filter"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
