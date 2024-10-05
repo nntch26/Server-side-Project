@@ -29,14 +29,24 @@ body{
                 <p style="color: crimson;">สำหรับการจองโต๊ะในร้านสามารถกำหนดเวลาการจองได้ไม่เกิน 1 วัน <br>
                 เวลาเปิดปิดร้าน 10.00 น. - 23.00 น.</p>
             </div>
+
+            <!---alert --> 
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+            {% endif %}
     
             <!-- ฟอร์มสำหรับจองโต๊ะ -->
             <div class="form-booking">
                 <div class="row">
                     <div class="col-12">
     
-                        <!---alert -->
-                        {{ form.non_field_errors }}
+                        <!-- -alert
+                        {{ form.non_field_errors }} -->
 
                         <!-- ส่วนของฟอร์ม -->
                         <form action="" method="post">
@@ -54,6 +64,8 @@ body{
                             <div class="form-group row cont-date mb-5">
                                 <div class="mb-3 col-12 col-md-4">
                                     {{ form.reservation_date|as_crispy_field }}
+                                    <!-- crispy จะแสดงผล validation errors ให้อัตโนมัติ ไม่ต้องกำหนด -->
+
                                 </div>
     
                                 <div class="mb-3 col-12 col-md-4">

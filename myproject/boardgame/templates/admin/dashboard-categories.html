@@ -1,6 +1,7 @@
 <!-- extends ก่อน ค่อย load -->
 {% extends 'admin/layout_admin.html' %} 
 {% load static %}
+{% load crispy_forms_tags %}
 
 
 
@@ -40,10 +41,26 @@
     <div class="col-md-12">
         <h1 class="mt-2">จัดการหมวดหมู่</h1>
 
+        <!---alert --> 
+        {% if messages %}
+            {% for message in messages %}
+                <!-- เช็คว่า สำเร็จหรือไม่ -->
+                {% if message.level_tag == 'success' %}
+                <div class="alert alert-success" role="alert">
+                {% elif message.level_tag == 'error' %}
+                <div class="alert alert-danger"  role="alert">
+                {% endif %}
+
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+        {% endif %}
+
         <div class="boardgame-list">
             <div class="d-flex">
                 <div class="btnAdd ms-auto">
-                    <a href="{% url 'des-categories-add' %}" class="btn btn-primary mb-3">
+                    <a href="{% url 'des-categories-add' %}" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModalnewCate">
                         <i class="fs-5 bi bi-plus-circle-fill"></i><span class="ms-1">เพิ่มหมวดหมู่</span>
                     </a>
                 </div>
@@ -86,6 +103,39 @@
 
        
     </div>
+
+      
+    <!-- Modal เพิ่มข้อมูล-->
+    <div class="modal fade" id="exampleModalnewCate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">เพิ่มหมวดหมู่ใหม่</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'des-categories-add' %}" method="post" class="product-form">
+                        {% csrf_token %}
+                                        
+                            <div class="form-group row mb-4">
+                                <div class="mb-3 col-12">
+                                    {{ form.name|as_crispy_field }}
+                                </div>
+
+                            </div>
+
+                            <div class="btn-footer mb-5">
+                                <button type="submit" name="submit_booking_insert" class="btn btn-cus2 me-3">บันทึก</button>
+                                <a href="{% url 'des-categories' %}"  class="btn btn-secondary me-2">ยกเลิก</a>
+
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 
 </div>
 {% endblock %}

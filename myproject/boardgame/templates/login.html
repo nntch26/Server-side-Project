@@ -23,6 +23,17 @@
         <h1>Welcome <br> Sign in to continue</h1>
     </div>
 
+    <!---alert --> 
+    {% if messages %}
+
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+    {% endif %}
+
     <form action="{% url 'login' %}" method="post">
         <div class="space-form">
             {% csrf_token %}

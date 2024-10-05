@@ -10,9 +10,13 @@ from .forms import *
 
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, SetPasswordForm
 from django.contrib.auth import login, logout, update_session_auth_hash
-from django.contrib.auth.mixins import LoginRequiredMixin
-
 from .forms import CustomUserCreationForm  
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
+
+from django.contrib import messages
+
 
 import random
 
@@ -40,7 +44,10 @@ class indexView(View):
 
 
 # Reservation
-class ReservationFormView(View):
+class ReservationFormView(LoginRequiredMixin,PermissionRequiredMixin, View):
+    login_url = 'login'
+    permission_required = ["boardgame.add_reservation"]
+
     template_name = "reservation_form.html"
 
     def get(self, request):
@@ -57,32 +64,48 @@ class ReservationFormView(View):
             form.instance.user = request.user  # กำหนดผู้ใช้ที่ล็อกอิน
             form.save()
 
+            # แสดงข้อความแจ้งเตือน
+            messages.success(request, 'บันทึกการจองของคุณเรียบร้อยแล้ว')
+
             return redirect('Reservation_form')  # กลับไปหน้าจองโต๊ะ
         
         return render(request, self.template_name, {"form": form})
 
 
 # cashier     
-class CashierView(View):
+# staff1 st1@1234
+
+class CashierView(LoginRequiredMixin, View):
+    login_url = 'login'
+    # permission_required = ["boardgame.view_table"]
+
+
     def get(self, request):
         tables = Table.objects.all()
         pack = {'tables': tables}
         return render(request, 'cashier/cashier-table.html', pack)
     
-class CashierPayView(View):
+class CashierPayView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     def get(self, request):
         tables = Table.objects.all()
         pack = {'tables': tables}
         return render(request, 'cashier/cashier-pay.html', pack)
     
-class CashierListView(View):
+class CashierListView(LoginRequiredMixin,PermissionRequiredMixin, View):
+    login_url = 'login'
+    permission_required = ["boardgame.view_reservation"]
+
     def get(self, request):
         reserv = Reservation.objects.all()
         pack = {'reserv': reserv}
         return render(request, 'cashier/cashier-confirm.html', pack)
 
 # กด confirm
-class CashierConfirmView(View):
+class CashierConfirmView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     def get(self, request, reservation_id):
         reservation = Reservation.objects.get(id=reservation_id)
         table = Table.objects.get(id=reservation.table.id) # getidจองของidโต๊ะนั้นที่จอง
@@ -93,7 +116,9 @@ class CashierConfirmView(View):
         return redirect('cashier_list')
 
 # กด cancel
-class CashierCancelView(View):
+class CashierCancelView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     def get(self, request, reservation_id):
         reservation = Reservation.objects.get(id=reservation_id)
         table = Table.objects.get(id=reservation.table.id)
@@ -104,7 +129,9 @@ class CashierCancelView(View):
         return redirect('cashier_list')
     
 # พนักงานกดรับโต๊ะ
-class CashierServeView(View):
+class CashierServeView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     def get(self, request, table_id):
         table = Table.objects.get(id=table_id)
         if table.status == 'Available':
@@ -134,13 +161,31 @@ class LoginView(View):
 
         if form.is_valid():
             user = form.get_user()
-            login(request, user)
-            return redirect('index')
-        
+
+
+            #ดึงเอา group ของผู้ใช้คนนี้ อันนี้ผู้ใช้มีแค่คนละ group เดียว
+            user_groups = user.groups.all()
+            for group in user_groups:
+                print(group.name)  
+
+            # ผู้ใช้ตรงกับ group ไหน เด้งไปหน้านั้น
+            if group.name == "customer":
+                login(request, user)
+                return redirect('index')
+            
+            elif group.name == "staff":
+                login(request, user)
+                return redirect('cashier_table')
+
+            elif group.name == "manager":
+                login(request, user)
+                return redirect('dashboard')
+            
         return render(request, self.template_name, {"form":form})
     
 
 class RegisterView(View):
+
     def get(self, request):
         form = CustomUserCreationForm()
         return render(request, 'register.html', {"form": form})
@@ -150,11 +195,19 @@ class RegisterView(View):
 
         if form.is_valid():
             user1 = form.save()
+            print(user1)
+
+            # เพิ่มผู้ใช้ใหม่ ลงใน group 'customer'
+            group = Group.objects.get(name='customer')
+            user1.groups.add(group)
 
             UserDetail.objects.create(
                 user = user1, #ยัด obj user เข้าไป
                 phone_number = form.cleaned_data['phone_number']
             )
+
+            # แสดงข้อความแจ้งเตือน
+            messages.success(request, 'บัญชีของคุณถูกสร้างเรียบร้อยแล้ว')
             return redirect('login')
         
         return render(request, 'register.html', {"form": form})
@@ -260,6 +313,7 @@ class BoardgameDetailView(View):
         
         boardgame_detail = BoardGames.objects.get(pk= game_id)
 
+        # แทนที่ข้อความในลิ้ง เป็น www.youtube.com/embed/ ในเล่นวิดีโอ iframe
         boardgame_detail_url = boardgame_detail.video_url.replace('youtu.be/', 'www.youtube.com/embed/')
         
         context = {
@@ -272,8 +326,10 @@ class BoardgameDetailView(View):
 
 
 # Dashboard 
+# manager2 mg2@1234
 
-class DashboardView(View):
+class DashboardView(LoginRequiredMixin, View):
+    login_url = 'login'
 
     template_name = "admin/dashboard.html"
 
@@ -297,7 +353,9 @@ class DashboardView(View):
         return render(request, self.template_name, context)
 
 
-class DashboardBoardgameView(View):
+class DashboardBoardgameView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     template_name = "admin/dashboard-boardgame.html"
 
     def get(self, request):
@@ -305,7 +363,9 @@ class DashboardBoardgameView(View):
         return render(request, self.template_name, {"product_list": product_list})
 
 
-class DashboardBoardgameAddView(View):
+class DashboardBoardgameAddView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     template_name = "admin/boardgame_add.html"
 
     def get(self, request):
@@ -318,20 +378,28 @@ class DashboardBoardgameAddView(View):
 
         if form.is_valid():
             form.save()
+
+             # แสดงข้อความแจ้งเตือน
+            messages.success(request, 'บันทึกข้อมูลของคุณเรียบร้อยแล้ว')
             return redirect('des-boardgame')
-        
+            
+
+        messages.error(request, 'เกิดข้อผิดพลาด ไม่สามารถบันทึกข้อมูลได้! โปรดลองใหม่')
         return render(request, self.template_name, {"form": form})
 
 
-class DashboardBoardgameDelView(View):
-    def get(self, request, game_id):
+class DashboardBoardgameDelView(LoginRequiredMixin, View):
+    login_url = 'login'
 
+    def get(self, request, game_id):
         project_data = BoardGames.objects.get(pk=game_id)
         project_data.delete()
         return redirect('des-boardgame')
 
 
-class DashboardBoardgameEditView(View):
+class DashboardBoardgameEditView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     template_name = "admin/boardgame_edit.html"
 
     def get(self, request, game_id):
@@ -354,19 +422,32 @@ class DashboardBoardgameEditView(View):
         if form.is_valid():
             form.save()
             return redirect('des-boardgame')
+            # แสดงข้อความแจ้งเตือน
+            messages.success(request, 'บันทึกข้อมูลของคุณเรียบร้อยแล้ว')
         
+        messages.error(request, 'เกิดข้อผิดพลาด ไม่สามารถบันทึกข้อมูลได้! โปรดลองใหม่')
         return render(request, self.template_name, {"form": form})
 
 
 # member
-class DashboardMemberView(View):
+class DashboardMemberView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     template_name = "admin/dashboard-member.html"
 
     def get(self, request):
-        member_list = User.objects.exclude(username='admin') # ไม่เอา admin
+        member_list = User.objects.exclude(
+            Q(username__startswith='admin') | 
+            Q(username__startswith='staff') | 
+            Q(username__startswith='manager')
+        ) 
+        # ไม่เอา admin staff manager
+
         return render(request, self.template_name, {"member_list": member_list})
 
-class DashboardMemberDelView(View):
+class DashboardMemberDelView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     def get(self, request, mem_id):
 
         member_data = User.objects.get(pk=mem_id)
@@ -375,33 +456,51 @@ class DashboardMemberDelView(View):
     
 
 # หมวดหมู่ 
-class DashboardCategoriesView(View):
+class DashboardCategoriesView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     template_name = "admin/dashboard-categories.html"
 
     def get(self, request):
         categories_list = Categories.objects.all()
-        
-        return render(request, self.template_name, {"categories_list": categories_list})
-
-class DashboardCategoriesAddView(View):
-    template_name = "admin/categories_add.html"
-
-    def get(self, request):
         form = CategoriesForm()
-        return render(request, self.template_name, {"form": form})
-    
 
+        context = {
+            "categories_list": categories_list,
+            "form": form
+        }
+       
+        return render(request, self.template_name, context)
+
+
+    # เพิ่มหมวดหมู่
     def post(self, request):
         form = CategoriesForm(request.POST)
 
         if form.is_valid():
             form.save()
+
+             # แสดงข้อความแจ้งเตือน
+            messages.success(request, 'บันทึกข้อมูลของคุณเรียบร้อยแล้ว')
             return redirect('des-categories')
         
-        return render(request, self.template_name, {"form": form})
+        # ถ้าไม่เข้าเงื่อนไข ให้แสดงข้อมูลเหมือนเดิม
+        categories_list = Categories.objects.all()
+        form = CategoriesForm()
+        context = {
+            "categories_list": categories_list,
+            "form": form
+        }
+        
+        messages.error(request, 'เกิดข้อผิดพลาด ไม่สามารถบันทึกข้อมูลได้! โปรดลองใหม่')
+        return render(request, self.template_name, context)
 
 
-class DashboardCategoriesDelView(View):
+
+
+class DashboardCategoriesDelView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     def get(self, request, cate_id):
 
         data = Categories.objects.get(pk=cate_id)
@@ -409,7 +508,9 @@ class DashboardCategoriesDelView(View):
         return redirect('des-categories')
 
 
-class DashboardCategoriesEditView(View):
+class DashboardCategoriesEditView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     template_name = "admin/categories_edit.html"
 
     def get(self, request, cate_id):
@@ -432,22 +533,28 @@ class DashboardCategoriesEditView(View):
         if form.is_valid():
             form.save()
             return redirect('des-categories')
-        
+            # แสดงข้อความแจ้งเตือน
+            messages.success(request, 'บันทึกข้อมูลของคุณเรียบร้อยแล้ว')
+
+
         return render(request, self.template_name, {"form": form})
 
 
 
 # profile
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     def get(self, request):
         return render(request, 'profile.html')
     
-class ProfileEditView(View):
+class ProfileEditView(LoginRequiredMixin, View):
     def get(self, request):
         profile = request.user # ดึงข้อมูลผู้ใช้ / ตัวที่เข้าถึงข้อมูลของ user ที่เข้าสู่ระบบ
         userdetail = UserDetail.objects.get(user=profile) # user = user login
         # initial ตั้งค่าเริ่มต้นคนละตารางกับ user, instance ดึงข้อมูลจาก user มาใส่ฟอร์ม
-        form = ProfileEditForm(instance=profile, initial={'phone_number': userdetail.phone_number, 'gender': userdetail.gender, 'birth_date': userdetail.birth_date})
+        form = ProfileEditForm(instance=profile, 
+                               initial={'phone_number': userdetail.phone_number, 'gender': userdetail.gender, 'birth_date': userdetail.birth_date})
         pack = {'form': form}
         return render(request, 'editprofile-form.html', pack)
     
@@ -465,7 +572,9 @@ class ProfileEditView(View):
             return redirect('profile')
         return render(request, 'editprofile-form.html', {'form': form})
     
-class PasswordChangeView(View):
+class PasswordChangeView(LoginRequiredMixin, View):
+    login_url = 'login'
+
     def get(self, request):
         new = request.user
         form = SetPasswordForm(user=new) # ใช้ของdjango ให้รู้ว่า user คนไหนที่ต้องการเปลี่ยนรหัส
