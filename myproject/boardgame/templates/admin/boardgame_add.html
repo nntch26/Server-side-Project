@@ -27,6 +27,21 @@
             <div class="section-title mt-3 text-center">
                 <h1>เพิ่มบอร์ดเกมใหม่</h1>
             </div>
+             <!---alert --> 
+            {% if messages %}
+                {% for message in messages %}
+                    <!-- เช็คว่า สำเร็จหรือไม่ -->
+                    {% if message.level_tag == 'error' %}
+                    <div class="alert alert-danger"  role="alert">
+                    {% endif %}
+                        {{ message }}
+                        {{ form.non_field_errors }} 
+                        <!-- error ในฟอร์ม -->
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+
     
             <!-- ฟอร์มสำหรับจองโต๊ะ -->
             <div class="form-booking">
@@ -36,6 +51,7 @@
                         <!-- ส่วนของฟอร์ม -->
                         <form action="" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
+
                        
                             <div class="form-group row cont-date mb-4">
                                 <div class="mb-3 col-12 col-md-6">

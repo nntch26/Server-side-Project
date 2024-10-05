@@ -27,6 +27,21 @@
             <div class="section-title mt-3 text-center">
                 <h1>แก้ไขข้อมูลบอร์ดเกม</h1>
             </div>
+
+            <!---alert --> 
+            {% if messages %}
+                {% for message in messages %}
+                    <!-- เช็คว่า สำเร็จหรือไม่ -->
+                    {% if message.level_tag == 'error' %}
+                    <div class="alert alert-danger"  role="alert">
+                    {% endif %}
+
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+         
     
             <div class="form-booking">
                 <div class="row">

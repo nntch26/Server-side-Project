@@ -39,6 +39,22 @@
 
     <div class="col-md-12">
         <h1 class="mt-2">จัดการข้อมูลบอร์ดเกม</h1>
+            <!---alert --> 
+        {% if messages %}
+            {% for message in messages %}
+                <!-- เช็คว่า สำเร็จหรือไม่ -->
+                {% if message.level_tag == 'success' %}
+                <div class="alert alert-success" role="alert">
+                {% elif message.level_tag == 'error' %}
+                <div class="alert alert-danger"  role="alert">
+                {% endif %}
+
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+        {% endif %}
+    
 
         <div class="boardgame-list">
             <div class="d-flex">

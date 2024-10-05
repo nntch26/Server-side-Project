@@ -143,28 +143,57 @@ class BoardGamesForm(forms.ModelForm):
             'video_url': 'วิดีโอวิธีเล่น (URL)',
             'category': 'หมวดหมู่',
         }
+
+    # เช็ค ชื่อบอร์ดเกมไม่ซ้ำ
+    def clean_game_name(self):
+        game_name = self.cleaned_data["game_name"]
+
+        data = BoardGames.objects.filter(game_name= game_name)
+
+        if data.count():  
+            raise ValidationError("Board game Name Already Exist")
+        return game_name  
+
     
     # เช็ค ต้องใส่เลขมากกว่า 0
     def clean_min_players(self):
-        min_players = self.cleaned_data["min_players"]
+        min_players = self.cleaned_data.get("min_players")
+
 
         if min_players <= 0:
             raise forms.ValidationError("กำหนดต้องมากกว่า 0")
+        
         return min_players
 
     def clean_max_players(self):
         max_players = self.cleaned_data["max_players"]
 
+
         if max_players <= 0:
             raise forms.ValidationError("กำหนดต้องมากกว่า 0")
+        
         return max_players
-    
+
+
     def clean_play_time(self):
         play_time = self.cleaned_data["play_time"]
 
         if play_time <= 0:
             raise forms.ValidationError("กำหนดต้องมากกว่า 0")
         return play_time
+    
+
+    # เช็คจำนวนคนเล่นขั้นต่ำ กับ ไม่เกินต้อง สอดคล้องกัน 
+    def clean(self):
+        cleaned_data = super().clean()  
+
+        min_players = cleaned_data.get("min_players")
+        max_players = cleaned_data.get("max_players")
+
+        if min_players >= max_players or max_players <= min_players:
+            raise forms.ValidationError("กำหนดจำนวนผู้เล่นขั้นต่ำต้องน้อยกว่าจำนวนผู้เล่นสูงสุด")
+
+        return cleaned_data
 
 
 # เพิ่มประเภทข้อมูล
@@ -177,6 +206,16 @@ class CategoriesForm(forms.ModelForm):
         labels = {
             'name': 'ชื่อหมวดหมู่',
         }
+
+    # เช็ค ชื่อหมวดหมู่ไม่ซ้ำ
+    def clean_game_name(self):
+        cate_name = self.cleaned_data["name"]
+
+        data = Categories.objects.filter(name= cate_name)
+
+        if data.count():  
+            raise ValidationError("Board game Name Already Exist")
+        return cate_name  
 
 
 

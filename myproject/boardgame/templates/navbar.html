@@ -15,38 +15,64 @@
 
         <ul class="navbar-nav ms-auto  mb-lg-0 ">
             <li class="nav-item me-3">
-            <a class="nav-link" aria-current="page" href="{% url 'index' %}">หน้าแรก</a>
+                <a class="nav-link" aria-current="page" href="{% url 'index' %}">หน้าแรก</a>
             </li>
 
             <li class="nav-item me-3 mb-1">
-            <a class="nav-link" href="{% url 'boardgame' %}">บอร์ดเกม</a>
+                <a class="nav-link" href="{% url 'boardgame' %}">บอร์ดเกม</a>
             </li>
+
+
+            <!-- ผู้ใช้ล็อกอินแล้วและไม่ใช่ staff -->
+            {% if user.is_authenticated and not user.is_staff %}
 
             <li class="nav-item me-3 mb-1">
                 <a class=" btn btn-cus" href="{% url 'Reservation_form' %}">จองที่นั่ง</a>
             </li>
-            {% if not user.is_authenticated %}
-            <li class="nav-item">
-                <a class=" btn btn-cus2" href="{% url 'login' %}">เข้าสู่ระบบ</a>
-            </li>
 
-            {% elif user.is_authenticated %}
             <li class="nav-item me-3 mb-2">
-                
                 <a class=" btn btn-cus2" href="{% url 'profile' %}" style="font-size: 0.91rem;">บัญชีของฉัน</a>
-
-                <!-- <a class="" href="{% url 'profile' %}">
-                    <i class="bi bi-person-circle" style="font-size: 1.8rem; color: #F4313F;"></i>
-                </a> -->
             </li>
-
+            
             <li class="nav-item">
-                <a class="" href="{% url 'logout' %}">
-                    <i class="bi bi-box-arrow-right" style="font-size: 1.8rem; color: black;"></i>
-                   
-                </a>
+                <a class="" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right" style="font-size: 1.8rem; color: black;"></i></a>
             </li>
+
+           <!-- staff -->
+            {% elif user.is_staff %}
+  
+                <li class="nav-item me-1">
+                    <a class="btn btn-cus2" href="{% url 'cashier_table' %}">
+                        <i class="bi bi-clipboard-data me-1"></i>Cashier
+                    </a>
+                </li>
+
+                <li class="nav-item me-3">
+                    <a class="btn btn-cus3" href="{% url 'dashboard' %}">
+                        <i class="bi bi-speedometer"></i> Dashboard
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="" href="{% url 'logout' %}">
+                        <i class="bi bi-box-arrow-right" style="font-size: 1.8rem; color: black;"></i>
+                    </a>
+                </li>
+
+            
+            <!-- ผู้ใช้ยังไม่ล็อกอิน -->
+            {% else %}
+                <li class="nav-item me-3 mb-1">
+                    <a class=" btn btn-cus" href="{% url 'Reservation_form' %}">จองที่นั่ง</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class=" btn btn-cus2" href="{% url 'login' %}">เข้าสู่ระบบ</a>
+                </li>
+
             {% endif %}
+
+
         </ul>
         </div>
     </div>
