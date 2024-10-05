@@ -6,6 +6,9 @@ from django.db.models import F, Q, Count, Value as V, Avg, Max, Min
 from django.db.models.functions import Length, Upper, Concat
 from .models import *
 
+from django.utils import timezone
+import datetime
+
 from .forms import * 
 
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, SetPasswordForm
@@ -65,15 +68,28 @@ class ReservationFormView(View):
 # cashier     
 class CashierView(View):
     def get(self, request):
-        tables = Table.objects.all()
+        tables = Table.objects.all().order_by('id')
         pack = {'tables': tables}
         return render(request, 'cashier/cashier-table.html', pack)
     
+    def post(self, request):
+        form = PlaySessionForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('cashier_table')
+
+# เด่วมาลบ
 class CashierPayView(View):
     def get(self, request):
-        tables = Table.objects.all()
+        tables = Table.objects.all().order_by('id')
         pack = {'tables': tables}
         return render(request, 'cashier/cashier-pay.html', pack)
+    
+class CashierBillView(View):
+    def get(self, request, table_id):
+        reservation = Reservation.objects.get(id=table_id)
+        pack = {'reservation': reservation}
+        return render(request, 'cashier/bill.html', pack)
     
 class CashierListView(View):
     def get(self, request):
@@ -103,18 +119,43 @@ class CashierCancelView(View):
         table.save()
         return redirect('cashier_list')
     
-# พนักงานกดรับโต๊ะ
+# พนักงานกดยกเลิกรับโต๊ะ
 class CashierServeView(View):
     def get(self, request, table_id):
         table = Table.objects.get(id=table_id)
-        if table.status == 'Available':
-            table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะ
-            table.save()
-        elif table.status == 'Reserved':
-            table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะ
-            table.save()
+        if table.status == 'Reserved':
+                table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะจากจองเป็นว่าง
+                table.save()
+        # if form.is_valid():
+        #     if table.status == 'Reserved':
+        #         table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะ
+        #         table.save()
+        #     elif table.status == 'Available':
+        #         table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะ
+        #         table.save()
+ 
         return redirect('cashier_table')
     
+# พนักงานกดรับโต๊ะ จากตอนแรกจองพอกดด้านในเปลี่ยนเป็นไม่ว่าง
+class CashierReServeView(View):
+    def get(self, request, table_id):
+        table = Table.objects.get(id=table_id)
+        if table.status == 'Reserved':
+                table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะจากจองเป็นไม่ว่าง
+                table.save()
+        return redirect('cashier_table')
+    
+
+
+
+class CashierDetailView(View):
+    def get(self, request, table_id):
+        reservation = Reservation.objects.filter(table_id=table_id) # filter table_id ของ reserve = table_id ที่ส่งมา
+        pack = {'reservation': reservation}
+        return render(request, 'cashier/table-detail.html', pack)
+    
+
+
 
 
 

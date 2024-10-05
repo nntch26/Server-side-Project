@@ -83,8 +83,8 @@ class BoardGames(models.Model):
 
 # add
 class PlaySession(models.Model):
-    table_id = models.ForeignKey(Table, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     num_players = models.IntegerField(null=False, default=1)
     start_time = models.DateTimeField(null=False)
     end_time = models.DateTimeField(null=True)
@@ -95,6 +95,6 @@ class PlaySession(models.Model):
 
 
 class Payments(models.Model):
-    session_id = models.ForeignKey(PlaySession, on_delete=models.CASCADE)
+    session = models.ForeignKey(PlaySession, on_delete=models.CASCADE)
     payment_amount = models.DecimalField(max_digits=5, decimal_places=2, null=False)
     payment_date = models.DateTimeField(null=False)
