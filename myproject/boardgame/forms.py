@@ -207,13 +207,13 @@ class CategoriesForm(forms.ModelForm):
         }
 
     # เช็ค ชื่อหมวดหมู่ไม่ซ้ำ
-    def clean_game_name(self):
+    def clean_name(self):
         cate_name = self.cleaned_data["name"]
 
         data = Categories.objects.filter(name= cate_name)
 
         if data.count():  
-            raise ValidationError("Board game Name Already Exist")
+            raise ValidationError("Category Name Already Exist")
         return cate_name  
 
 

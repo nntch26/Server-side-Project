@@ -7,3 +7,4 @@ from .models import *
 admin.site.register(Categories)
 admin.site.register(BoardGames)
 admin.site.register(Reservation)
+admin.site.register(Table)

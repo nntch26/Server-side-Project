@@ -10,3 +10,14 @@ pip install crispy-bootstrap5
 
 pip install django-crispy-forms
 
+
+# login
+
+test3
+a2hT8fN3gAu-5!M
+
+staff1
+st1@1234
+
+manager2
+mg2@1234
