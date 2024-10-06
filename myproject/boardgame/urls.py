@@ -9,17 +9,21 @@ urlpatterns = [
     path("Reservation_form/", views.ReservationFormView.as_view(), name="Reservation_form"),
 
     # cashier
-    path("Cashier/", views.CashierView.as_view(), name="cashier_table"),
-    path("Cashier/pay", views.CashierPayView.as_view(), name="cashier_pay"),
-    path("Cashier-list/", views.CashierListView.as_view(), name="cashier_list"),
-    path("Cashier/confirm/<int:reservation_id>", views.CashierConfirmView.as_view(), name="cashier_confirm"),
-    path("Cashier/cancel/<int:reservation_id>", views.CashierCancelView.as_view(), name="cashier_cancel"),
-    path("Cashier/serve/<int:table_id>", views.CashierServeView.as_view(), name="cashier_serve"),
+    path("cashier/", views.CashierView.as_view(), name="cashier_table"),
+    path("cashier/pay", views.CashierPayView.as_view(), name="cashier_pay"),
+    path("cashier-list/", views.CashierListView.as_view(), name="cashier_list"),
+    path("cashier/confirm/<int:reservation_id>", views.CashierConfirmView.as_view(), name="cashier_confirm"),
+    path("cashier/cancel/<int:reservation_id>", views.CashierCancelView.as_view(), name="cashier_cancel"),
+    path("cashier/serve/<int:table_id>", views.CashierServeView.as_view(), name="cashier_serve"),
+    path("cashier/bill/<int:table_id>", views.CashierBillView.as_view(), name="cashier_bill"),
+    path("cashier/Reserve/<int:table_id>", views.CashierReServeView.as_view(), name="cashier_reserve"),
+    path("cashier/detail/<int:table_id>", views.CashierDetailView.as_view(), name="cashier_detail"),
+    # path("cashier/serve/table/<int:table_id>", views.PlaySessionView.as_view(), name="cashier_serve_table"),
 
     # profile
-    path("Profile/", views.ProfileView.as_view(), name="profile"),
-    path("Profile_edit/", views.ProfileEditView.as_view(), name="profile_edit"),
-    path("Password_change/", views.PasswordChangeView.as_view(), name="change_password"),
+    path("profile/", views.ProfileView.as_view(), name="profile"),
+    path("profile_edit/", views.ProfileEditView.as_view(), name="profile_edit"),
+    path("password_change/", views.PasswordChangeView.as_view(), name="change_password"),
 
     # login & register
     path("login/", views.LoginView.as_view(), name="login"),

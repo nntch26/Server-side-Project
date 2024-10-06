@@ -37,11 +37,13 @@
             <!-- ถ้าอยู่ในสถานะนี้ให้แสดงข้อมูล -->
             {% if i.status == 'Pending' %}
                 <div class="item-1">
-                    <div>{{i.user.username}} <mark> โต๊ะ {{i.table_id}} </mark></div>
-                    <div>{{i.reservation_date}} : {{i.reservation_time}}</div>
+                    <div><strong>ชื่อ-นามสกุล</strong> {{i.user.first_name}} {{i.user.last_name}}</div>
+                    <div><mark> โต๊ะ {{i.table_id}} จำนวนคน {{i.reservation_cap}}</mark></div>
+                    <div><strong>เบอร์โทรศัพท์</strong> {{i.user.userdetail.phone_number}}</div>
+                    <div><strong>วัน-เวลาที่จอง</strong> {{i.reservation_date}} : {{i.reservation_time}}</div>
                     <div class="item-2">
                         <a href="{% url 'cashier_confirm' i.id %}" class="btn but-1">ยืนยัน</a>
-                        <a href="{% url 'cashier_cancel' i.id %}" class="btn but-2">ปฏิเสธ</a>
+                        <a href="{% url 'cashier_cancel' i.id %}" class="btn but-2">ยกเลิก</a>
                     </div>
                 </div>
             {% endif %}

@@ -1,3 +1,4 @@
+from typing import Any
 from django.forms.widgets import Textarea, TextInput, SplitDateTimeWidget
 from django.core.exceptions import ValidationError
 
@@ -271,3 +272,28 @@ class ProfileEditForm(forms.ModelForm):
         if data.count():
             raise ValidationError("Email Already Exist")
         return email
+    
+
+class PlaySessionForm(forms.ModelForm):
+    phone_number = forms.CharField(max_length=10)
+    class Meta:
+        model = PlaySession
+        fields = [
+            'table',
+            'user',
+            'num_players',
+            'start_time',
+            'end_time',
+            'phone_number',
+            'price_per_player',
+            'total_hours',
+            'total_cost',
+            'is_paid',
+        ]
+    
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data["phone_number"]
+        data = UserDetail.objects.filter(phone_number= phone_number)
+        if data.count()==0:  # ถ้าไม่มีเบอร์ในฐานข้อมูล
+            raise ValidationError("Phone number does not exist")  
+        return phone_number

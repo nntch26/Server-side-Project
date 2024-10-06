@@ -1,5 +1,6 @@
 {% extends 'admin/layout_admin.html' %} 
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}แคชเชียร์{% endblock title %}
 
@@ -30,15 +31,6 @@
 
 {% block content %}
 <div class="big">
-    <!-- <div class="left">
-        <h1>แคชเชียร์</h1><hr>
-        <div class="manage"><br>
-            <label for=""><a href="cashier-pay.html" class="bar">ระบบชำระเงิน</a></label><br><br>
-            <label for=""><a href="cashier-table.html" class="bar">ระบบจัดการโต๊ะ</a></label><br><br>
-            <label for=""><a href="cashier-confirm.html" class="bar">ระบบการจองโต๊ะ</a></label><br><br><hr><br>
-            <label for=""><a href="#" class="bar">ออกจากระบบ</a></label><br><br><hr>
-        </div>
-    </div> -->
     <div class="right">
         <h1>จัดการโต๊ะ</h1>
         <hr>
@@ -60,7 +52,8 @@
                         <p><strong>{{ i.status }}</strong></p>
                     </div><br>
                     <p><strong>จำนวนคน {{ i.table_cap }}</strong></p>
-                    <a href="{% url 'cashier_serve' i.id %}" class="btn but-3">รับโต๊ะ</a>
+                    <a href="{% url 'cashier_table' %}" class="btn but-3">รับโต๊ะ</a>
+
 
                 {% elif i.status == 'Reserved' %}
                     <div class="card-body-3">
@@ -71,7 +64,7 @@
                     </div><br>
                     <p><strong>จำนวนคน {{ i.table_cap }}</strong></p>
                     <div class="butt">
-                        <a href="" class="btn but-3">รายละเอียด</a>
+                        <a href="{% url 'cashier_detail' i.id %}" class="btn but-3" >รายละเอียด</a>
                         <a href="{% url 'cashier_serve' i.id %}" class="btn but-3">ยกเลิก</a>
                     </div>
                     
@@ -86,13 +79,17 @@
                     <p><strong>จำนวนคน {{ i.table_cap }}</strong></p>
                     <div class="butt">
                         <a href="" class="btn but-3">รายละเอียด</a>
-                        <a href="{% url 'cashier_serve' i.id %}" class="btn but-3">เช็คบิล</a>
+                        <a href="{% url 'cashier_bill' i.id %}" class="btn but-3">เช็คบิล</a>
                     </div>
                 {% endif %}
             </div>
             {% endfor %}
         </div>
     </div>
+
+
+
+
 </div>
 {% endblock content %}
 {% block footer %}
