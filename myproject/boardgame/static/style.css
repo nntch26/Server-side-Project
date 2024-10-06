@@ -488,11 +488,24 @@ input{
     display: flex;
     justify-content: center;
 }
+.box-2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mid{
+    align-items: center;
+    text-align: center;
+}
+.games{
+    display: flex;
+    justify-content: space-between;
+}
 .bar{
     text-decoration: none;
     color: #F4313F;
 }
-.card-cus, .card-cus-1{
+.card-cus, .card-cus-1, .card-cus-2{
     color: #000000;
     background-color: rgba(255, 255, 255, 0.827);
     border: 1px solid #ccc;
@@ -504,6 +517,14 @@ input{
 }
 .card-cus{
     width: 100%;
+}
+.card-cus-2{
+    width: 30%;
+}
+.card-cus-3{
+    color: #000000;
+    margin: 20px;
+    width: 30%;
 }
 .card-header{
     background-color: #F4313F;
@@ -529,6 +550,7 @@ input{
 .butt{
     display: flex;
     justify-content: space-between;
+    gap: 15px;
 }
 .card-body-2, .card-body-3, .card-body-4{
     width: 100%;
@@ -603,10 +625,10 @@ input{
     justify-content: space-between;
     align-items: center;
 }
-.but-1, .but-2, .but-3{
+.but-1, .but-2, .but-3, .but-7, .but-8{
     width: 100%;
     padding: 5px;
-    background: #bd081c;
+    background: #ffc107;
     color: white;
     border-radius: 5px;
     width: 100%;
@@ -619,6 +641,15 @@ input{
 }
 .but-1, .but-3{
     background: #0077ff;
+}
+.but-7{
+    background: gray;
+}
+.but-7:hover{
+    border: 1px solid gray;
+}
+.but-8:hover{
+    border: 1px solid #ffc107;
 }
 .but-1:hover{
     border: 1px solid #0077ff;

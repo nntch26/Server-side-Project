@@ -18,7 +18,7 @@ urlpatterns = [
     path("cashier/bill/<int:table_id>", views.CashierBillView.as_view(), name="cashier_bill"),
     path("cashier/Reserve/<int:table_id>", views.CashierReServeView.as_view(), name="cashier_reserve"),
     path("cashier/detail/<int:table_id>", views.CashierDetailView.as_view(), name="cashier_detail"),
-    # path("cashier/serve/table/<int:table_id>", views.PlaySessionView.as_view(), name="cashier_serve_table"),
+    path("cashier/serve/table/<int:table_id>", views.PlaySessionView.as_view(), name="cashier_serve_table"),
 
     # profile
     path("profile/", views.ProfileView.as_view(), name="profile"),

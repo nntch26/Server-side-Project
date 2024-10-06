@@ -1,7 +1,8 @@
 {% extends 'admin/layout_admin.html' %} 
 {% load static %}
+{% load crispy_forms_tags %}
 
-{% block title %}ิbill{% endblock title %}
+{% block title %}รับโต๊ะ{% endblock title %}
 
 
 {% block navbar %}
@@ -32,38 +33,25 @@
 <div class="big">
     <div class="right">
         <div class="box-2">
-            <h1 class="mid">ชำระเงิน โต๊ะที่ {{reservation.id}}</h1>
+            <h1 class="mid">จัดการรับโต๊ะที่ {{table.id}}</h1>
             <hr style="width: 100%;">
-            <div class="card-cus-2">
-                <div class="mid">
-                    <p><strong>จำนวนลูกค้า:</strong> {{reservation.reservation_cap}} ท่าน</p>
-                    <p><strong>เวลาเริ่มต้น:</strong></p>
-                    <p><strong>เวลาเล่นจบ:</strong></p>
-                </div>
-                <hr>
-                <div class="games">
-                    <div><strong>รายการบอร์ดเกม</strong></div>
-                    <div><strong>ราคา</strong></div>
-                </div>
-                <!-- แสดงรายการทั้งหมด -->
-                <div class="games">
-                    <div>boardgames</div>
-                    <div>60</div>
-                </div><hr>
-                <div class="games">
-                    <div><strong>รวม</strong></div>
-                    <div>60</div>
-                </div>
-            </div>
-            <div class="card-cus-3">
+            <div class="card-cus-1">
+                <form action="{% url 'cashier_serve_table' table.id %}" method="post">
+                    <div class="form-group row mb-4">
+                        <div class="mb-3 col-12 col-md-12">
+                            {{form.num_players|as_crispy_field}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            {{form.phone_number|as_crispy_field}}
+                        </div>
+                    </div>
+                </form>
                 <div class="butt">
                     <a href="{% url 'cashier_table' %}" class="btn but-7">กลับ</a>
-                    <a href="" class="btn but-8">เช็คบิล</a>
+                    <a href="{% url 'cashier_reserve' table.id %}" class="btn but-3">รับโต๊ะ</a>
                 </div>
             </div>
-            
         </div>
-
     </div>
 </div>
 {% endblock content %}

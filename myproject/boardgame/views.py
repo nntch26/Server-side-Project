@@ -177,12 +177,29 @@ class CashierReServeView(View):
     
 
 
-
+# ดูรายละเอียดโต๊ะ
 class CashierDetailView(View):
     def get(self, request, table_id):
         reservation = Reservation.objects.filter(table_id=table_id) # filter table_id ของ reserve = table_id ที่ส่งมา
         pack = {'reservation': reservation}
         return render(request, 'cashier/table-detail.html', pack)
+
+# โชว์ฟอร์มรับโต๊ะ
+class PlaySessionView(View):
+    def get(self, request, table_id):
+        table = Table.objects.get(id=table_id)
+        form = PlaySessionForm()
+        pack = {'form': form, 'table': table}
+        return render(request, 'cashier/cashier-serve.html', pack)
+    
+    def post(self, request, table_id):
+        table = Table.objects.get(id=table_id)
+        form = PlaySessionForm(request.POST)
+        if form.is_valid():
+            if table.status == 'Available':
+                table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะ
+                table.save()
+        return redirect('cashier_table')
     
 
 
