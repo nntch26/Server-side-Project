@@ -1,14 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseNotFound
-from django.http import JsonResponse, HttpResponseNotAllowed
 from django.views import View
 from django.db.models import F, Q, Count, Value as V, Avg, Max, Min
-from django.db.models.functions import Length, Upper, Concat
 from .models import *
-
-from django.utils import timezone
-import datetime
-
 from .forms import * 
 
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, SetPasswordForm
@@ -19,8 +12,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 
 from django.contrib import messages
-
-
 import random
 
 
@@ -384,9 +375,38 @@ class BoardgameDetailView(View):
         return render(request, self.template_name, context)
 
 
+# //////////////////// Cart list ////////////////////
+
+class CartListView(View):
+     
+    template_name = "cart_list.html"
+     
+    def get(self, request):
+
+        return render(request, self.template_name)
+
+class CartAddView(View):
 
 
-# Dashboard 
+    def get(self, request, game_id):
+        pass
+
+
+
+class CartDelView(View):
+    pass
+
+
+
+
+class PayOrderView(View):
+    template_name = "payment_online.html"
+     
+    def get(self, request, order_id):
+
+        return render(request, self.template_name)
+
+# //////////////////// Dashboard ////////////////////
 # manager2 mg2@1234
 
 class DashboardView(LoginRequiredMixin, View):
@@ -490,7 +510,7 @@ class DashboardBoardgameEditView(LoginRequiredMixin, View):
         return render(request, self.template_name, {"form": form})
 
 
-# member
+# //////////////////// member  ////////////////////
 class DashboardMemberView(LoginRequiredMixin, View):
     login_url = 'login'
 
@@ -516,7 +536,7 @@ class DashboardMemberDelView(LoginRequiredMixin, View):
         return redirect('des-member')
     
 
-# หมวดหมู่ 
+# //////////////////// หมวดหมู่ ////////////////////
 class DashboardCategoriesView(LoginRequiredMixin, View):
     login_url = 'login'
 
@@ -555,8 +575,6 @@ class DashboardCategoriesView(LoginRequiredMixin, View):
         
         messages.error(request, 'เกิดข้อผิดพลาด ไม่สามารถบันทึกข้อมูลได้! โปรดลองใหม่')
         return render(request, self.template_name, context)
-
-
 
 
 class DashboardCategoriesDelView(LoginRequiredMixin, View):
@@ -602,7 +620,7 @@ class DashboardCategoriesEditView(LoginRequiredMixin, View):
 
 
 
-# profile
+# /////////////////// profile ////////////////////
 class ProfileView(LoginRequiredMixin, View):
     login_url = 'login'
 

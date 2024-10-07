@@ -2,7 +2,7 @@
 
 <!-- Top Navbar -->
 
-<nav class="navbar navbar-cus navbar-expand-lg fixed-top">
+<nav class="navbar navbar-cus navbar-expand-lg fixed-top d-none d-lg-block">
     <div class="container">
 
         <a class="navbar-brand" href="{% url 'index' %}">PLAY BOARDGAME</a>
@@ -27,6 +27,11 @@
             {% if user.is_authenticated and not user.is_staff %}
 
             <li class="nav-item me-3 mb-1">
+                <a class="" href="{% url 'cart_list' %}" style="font-size: 1.7rem; color: #F4313F;">
+                    <i class="bi bi-cart-fill"></i></a>
+            </li>
+
+            <li class="nav-item me-3 mb-1">
                 <a class=" btn btn-cus" href="{% url 'Reservation_form' %}">จองที่นั่ง</a>
             </li>
 
@@ -34,9 +39,9 @@
                 <a class=" btn btn-cus2" href="{% url 'profile' %}" style="font-size: 0.91rem;">บัญชีของฉัน</a>
             </li>
             
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right" style="font-size: 1.8rem; color: black;"></i></a>
-            </li>
+            </li> -->
 
            <!-- staff -->
             {% elif user.is_staff %}
@@ -55,7 +60,7 @@
 
                 <li class="nav-item">
                     <a class="" href="{% url 'logout' %}">
-                        <i class="bi bi-box-arrow-right" style="font-size: 1.8rem; color: black;"></i>
+                        <i class="bi bi-box-arrow-right nav-icon" style="font-size: 1.8rem; color: black;"></i>
                     </a>
                 </li>
 
@@ -90,7 +95,10 @@
             <a class="nav-link" href="{% url 'boardgame' %}"><i class="bi bi-controller nav-icon"></i><br>บอร์ดเกม</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="#cart"><i class="bi bi-cart nav-icon"></i><br>ตะกร้าสินค้า</a>
+            <a class="nav-link " href="{% url 'cart_list' %}"><i class="bi bi-cart nav-icon"></i><br>ตะกร้าสินค้า</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="{% url 'Reservation_form' %}"><i class="bi bi-journal-bookmark-fill nav-icon"></i><br>จองที่นั่ง</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'profile' %}"><i class="bi bi-person nav-icon"></i><br>บัญชีของฉัน</a>

@@ -8,7 +8,7 @@
 /* ////////////// Tob navbar ////////////// */
 .navbar-cus{
     background-color: #f3f3f3;
-    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.126);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
     color: #1C252C;
 
 }
@@ -31,14 +31,14 @@
 .btn-cus {
     color: #1C252C;
     border: 1px solid #1C252C;
-    width: 100px;
+    /* width: 100px; */
 
 }
 
 .btn-cus2 {
     color: #ffffff;
    background: #F4313F;
-    width: 100px;
+    /* width: 100px; */
 
 }
 
@@ -248,17 +248,18 @@
 
 }
 
-.boardgamedetail-sec{
+.boardgamedetail-sec, .cartlist-sec{
     padding-top: 6rem;
 
 }
+
+
 
 
 iframe{
     width:80%;
     height:480px;
 }
-
 
 
 
@@ -320,6 +321,60 @@ iframe{
     color: #F4313F;
     border: 2px solid #F4313F;
 }
+
+
+/* ////////////// Payment online styles ////////////// */
+
+
+.pay-sec{
+    padding-top: 7rem;
+    padding-bottom: 5rem;
+
+}
+
+.form-order{
+    border-radius: 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 25px;
+
+
+}
+
+.payment-box {
+    border-radius: 8px;
+    /* border: 1px solid #333; */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    height: 100%;
+}
+.qr-box {
+    border-radius: 8px;
+    border: 1px solid #333;
+    padding: 15px;
+    text-align: center;
+    margin-top: 10px;
+}
+.btn-order {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    width: 100%;
+    margin-top: 20px;
+}
+.order-title {
+    margin-bottom: 20px;
+}
+.file-upload {
+    background-color: white;
+    border-radius: 6px;
+}
+.payment-details {
+    height: 100%;
+}
+
+
 
 
 

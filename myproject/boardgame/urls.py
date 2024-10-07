@@ -41,6 +41,17 @@ urlpatterns = [
     path("boardgame/filter/", views.BoardgameFilterView.as_view(), name="filter"),
 
 
+    # Cart list
+    path("cartlist/", views.CartListView.as_view(), name="cart_list"),
+    path("cartlist/add/<int:game_id>/<int:num>", views.CartAddView.as_view(), name="cart_add"),
+    path("cartlist/del/<int:game_id>/", views.CartDelView.as_view(), name="cart_del"),
+
+    # Payment Online
+    path("paymentOrder/<int:order_id>", views.PayOrderView.as_view(), name="pay_order"),
+
+    
+
+
     # dashboard
     path("dashboard/", views.DashboardView.as_view(), name="dashboard"),
     path("dashboard/boardgame", views.DashboardBoardgameView.as_view(), name="des-boardgame"),

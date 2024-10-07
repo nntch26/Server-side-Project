@@ -1,0 +1,80 @@
+<!-- extends ก่อน ค่อย load -->
+{% extends 'layout.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}ชำระเงิน{% endblock title %}
+
+
+{% block content %}
+
+<div class="container pay-sec mb-5">
+    <div class="row">
+        <h1 class="mb-4"><i class="bi bi-cash-coin me-3"></i>ชำระเงิน</h1>
+
+        <div class="col-md-8 form-order">
+            <form>
+                <div class="order-title">
+                    <h5>ที่อยู่จัดส่ง</h5>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">ชื่อ</label>
+                        <input type="text" class="form-control" placeholder="ชื่อจริง">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">นามสกุล</label>
+                        <input type="text" class="form-control" placeholder="นามสกุล">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">เบอร์โทรศัพท์</label>
+                    <input type="tel" class="form-control" placeholder="เบอร์โทรศัพท์">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">อีเมล์</label>
+                    <input type="email" class="form-control" placeholder="ที่อยู่อีเมล์">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">ที่อยู่</label>
+                    <textarea class="form-control" rows="3" placeholder="ที่อยู่"></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">รายละเอียดบัญชีที่โอน</label>
+                    <div class="file-upload">
+                        <input type="file" class="form-control" id="slip">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">สั่งซื้อ</button>
+            </form>
+        </div>
+
+        <!-- วิธีการชำระเงิน -->
+        <div class="col-md-4">
+            <div class="payment-details">
+                <div class="payment-box">
+                    <h5 class="mb-3">วิธีการชำระเงิน</h5>
+                    <div class="d-flex align-items-center mb-2">
+                        <span>โอนผ่าน Promptpay</span>
+                    </div>
+                    <div class="qr-box">
+                        <p class="mb-2">Scan QR Code ผ่าน<br>app ธนาคาร</p>
+                        <img src="/api/placeholder/200/200" alt="QR Code" class="img-fluid mb-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
