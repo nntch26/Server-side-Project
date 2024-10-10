@@ -37,29 +37,61 @@
         {% for i in reservation %}
         <!-- loop เอาตัวสุดท้าย -->
         {% if forloop.last %}
-        <div class="card-cus-1">
-            <div class="form-group row mb-4">
-                <div class="mb-3 col-12 col-md-12">
-                    <h2>โต๊ะที่ {{i.table_id}}</h2><hr>
+            {% if i.table.status == 'Reserved' %}
+            <div class="card-cus-1">
+                <div class="form-group row mb-4">
+                    <div class="mb-3 col-12 col-md-12">
+                        <h2>โต๊ะที่ {{i.table_id}}</h2><hr>
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>ชื่อ-นามสกุล</strong> {{i.user.first_name}} {{i.user.last_name}}
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>เบอร์โทรศัพท์</strong> {{i.user.userdetail.phone_number}}
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>จำนวนคน</strong> {{i.reservation_cap}}
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>วัน-เวลาที่จอง</strong> {{i.reservation_date}} {{i.reservation_time}}
+                    </div>
                 </div>
-                <div class="mb-3 col-12 col-md-12">
-                    <strong>ชื่อ-นามสกุล</strong> {{i.user.first_name}} {{i.user.last_name}}
-                </div>
-                <div class="mb-3 col-12 col-md-12">
-                    <strong>เบอร์โทรศัพท์</strong> {{i.user.userdetail.phone_number}}
-                </div>
-                <div class="mb-3 col-12 col-md-12">
-                    <strong>จำนวนคน</strong> {{i.reservation_cap}}
-                </div>
-                <div class="mb-3 col-12 col-md-12">
-                    <strong>วัน-เวลาที่จอง</strong> {{i.reservation_date}} {{i.reservation_time}}
+                <div class="butt">
+                    <a href="{% url 'cashier_table' %}" class="btn but-7">ปิด</a>
+                    <a href="{% url 'cashier_reserve' i.table_id %}" class="btn but-3">รับโต๊ะ</a>
                 </div>
             </div>
-            <div class="butt">
-                <a href="{% url 'cashier_table' %}" class="btn but-7">ปิด</a>
-                <a href="{% url 'cashier_reserve' i.table_id %}" class="btn but-3">รับโต๊ะ</a>
+            {% elif i.table.status == 'Occupied' %}
+            <div class="card-cus-1">
+                <div class="form-group row mb-4">
+                    <div class="mb-3 col-12 col-md-12">
+                        <h2>โต๊ะที่ {{i.table_id}}</h2><hr>
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>ชื่อ-นามสกุล</strong> {{i.user.first_name}} {{i.user.last_name}}
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>เบอร์โทรศัพท์</strong> {{i.user.userdetail.phone_number}}
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>จำนวนคน</strong> {{i.reservation_cap}}
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>วัน-เวลาที่จอง</strong> {{i.reservation_date}} {{i.reservation_time}}
+                    </div>
+                    <div class="mb-3 col-12 col-md-12" style="color: red;">
+                        <strong>เวลาที่เริ่มเล่น</strong> {{i.table.playsession.start_time}}
+                    </div>
+                </div>
+                <div class="butt">
+                    <a href="{% url 'cashier_table' %}" class="btn but-7">ปิด</a>
+                    <form action="{% url 'cashier_bill' i.table.id %}" method="POST" class="btn but-8">
+                        {% csrf_token %}
+                        <button type="submit" style="border: none; background: none; width: 100%;">เช็คบิล</button>
+                    </form>
+                </div>
             </div>
-        </div>
+            {% endif %}
         {% endif %}
         {% endfor %}
     </div>

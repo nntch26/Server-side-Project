@@ -32,13 +32,13 @@
 <div class="big">
     <div class="right">
         <div class="box-2">
-            <h1 class="mid">ชำระเงิน โต๊ะที่ {{reservation.id}}</h1>
+            <h1 class="mid">ชำระเงิน โต๊ะที่ {{reservation.table.id}}</h1>
             <hr style="width: 100%;">
             <div class="card-cus-2">
                 <div class="mid">
                     <p><strong>จำนวนลูกค้า:</strong> {{reservation.reservation_cap}} ท่าน</p>
-                    <p><strong>เวลาเริ่มต้น:</strong></p>
-                    <p><strong>เวลาเล่นจบ:</strong></p>
+                    <p><strong>เวลาเริ่มต้น:</strong> {{playsession.start_time}}</p>
+                    <p><strong>เวลาเล่นจบ:</strong> {{playsession.end_time}}</p>
                 </div>
                 <hr>
                 <div class="games">
@@ -58,7 +58,7 @@
             <div class="card-cus-3">
                 <div class="butt">
                     <a href="{% url 'cashier_table' %}" class="btn but-7">กลับ</a>
-                    <a href="" class="btn but-8">เช็คบิล</a>
+                    <a href="" class="btn but-8">เช็คบิล</a>  
                 </div>
             </div>
             

@@ -51,7 +51,7 @@
                         </div>
                         <p><strong>{{ i.status }}</strong></p>
                     </div><br>
-                    <p><strong>จำนวนคน {{ i.table_cap }}</strong></p>
+                    <p><strong>จำนวนคนที่รองรับได้: {{ i.table_cap }}</strong></p>
                     <a href="{% url 'cashier_serve_table' i.id %}" class="btn but-3">รับโต๊ะ</a>
 
 
@@ -62,7 +62,7 @@
                         </div>
                         <p><strong>{{ i.status }}</strong></p>
                     </div><br>
-                    <p><strong>จำนวนคน {{ i.table_cap }}</strong></p>
+                    <p><strong>จำนวนคนที่รองรับได้: {{ i.table_cap }}</strong></p>
                     <div class="butt">
                         <a href="{% url 'cashier_detail' i.id %}" class="btn but-3" >รายละเอียด</a>
                         <a href="{% url 'cashier_serve' i.id %}" class="btn but-7">ยกเลิก</a>
@@ -76,10 +76,13 @@
                         </div>
                         <p><strong>{{ i.status }}</strong></p>
                     </div><br>
-                    <p><strong>จำนวนคน {{ i.table_cap }}</strong></p>
+                    <p><strong>จำนวนคนที่รองรับได้: {{ i.table_cap }}</strong></p>
                     <div class="butt">
-                        <a href="" class="btn but-3">รายละเอียด</a>
-                        <a href="{% url 'cashier_bill' i.id %}" class="btn but-8">เช็คบิล</a>
+                        <a href="{% url 'cashier_detail' i.id %}" class="btn but-3">รายละเอียด</a>
+                        <form action="{% url 'cashier_bill' i.id %}" method="POST" class="btn but-8">
+                            {% csrf_token %}
+                            <button type="submit" style="border: none; background: none; width: 100%;">เช็คบิล</button>
+                        </form>
                     </div>
                 {% endif %}
             </div>

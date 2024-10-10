@@ -282,8 +282,6 @@ class PlaySessionForm(forms.ModelForm):
             'table',
             'user',
             'num_players',
-            'start_time',
-            'end_time',
             'phone_number',
             'price_per_player',
             'total_hours',
