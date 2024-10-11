@@ -103,9 +103,15 @@ class CashierBillView(View):
         return render(request, 'cashier/bill.html', pack)
     
     def post(self, request, table_id):
-        playsession = PlaySession.objects.filter(table_id=table_id, end_time__isnull=True).order_by('start_time').last()
+        reservation = Reservation.objects.filter(table_id=table_id).order_by('created_at').last()
+        playsession = PlaySession.objects.filter(table_id=table_id, end_time__isnull=True).order_by('start_time').last() # โต๊ะนั้นจาก playsession ที่ยังไม่ได้มี end_time 
         if playsession:
             playsession.end_time = timezone.now()  # บันทึกเวลาตอนนี้เป็น end_time
+            total_hours = int((playsession.end_time - playsession.start_time).total_seconds() / 3600 + 1) # แปลงเป็นชั่วโมง + 1 เพราะคิดขั้นต่ำเป็น 1 ชั่วโมง
+            total_cost = int(reservation.reservation_cap * 30 * total_hours) # ทำเป็นจำนวนเต็ม
+            
+            playsession.total_hours = total_hours
+            playsession.total_cost = total_cost
             playsession.save()
         return redirect('cashier_bill', table_id=table_id)
     
@@ -156,14 +162,7 @@ class CashierServeView(LoginRequiredMixin, View):
         if table.status == 'Reserved':
                 table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะจากจองเป็นว่าง
                 table.save()
-        # if form.is_valid():
-        #     if table.status == 'Reserved':
-        #         table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะ
-        #         table.save()
-        #     elif table.status == 'Available':
-        #         table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะ
-        #         table.save()
- 
+
         return redirect('cashier_table')
     
 # พนักงานกดรับโต๊ะ จากตอนแรกจองพอกดด้านในเปลี่ยนเป็นไม่ว่าง
@@ -175,9 +174,6 @@ class CashierReServeView(View):
                 table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะจากจองเป็นไม่ว่าง
                 table.save()
 
-                # end_time = timezone.now() + timedelta(hours=2)  # สมมติว่าเล่น 2 ชั่วโมง
-                # total_hours = 2  # สมมติใช้เวลาเล่น 2 ชั่วโมง
-                # total_cost = reservation.reservation_cap * 30 * total_hours
                 play = PlaySession.objects.create(
                     table=table,
                     user=reservation.user,
@@ -194,7 +190,8 @@ class CashierReServeView(View):
 class CashierDetailView(View):
     def get(self, request, table_id):
         reservation = Reservation.objects.filter(table_id=table_id) # filter table_id ของ reserve = table_id ที่ส่งมา
-        pack = {'reservation': reservation}
+        playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
+        pack = {'reservation': reservation, 'playsession': playsession}
         return render(request, 'cashier/table-detail.html', pack)
 
 # โชว์ฟอร์มรับโต๊ะ
@@ -209,16 +206,22 @@ class PlaySessionView(View):
         table = Table.objects.get(id=table_id)
         form = PlaySessionForm(request.POST)
         if form.is_valid():
+            print('1')
             play = PlaySession.objects.create(
                     table=table,
-                    user=request.user,
-                    num_players=form,
+                    user=6,
+                    num_players=1,
                     start_time=timezone.now(),
                 )
             table.status == 'Available'
             table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะ
             table.save()
         return redirect('cashier_table')
+    
+class PaymentsView(View):
+    def get(self, request, table_id):
+        playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
+        return render(request, 'cashier/payments.html', {'playsession': playsession})
     
 
 

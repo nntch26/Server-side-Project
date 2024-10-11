@@ -2,7 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block title %}รับโต๊ะ{% endblock title %}
+{% block title %}payments{% endblock title %}
 
 
 {% block navbar %}
@@ -33,27 +33,36 @@
 <div class="big">
     <div class="right">
         <div class="box-2">
-            <h1 class="mid">จัดการรับโต๊ะที่ {{table.id}}</h1>
+            <h1 class="mid">ชำระเงิน โต๊ะที่ {{playsession.table.id}}</h1>
             <hr style="width: 100%;">
-            <div class="card-cus-1">
-                <form action="{% url 'cashier_serve_table' table.id %}" method="post">
+            <div class="card-cus-2">
+                <div class="mid">
+                    <p><strong>รวมราคาทั้งสิ้น:</strong> {{playsession.total_cost}} บาท</p>
+                </div>
+                <form action="" method="POST">
                     {% csrf_token %}
-                    <div class="form-group row mb-4">
-                        <div class="mb-3 col-12 col-md-12">
-                            {{form.num_players|as_crispy_field}}
-                        </div>
-                        <div class="mb-3 col-12 col-md-12">
-                            {{form.phone_number|as_crispy_field}}
-                        </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        {{form}}
+                        <button type="submit" style="border: none; background: none; width: 100%;">ใช้คะแนน</button>
                     </div>
-                    <div class="butt">
-                        <a href="{% url 'cashier_table' %}" class="btn but-7">กลับ</a>
-                        <button href="{% url 'cashier_serve_table' table.id %}" class="btn but-3">รับโต๊ะ</button>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>รับเงินมา (บาท)</strong> {{form}}
                     </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>ถอน (บาท)</strong> {{form}}
+                    </div>
+                    <button type="submit" style="border: none; background: none; width: 100%;">เช็คบิล</button>
                 </form>
-                
             </div>
+            <div class="card-cus-3">
+                <div class="butt">
+                    <a href="{% url 'cashier_bill' playsession.table.id %}" class="btn but-7">ยกเลิก</a>
+                    <a href="" class="btn but-8">เช็คบิล</a>
+                </div>
+            </div>
+            
         </div>
+
     </div>
 </div>
 {% endblock content %}

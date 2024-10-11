@@ -19,6 +19,7 @@ urlpatterns = [
     path("cashier/Reserve/<int:table_id>", views.CashierReServeView.as_view(), name="cashier_reserve"),
     path("cashier/detail/<int:table_id>", views.CashierDetailView.as_view(), name="cashier_detail"),
     path("cashier/serve/table/<int:table_id>", views.PlaySessionView.as_view(), name="cashier_serve_table"),
+    path("cashier/payments/<int:table_id>", views.PaymentsView.as_view(), name="cashier_payments"),
 
     # profile
     path("profile/", views.ProfileView.as_view(), name="profile"),

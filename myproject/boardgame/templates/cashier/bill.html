@@ -47,18 +47,18 @@
                 </div>
                 <!-- แสดงรายการทั้งหมด -->
                 <div class="games">
-                    <div>boardgames</div>
-                    <div>60</div>
+                    <div>boardgames x {{reservation.reservation_cap}}</div>
+                    <div>{{playsession.total_cost}}</div>
                 </div><hr>
                 <div class="games">
                     <div><strong>รวม</strong></div>
-                    <div>60</div>
+                    <div>{{playsession.total_cost}}</div>
                 </div>
             </div>
             <div class="card-cus-3">
                 <div class="butt">
-                    <a href="{% url 'cashier_table' %}" class="btn but-7">กลับ</a>
-                    <a href="" class="btn but-8">เช็คบิล</a>  
+                    <a href="{% url 'cashier_detail' reservation.table.id %}" class="btn but-7">กลับ</a>
+                    <a href="{% url 'cashier_payments' reservation.table.id %}" class="btn but-8">เช็คบิล</a>
                 </div>
             </div>
             
