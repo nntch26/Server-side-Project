@@ -114,7 +114,7 @@ class CashierListView(LoginRequiredMixin,PermissionRequiredMixin, View):
     permission_required = ["boardgame.view_reservation"]
 
     def get(self, request):
-        reserv = Reservation.objects.all()
+        reserv = Reservation.objects.filter(status='Pending')
         pack = {'reserv': reserv}
         return render(request, 'cashier/cashier-confirm.html', pack)
 
@@ -222,7 +222,7 @@ class PaymentsView(View):
         playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
         return render(request, 'cashier/payments.html', {'playsession': playsession})
     
-    
+
 
 
 

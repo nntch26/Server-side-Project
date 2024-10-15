@@ -694,6 +694,9 @@ input{
 .but-1, .but-2{
     margin: 5px;
 }
+.but-2{
+    background: #ff2d46;
+}
 .but-1, .but-3{
     background: #0077ff;
 }

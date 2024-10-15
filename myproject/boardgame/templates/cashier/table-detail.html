@@ -1,30 +1,9 @@
-{% extends 'admin/layout_admin.html' %} 
+{% extends 'cashier/layout_cashier.html' %} 
 {% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}รายละเอียด{% endblock title %}
 
-
-{% block navbar %}
-<div class="sidebar bg-dark pe-2">
-    <h2 class="text-center title-admin mb-4" style="color: aliceblue;">แคชเชียร์</h2>
-
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link active" href="{% url 'cashier_table' %}">จัดการโต๊ะ</a>
-        </li>
-        <li class="nav-item"></li>
-            <a class="nav-link" href="{% url 'cashier_list' %}">จัดการการจองโต๊ะ</a>
-        </li>
-
-        <hr  style="color: rgb(255, 255, 255); width: 80%; border-width: 3px ; margin: 20px auto;">
-
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a>
-        </li>
-    </ul>
-</div>
-{% endblock navbar %}
 
 {% block content %}
 <div class="big">

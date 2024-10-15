@@ -1,29 +1,8 @@
-{% extends 'admin/layout_admin.html' %} 
+{% extends 'cashier/layout_cashier.html' %} 
 {% load static %}
 
 {% block title %}แคชเชียร์{% endblock title %}
 
-
-{% block navbar %}
-<div class="sidebar bg-dark pe-2">
-    <h2 class="text-center title-admin mb-4" style="color: aliceblue;">แคชเชียร์</h2>
-
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link active" href="{% url 'cashier_table' %}">จัดการโต๊ะ</a>
-        </li>
-        <li class="nav-item"></li>
-            <a class="nav-link" href="{% url 'cashier_list' %}">จัดการการจองโต๊ะ</a>
-        </li>
-
-        <hr  style="color: rgb(255, 255, 255); width: 80%; border-width: 3px ; margin: 20px auto;">
-
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a>
-        </li>
-    </ul>
-</div>
-{% endblock navbar %}
 
 {% block content %}
 <div class="big">
@@ -32,18 +11,16 @@
         <hr>
         {% for i in reserv %}
             <!-- ถ้าอยู่ในสถานะนี้ให้แสดงข้อมูล -->
-            {% if i.status == 'Pending' %}
-                <div class="item-1">
-                    <div><strong>ชื่อ-นามสกุล</strong> {{i.user.first_name}} {{i.user.last_name}}</div>
-                    <div><mark> โต๊ะ {{i.table_id}} จำนวนคน {{i.reservation_cap}}</mark></div>
-                    <div><strong>เบอร์โทรศัพท์</strong> {{i.user.userdetail.phone_number}}</div>
-                    <div><strong>วัน-เวลาที่จอง</strong> {{i.reservation_date}} : {{i.reservation_time}}</div>
-                    <div class="item-2">
-                        <a href="{% url 'cashier_confirm' i.id %}" class="btn but-1">ยืนยัน</a>
-                        <a href="{% url 'cashier_cancel' i.id %}" class="btn but-2">ยกเลิก</a>
-                    </div>
+            <div class="item-1">
+                <div><strong>ชื่อ-นามสกุล</strong> {{i.user.first_name}} {{i.user.last_name}}</div>
+                <div><mark> โต๊ะ {{i.table_id}} จำนวนคน {{i.reservation_cap}}</mark></div>
+                <div><strong>เบอร์โทรศัพท์</strong> {{i.user.userdetail.phone_number}}</div>
+                <div><strong>วัน-เวลาที่จอง</strong> {{i.reservation_date}} : {{i.reservation_time}}</div>
+                <div class="item-2">
+                    <a href="{% url 'cashier_confirm' i.id %}" class="btn but-1">ยืนยัน</a>
+                    <a href="{% url 'cashier_cancel' i.id %}" class="btn but-2">ยกเลิก</a>
                 </div>
-            {% endif %}
+            </div>
         {% endfor %}
     </div>
 </div>
