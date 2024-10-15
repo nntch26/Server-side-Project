@@ -261,19 +261,19 @@ class LoginView(View):
             user_groups = user.groups.all()
             for group in user_groups:
                 print(group.name)  
+                
+                # ผู้ใช้ตรงกับ group ไหน เด้งไปหน้านั้น
+                if group.name == "customer":
+                    login(request, user)
+                    return redirect('index')
+                
+                elif group.name == "staff":
+                    login(request, user)
+                    return redirect('cashier_table')
 
-            # ผู้ใช้ตรงกับ group ไหน เด้งไปหน้านั้น
-            if group.name == "customer":
-                login(request, user)
-                return redirect('index')
-            
-            elif group.name == "staff":
-                login(request, user)
-                return redirect('cashier_table')
-
-            elif group.name == "manager":
-                login(request, user)
-                return redirect('dashboard')
+                elif group.name == "manager":
+                    login(request, user)
+                    return redirect('dashboard')
             
         return render(request, self.template_name, {"form":form})
     
@@ -431,7 +431,12 @@ class DashboardView(LoginRequiredMixin, View):
 
     def get(self, request):
         boardgame_list = BoardGames.objects.all().count()
-        member_list = User.objects.exclude(username='admin').count()
+        member_list = User.objects.exclude(
+            Q(username__startswith='admin') | 
+            Q(username__startswith='staff') | 
+            Q(username__startswith='manager')
+        ).count()
+        # ไม่เอา admin staff manager
         reservation_list = Reservation.objects.all()
         table_list = Table.objects.all().count()
 

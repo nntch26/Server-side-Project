@@ -32,7 +32,97 @@
 <body>
 
     {% block navbar %}
-        {% include 'navbar.html' %}
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-cus navbar-expand-lg fixed-top d-none d-lg-block">
+        <div class="container">
+
+            <a class="navbar-brand" href="{% url 'index' %}">PLAY BOARDGAME</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav ms-auto  mb-lg-0 ">
+                <li class="nav-item me-3">
+                    <a class="nav-link" aria-current="page" href="{% url 'index' %}">หน้าแรก</a>
+                </li>
+
+                <li class="nav-item me-3 mb-1">
+                    <a class="nav-link" href="{% url 'boardgame' %}">บอร์ดเกม</a>
+                </li>
+
+
+                <!-- ผู้ใช้ล็อกอินแล้วและไม่ใช่ staff -->
+                {% if user.is_authenticated and not user.is_staff %}
+
+                <li class="nav-item me-3 mb-1">
+                    <a class=" btn btn-cus" href="{% url 'Reservation_form' %}">จองที่นั่ง</a>
+                </li>
+
+                <li class="nav-item me-3 mb-2">
+                    <a class=" btn btn-cus2" href="{% url 'profile' %}" style="font-size: 0.91rem;">บัญชีของฉัน</a>
+                </li>
+                
+
+            <!-- staff -->
+                {% elif user.is_staff %}
+    
+                    <li class="nav-item me-1">
+                        <a class="btn btn-cus2" href="{% url 'cashier_table' %}">
+                            <i class="bi bi-clipboard-data me-1"></i>Cashier
+                        </a>
+                    </li>
+
+                    <li class="nav-item me-3">
+                        <a class="btn btn-cus3" href="{% url 'dashboard' %}">
+                            <i class="bi bi-speedometer"></i> Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="" href="{% url 'logout' %}">
+                            <i class="bi bi-box-arrow-right nav-icon" style="font-size: 1.8rem; color: black;"></i>
+                        </a>
+                    </li>
+
+                
+                <!-- ผู้ใช้ยังไม่ล็อกอิน -->
+                {% else %}
+                    <li class="nav-item me-3 mb-1">
+                        <a class=" btn btn-cus" href="{% url 'Reservation_form' %}">จองที่นั่ง</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class=" btn btn-cus2" href="{% url 'login' %}">เข้าสู่ระบบ</a>
+                    </li>
+
+                {% endif %}
+            </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bottom Navbar -->
+    <nav class="navbar navbar-expand navbar-bottom d-lg-none">
+        <ul class="navbar-nav mx-auto w-100 d-flex justify-content-between">
+
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'index' %}"><i class="bi bi-house-door nav-icon"></i><br>หน้าแรก</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'boardgame' %}"><i class="bi bi-controller nav-icon"></i><br>บอร์ดเกม</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="{% url 'Reservation_form' %}"><i class="bi bi-journal-bookmark-fill nav-icon"></i><br>จองที่นั่ง</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}"><i class="bi bi-person nav-icon"></i><br>บัญชีของฉัน</a>
+            </li>
+        </ul>
+    </nav>
     {% endblock navbar%}
 
 
