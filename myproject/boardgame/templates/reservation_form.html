@@ -16,17 +16,28 @@ body{
 
 
 {% block navbar %}
+    <div class="container mt-3 d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <i class="bi bi-arrow-left-square ms-2"></i> 
+            <span> ย้อนกลับ</span>
+        </a>
 
+        <button type="submit" name="submit_booking_insert" class="btn btn-cus2" data-bs-toggle="modal" data-bs-target="#bookingHistoryModal">
+            ประวัติการจอง
+        </button>
+    </div>
 {% endblock navbar%}
 
 
 {% block content %}
+
+
     <div class="section booking-sec">
-        <div class="container">
+        <div class="container booktable">
     
             <div class="section-title mt-5 text-center">
                 <h1>สำหรับจองโต๊ะหน้าร้าน</h1>
-                <p style="color: crimson;">สำหรับการจองโต๊ะในร้านสามารถกำหนดเวลาการจองได้ไม่เกิน 1 วัน <br>
+                <p style="color: crimson;">สามารถกำหนดเวลาการจองได้ไม่เกิน 1 วัน <br>
                 เวลาเปิดปิดร้าน 10.00 น. - 23.00 น.</p>
             </div>
 
@@ -77,19 +88,68 @@ body{
                                 </div>
                             </div>
     
-                            <div class="btn-footer mb-5">
+                            <div class="btn-footer mb-3">
                                 <a href="{% url 'index' %}"  class="btn btn-secondary me-2">ยกเลิก</a>
                                 <button type="submit" name="submit_booking_insert" class="btn btn-cus2">บันทึก</button>
 
                             </div>
     
                         </form>
+                        
                     </div>
                 </div>
             </div>
-    
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="bookingHistoryModal" tabindex="-1" aria-labelledby="bookingHistoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="bookingHistoryModalLabel">ประวัติการจอง</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" style="width:100%; text-align: left;">
+                        <thead>
+                            <tr>
+                            <th>จองเมื่อ</th>
+                            <th>วันที่จอง</th>
+                            <th>เวลา</th>
+                            <th>โต๊ะ</th>
+                            <th>จำนวนคน</th>
+                            <th>สถานะ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            {% if reservation_table %}
+                            {% for r in reservation_table %}
+                            <tr>
+                                <td style="white-space: nowrap;">{{ r.created_at }}</td>
+                                <td style="white-space: nowrap;">{{ r.reservation_date }}</td>
+                                <td style="white-space: nowrap;">{{ r.reservation_time }}</td>
+                                <td>{{ r.table.id  }}</td>
+                                <td>{{ r.reservation_cap  }}</td>
+                                <td>{{ r.status  }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+        </div>
+    </div>
+
+
+  
+
 {% endblock content %}
 
 
