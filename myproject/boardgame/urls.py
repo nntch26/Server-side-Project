@@ -1,8 +1,7 @@
 
 from django.urls import path
 from . import views
-from django.conf import settings
-from django.conf.urls.static import static
+
 
 urlpatterns = [
     path("", views.indexView.as_view(), name="index"),
@@ -61,4 +60,4 @@ urlpatterns = [
     path("dashboard/categories/delete/<int:cate_id>/", views.DashboardCategoriesDelView.as_view(), name="des-categories-del"),
     path("dashboard/categories/edit/<int:cate_id>/", views.DashboardCategoriesEditView.as_view(), name="des-categories-edit"),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
