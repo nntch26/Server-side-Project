@@ -119,17 +119,13 @@
 
             <!-- ผู้ใช้ล็อกอินแล้วและไม่ใช่ staff -->
             {% if user.is_authenticated and not user.is_staff %}
-                <!-- แสดงเฉพาะตอนที่ลูกค้าคนนั้น สถานะกำลังเล่นบอร์ดเกม is_paid = False -->
-                {% for play_session in user.playsession_set.all %}
-                    {% if play_session.is_paid == False %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'playing' %}">
-                                <i class="bi bi-receipt-cutoff nav-icon"></i><br>กำลังเล่น
-                            </a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
                 
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'playing' %}">
+                        <i class="bi bi-receipt-cutoff nav-icon"></i><br>กำลังเล่น
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link " href="{% url 'Reservation_form' %}">
                         <i class="bi bi-journal-bookmark-fill nav-icon"></i><br>จองที่นั่ง

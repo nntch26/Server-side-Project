@@ -697,13 +697,14 @@ class PlayingView(LoginRequiredMixin, View):
         form = BoardGamesForm()
         user = request.user
         print(user)
-        user_playsession = PlaySession.objects.get(user=request.user).order_by('-created_at').first() 
+        user_playsessions = PlaySession.objects.filter(user=user).order_by('-created_at').first() 
+
         # ดึงข้อมูลใบเสร็จ การเล่นบอร์ดเกมของลุกค้าคนนั้น ล่าสุด
-        print(user_playsession)
+        print(user_playsessions) # ได้ออกมา 1 obj
 
 
         context = {
             "form":form,
-            "user_playsession":user_playsession
+            "user_playsession":user_playsessions
         }
         return render(request, 'playing.html', context)

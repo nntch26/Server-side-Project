@@ -22,31 +22,38 @@
 {% block content %}
 
     <div class="container mt-5">
-        <div class="receipt p-4">
-            <div class="text-center">
-                <i class="bi bi-controller "  style="font-size: 4rem; color: black;"></i>
-                <h1 class="card-title text-center mb-2">PLAY BOARDGAME</h1>
-                <h3 class="text-center mb-4">โต๊ะ {{ user_playsession.table.id }} </h3>
-            </div>
-            <div class="mb-3">
-                <h5 class="mb-1"><strong>จำนวนลูกค้า:</strong> {{ user_playsession.num_players }} ท่าน </h5>
-            </div>
-            <div class="mb-3">
-                <h5 class="mb-1"><strong>วันที่:</strong> {{ user_playsession.created_at|date:"d/m/Y" }} </h5>
-            </div>
-            <div class="card mb-3">
-                <div class="card-body text-center">
-                    <h1 class="mb-1">เริ่มเวลา</h1>
-                    <div id="timer" class="timer">{{ user_playsession.start_time|time:"H:i" }}</div>
+        {% if user_playsession %}
+            <div class="receipt p-4">
+                <div class="text-center">
+                    <i class="bi bi-controller" style="font-size: 4rem; color: black;"></i>
+                    <h1 class="card-title text-center mb-2">PLAY BOARDGAME</h1>
+                    <h3 class="text-center mb-4">โต๊ะ {{ user_playsession.table.id }} </h3>
+                </div>
+                <div class="mb-3">
+                    <h5 class="mb-1"><strong>จำนวนลูกค้า:</strong> {{ user_playsession.num_players }} ท่าน </h5>
+                </div>
+                <div class="mb-3">
+                    <h5 class="mb-1"><strong>วันที่:</strong> {{ user_playsession.created_at|date:"d/m/Y" }} </h5>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-body text-center">
+                        <h1 class="mb-1">เริ่มเวลา</h1>
+                        <div id="timer" class="timer">{{ user_playsession.start_time|time:"H:i" }}</div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p>ค้นหาเกมแนะนำ</p>
+                    <button type="submit" class="btn btn-cusdetail" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="bi bi-controller me-2"></i>ค้นหาเกมแนะนำ
+                    </button>
                 </div>
             </div>
-            <div class="text-center">
-                <p>ค้นหาเกมแนะนำ</p>
-                <button type="submit" class="btn btn-cusdetail"  data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="bi bi-controller me-2"></i></i>ค้นหาเกมแนะนำ
-                </button>
+        {% else %}
+            <div class="col-12 text-center">
+                <h3>ไม่มีสถานะกำลังเล่นบอร์ดเกม</h3>
             </div>
-        </div>
+        {% endif %}
+
     </div>
 
 
