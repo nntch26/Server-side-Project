@@ -230,7 +230,6 @@ class PaymentsView(View):
         return render(request, 'cashier/payments.html', {'playsession': playsession})
     
     
-    
 
 
 
@@ -413,36 +412,8 @@ class BoardgameDetailView(View):
         return render(request, self.template_name, context)
 
 
-# //////////////////// Cart list ////////////////////
-
-class CartListView(View):
-     
-    template_name = "cart_list.html"
-     
-    def get(self, request):
-
-        return render(request, self.template_name)
-
-class CartAddView(View):
 
 
-    def get(self, request, game_id):
-        pass
-
-
-
-class CartDelView(View):
-    pass
-
-
-
-
-class PayOrderView(View):
-    template_name = "payment_online.html"
-     
-    def get(self, request, order_id):
-
-        return render(request, self.template_name)
 
 # //////////////////// Dashboard ////////////////////
 # manager2 mg2@1234
