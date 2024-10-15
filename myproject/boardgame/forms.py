@@ -271,7 +271,7 @@ class ProfileEditForm(forms.ModelForm):
             raise ValidationError("Email Already Exist")
         return email
     
-    
+
     def clean_birth_date(self):
         birth_date = self.cleaned_data.get("birth_date") # เป็นoptional
 
@@ -289,15 +289,17 @@ class PlaySessionForm(forms.ModelForm):
             'user',
             'num_players',
             'phone_number',
-            'price_per_player',
-            'total_hours',
-            'total_cost',
-            'is_paid',
         ]
-    
+
     def clean_phone_number(self):
         phone_number = self.cleaned_data["phone_number"]
         data = UserDetail.objects.filter(phone_number= phone_number)
         if data.count()==0:  # ถ้าไม่มีเบอร์ในฐานข้อมูล
-            raise ValidationError("Phone number does not exist")  
+            raise ValidationError("ไม่มีเบอร์โทรศัพท์สมาชิกหมายเลขนี้")  
         return phone_number
+    
+    def clean_num_players(self):
+        num_players = self.cleaned_data.get("num_players")
+        if num_players <= 0:
+            raise ValidationError("กรุณาเพิ่มจำนวนคนที่มาให้ถูกต้อง")
+        return num_players

@@ -160,8 +160,8 @@ class CashierServeView(LoginRequiredMixin, View):
     def get(self, request, table_id):
         table = Table.objects.get(id=table_id)
         if table.status == 'Reserved':
-                table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะจากจองเป็นว่าง
-                table.save()
+            table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะจากจองเป็นว่าง
+            table.save()
 
         return redirect('cashier_table')
     
@@ -171,17 +171,17 @@ class CashierReServeView(View):
         table = Table.objects.get(id=table_id)
         reservation = Reservation.objects.filter(table_id=table_id).order_by('created_at').last()
         if table.status == 'Reserved':
-                table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะจากจองเป็นไม่ว่าง
-                table.save()
+            table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะจากจองเป็นไม่ว่าง
+            table.save()
 
-                play = PlaySession.objects.create(
-                    table=table,
-                    user=reservation.user,
-                    num_players=reservation.reservation_cap,
-                    start_time=timezone.now(),
-                )
-                playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
-                return redirect('cashier_detail', table_id=table_id)
+            play = PlaySession.objects.create(
+                table=table,
+                user=reservation.user,
+                num_players=reservation.reservation_cap,
+                start_time=timezone.now(),
+            )
+            playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
+            return redirect('cashier_detail', table_id=table_id)
         return render(request, 'cashier/cashier-table.html', {'playsession': playsession})
     
 
@@ -205,23 +205,33 @@ class PlaySessionView(View):
     def post(self, request, table_id):
         table = Table.objects.get(id=table_id)
         form = PlaySessionForm(request.POST)
+
         if form.is_valid():
             print('1')
-            play = PlaySession.objects.create(
-                    table=table,
-                    user=6,
-                    num_players=1,
-                    start_time=timezone.now(),
-                )
-            table.status == 'Available'
+            phone_number = form.cleaned_data["phone_number"]
+            data = UserDetail.objects.get(phone_number= phone_number).user
+
+            
+            playsession.table = table
+            playsession.user = data
+            playsession = form.save()
+
             table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะ
             table.save()
-        return redirect('cashier_table')
+            messages.success(request, 'ทำการรับโต๊ะเรียบร้อยแล้ว')
+            return redirect('cashier_detail', table_id=table_id)
+        else:
+            print(form.errors)
+        return render(request, 'cashier/cashier-serve.html', {'form': form, 'table': table})
+        
     
 class PaymentsView(View):
     def get(self, request, table_id):
         playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
         return render(request, 'cashier/payments.html', {'playsession': playsession})
+    
+
+# 
     
 
 

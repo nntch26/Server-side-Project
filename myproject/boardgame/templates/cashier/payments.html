@@ -37,21 +37,33 @@
             <hr style="width: 100%;">
             <div class="card-cus-2">
                 <div class="mid">
-                    <p><strong>รวมราคาทั้งสิ้น:</strong> {{playsession.total_cost}} บาท</p>
+                    <p><strong>รวมราคาทั้งสิ้น:</strong> {{playsession.total_cost}} <strong>บาท</strong></p>
                 </div>
-                <form action="" method="POST">
+                <form action="{% url 'cashier_check_bill' playsession.table.id %}" method="POST">
                     {% csrf_token %}
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>รับเงินมา (บาท)</strong> <input type="text" id="pay">
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>เงินทอน (บาท)</strong> <input type="text" id="with" value="{{ default }}" disabled>
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong style="color: red;">สมาชิก</strong>
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>เบอร์โทรศัพท์: </strong>{{playsession.user.userdetail.phone_number}}
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>ชื่อ-นามสกุล: </strong>{{playsession.user.first_name}} {{playsession.user.last_name}}
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <strong>points: </strong> {{playsession.user.userdetail.points}}
+                    </div>
                     <div class="mb-3 col-12 col-md-12">
                         {{form}}
                         <button type="submit" style="border: none; background: none; width: 100%;">ใช้คะแนน</button>
                     </div>
-                    <div class="mb-3 col-12 col-md-12">
-                        <strong>รับเงินมา (บาท)</strong> {{form}}
-                    </div>
-                    <div class="mb-3 col-12 col-md-12">
-                        <strong>ถอน (บาท)</strong> {{form}}
-                    </div>
-                    <button type="submit" style="border: none; background: none; width: 100%;">เช็คบิล</button>
+                    <button type="submit" class="btn but-8" style="width: 100%;">เช็คบิล</button>
                 </form>
             </div>
             <div class="card-cus-3">
