@@ -22,45 +22,45 @@
 {% block content %}
     <div class="container-1">
         <div class="intro2">
-            <h1>Profile</h1>
+            <h1>โปรไฟล์ บัตรสมาชิก</h1>
         </div>
         <div class="space-form">
             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" class="profile-pic">
             <div class="group">
                 <div class="info-box-1">
-                    <label for="username"><strong>Username:</strong> {{user.username}}</label>
+                    <label for="username"><strong>ชื่อผู้ใช้:</strong> {{user.username}}</label>
                 </div>
                 <div class="info-box-1">
-                    <label for="phone"><strong>Phone number:</strong> {{user.userdetail.phone_number}}</label>
+                    <label for="phone"><strong>หมายเลขโทรศัพท์:</strong> {{user.userdetail.phone_number}}</label>
                 </div>
             </div>
             <div class="group">
                 <div class="info-box-1">
-                    <label for="firstname"><strong>First Name:</strong> {{user.first_name}}</label>
+                    <label for="firstname"><strong>ชื่อ:</strong> {{user.first_name}}</label>
                 </div>
                 <div class="info-box-1">
-                    <label for="lastname"><strong>Last Name:</strong> {{user.last_name}}</label>
+                    <label for="lastname"><strong>นามสกุล:</strong> {{user.last_name}}</label>
                 </div>
             </div>
             <div class="group">
                 <div class="info-box-1">
-                    <label for="gender"><strong>Gender:</strong> {{user.userdetail.gender}}</label>
+                    <label for="gender"><strong>เพศ:</strong> {{user.userdetail.gender}}</label>
                 </div>
                 <div class="info-box-1">
-                    <label for="birthdate"><strong>Birth Date:</strong> {{user.userdetail.birth_date}}</label>
+                    <label for="birthdate"><strong>วันเกิด:</strong> {{user.userdetail.birth_date}}</label>
                 </div>
             </div>
             <div class="info-box-1">
-                <label for="email"><strong>Email address:</strong> {{user.email}}</label>
+                <label for="email"><strong>ที่อยู่อีเมล:</strong> {{user.email}}</label>
             </div>
             <div class="info-box-1">
-                <label for="password"><strong>Password: </strong>*********</label>
+                <label for="password"><strong>รหัสผ่าน: </strong>*********</label>
             </div>
-            <div class="info-box-1">
-                <label for="points"><strong>Points: </strong>{{user.userdetail.points}}</label>
+            <div class="info-box-1 mt-3">
+                <label for="points"><strong>คะแนนแต้มสะสม: </strong>{{user.userdetail.points}}</label>
             </div>
             <div class="info-box2-2 mt-3">
-                <a href="{% url 'profile_edit' %}" class="btn btn-cus2" style="width: 100%;">edit</a></button>
+                <a href="{% url 'profile_edit' %}" class="btn btn-cus2" style="width: 100%;">แก้ไขโปรไฟล์</a></button>
             </div>
             <div class="info-box2-2 mt-3">
                 <a href="{% url 'logout' %}" class="btn btn-cus3" style="width: 100%;">ออกจากระบบ</a></button>

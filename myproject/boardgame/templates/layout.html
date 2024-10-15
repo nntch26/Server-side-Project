@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +63,7 @@
                 </li>
 
                 <li class="nav-item me-3 mb-2">
-                    <a class=" btn btn-cus2" href="{% url 'profile' %}" style="font-size: 0.91rem;">บัญชีของฉัน</a>
+                    <a class=" btn btn-cus2" href="{% url 'profile' %}" style="font-size: 0.91rem;">บัตรสมาชิก</a>
                 </li>
                 
 
@@ -115,12 +116,47 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'boardgame' %}"><i class="bi bi-controller nav-icon"></i><br>บอร์ดเกม</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link " href="{% url 'Reservation_form' %}"><i class="bi bi-journal-bookmark-fill nav-icon"></i><br>จองที่นั่ง</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'profile' %}"><i class="bi bi-person nav-icon"></i><br>บัญชีของฉัน</a>
-            </li>
+
+            <!-- ผู้ใช้ล็อกอินแล้วและไม่ใช่ staff -->
+            {% if user.is_authenticated and not user.is_staff %}
+                <!-- แสดงเฉพาะตอนที่ลูกค้าคนนั้น สถานะกำลังเล่นบอร์ดเกม is_paid = False -->
+                {% for play_session in user.playsession_set.all %}
+                    {% if play_session.is_paid == False %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'playing' %}">
+                                <i class="bi bi-receipt-cutoff nav-icon"></i><br>กำลังเล่น
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'Reservation_form' %}">
+                        <i class="bi bi-journal-bookmark-fill nav-icon"></i><br>จองที่นั่ง
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">
+                        <i class="bi bi-person nav-icon"></i><br>บัตรสมาชิก
+                    </a>
+                </li>
+              
+            <!-- ผู้ใช้ยังไม่ล็อกอิน -->
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'Reservation_form' %}">
+                        <i class="bi bi-journal-bookmark-fill nav-icon"></i><br>จองที่นั่ง
+                    </a>
+                </li>
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">
+                        <i class="bi bi-door-open nav-icon"></i><br>เข้าสู่ระบบ
+                    </a>
+                </li>
+                  
+            {% endif %}
         </ul>
     </nav>
     {% endblock navbar%}

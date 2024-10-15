@@ -70,27 +70,34 @@
 
                 <div class="row">
                     <h1 class="mt-2 mb-4">บอร์ดเกมทั้งหมด</h1>
+                    {% if boardgame_list %}
 
-                    {% for boardgame in boardgame_list %}
+                        {% for boardgame in boardgame_list %}
 
-                    <div class="col-4 col-md-4 mb-2"> 
-                        <div class="card product-card">
-                            
-                            <img src="{{ boardgame.image.url }}" alt="Product Image">
-                            <div class="card-body card-body-cus text-center">
-                                <h5 class="product-category">{{ boardgame.game_name }}</h5>
-                                <p class="category-name" style="color: rgb(100, 100, 100);">
-                                    แนวเกม : 
-                                    {% for cate in boardgame.category.all %}
-                                        {{ cate.name }}
-                                        {% if not forloop.last %} , {% endif %}
-                                    {% endfor %}
-                                </p>
-                                <a href="{% url 'boardgame-detail' boardgame.id %}" class="btn btn-cusdetail">เพิ่มเติม</a>
+                        <div class="col-4 col-md-4 mb-2"> 
+                            <div class="card product-card">
+                                
+                                <img src="{{ boardgame.image.url }}" alt="Product Image">
+                                <div class="card-body card-body-cus text-center">
+                                    <h5 class="product-category">{{ boardgame.game_name }}</h5>
+                                    <p class="category-name" style="color: rgb(100, 100, 100);">
+                                        แนวเกม : 
+                                        {% for cate in boardgame.category.all %}
+                                            {{ cate.name }}
+                                            {% if not forloop.last %} , {% endif %}
+                                        {% endfor %}
+                                    </p>
+                                    <a href="{% url 'boardgame-detail' boardgame.id %}" class="btn btn-cusdetail">เพิ่มเติม</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {% endfor %}
+                        {% endfor %}
+                    
+                    {% else %}
+                        <div class="col-12 text-center">
+                            <h3>ไม่มีบอร์ดเกมที่ต้องการ</้>
+                        </div>
+                    {% endif %}
                 
                 </div>
             </div>

@@ -745,6 +745,19 @@ input{
 }
 
 
+.timer { 
+    font-size: 1.5rem; 
+    font-weight: bold; 
+
+}
+
+.receipt { 
+    max-width: 400px; margin: auto; 
+    background-color: white; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.275);
+    border-radius: 10px;
+}
+
 /* ////////////// dashboard  //////////////*/
 
 .stat-card {

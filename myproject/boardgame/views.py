@@ -184,7 +184,7 @@ class CashierDetailView(View):
         reservation = Reservation.objects.filter(table_id=table_id) # filter table_id ของ reserve = table_id ที่ส่งมา
         playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
         print(playsession)
-        print(playsession.user.first_name)
+        # print(playsession.user.first_name)
         pack = {'reservation': reservation, 'playsession': playsession}
         return render(request, 'cashier/table-detail.html', pack)
 
@@ -374,17 +374,17 @@ class BoardgameFilterView(View):
     template_name = "boardgame.html"
     
     def get(self, request):
-        cate = request.GET.get('category')
+        cate = request.GET.getlist('category') # ดึงค่าแบบหลายตัว
         time = request.GET.get('play_time')
         minp = request.GET.get('min_players')
         maxp = request.GET.get('max_players')
 
         boardgame_list = BoardGames.objects.filter(
-            category__id=cate , 
+            category__id__in=cate,  # หาหมวดหมู่หลายอัน 
             play_time__lte=time,
             min_players__gte = minp , 
             max_players__lte = maxp
-            )
+            ).distinct() # ไม่เอาข้อมูลซ้ำ เกมเดียว แต่อยู่ในหลายหมวดหมู่ แสดงครั้งเดียว
         print(boardgame_list)
 
         category_list = Categories.objects.all()
@@ -686,3 +686,24 @@ class PasswordChangeView(LoginRequiredMixin, View):
             update_session_auth_hash(request, request.user) # ไม่ให้มัน logout ออกหลังจากเปลี่ยนรหัส เป็นการอัปเดตเซสชันหลังบ้าน import มา
             return redirect('profile')
         return render(request, 'password.html', {'form': form})
+
+
+# /////////////////// Playing ////////////////////
+
+class PlayingView(LoginRequiredMixin, View):
+    login_url = 'login'
+
+    def get(self, request):
+        form = BoardGamesForm()
+        user = request.user
+        print(user)
+        user_playsession = PlaySession.objects.get(user=request.user).order_by('-created_at').first() 
+        # ดึงข้อมูลใบเสร็จ การเล่นบอร์ดเกมของลุกค้าคนนั้น ล่าสุด
+        print(user_playsession)
+
+
+        context = {
+            "form":form,
+            "user_playsession":user_playsession
+        }
+        return render(request, 'playing.html', context)

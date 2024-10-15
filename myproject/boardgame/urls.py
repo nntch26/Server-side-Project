@@ -23,6 +23,8 @@ urlpatterns = [
     path("profile_edit/", views.ProfileEditView.as_view(), name="profile_edit"),
     path("password_change/", views.PasswordChangeView.as_view(), name="change_password"),
 
+    path("playing/", views.PlayingView.as_view(), name="playing"),
+
     # login & register
     path("login/", views.LoginView.as_view(), name="login"),
     path("logout/", views.LogoutView.as_view(), name="logout"),

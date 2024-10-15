@@ -19,8 +19,8 @@
 {% block content %} 
 <div class="container-1">
 
-    <div class="intro1">
-        <h1>Welcome <br> Sign in to continue</h1>
+    <div class="intro1 text-center">
+        <h1>เข้าสู่ระบบ</h1>
     </div>
 
     <!---alert --> 
@@ -39,9 +39,9 @@
             {% csrf_token %}
             {{ form|crispy }}
 
-            <di v class="info-box">
+            <di v class="info-box mt-5">
                 <button class="btn btn-cus2" style="width: 100%;">Sign in</button>
-                <p class="txt">Don't have an account? <a href="{% url 'register' %}">Create account</a></p>
+                <p class="txt mt-3">หากคุณยังไม่มีบัญชีสมาชิก? <a href="{% url 'register' %}">สมัครสมาชิก</a></p>
             </di>
         </div>
     </form>

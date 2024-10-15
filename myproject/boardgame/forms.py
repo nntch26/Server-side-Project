@@ -73,7 +73,7 @@ class ReservationForm(forms.ModelForm):
 class CustomUserCreationForm(UserCreationForm):
 
     #  เพิ่มฟิลด์จากตารางอื่น เข้ามาในฟอร์มด้วย
-    phone_number = forms.CharField(max_length=10)
+    phone_number = forms.CharField(max_length=10, label='เบอร์โทรศัพท์')
     
     class Meta:
         model = User
@@ -86,6 +86,15 @@ class CustomUserCreationForm(UserCreationForm):
             'password1', 
             'password2'
         ]
+
+        labels = {
+            'first_name': 'ชื่อ',
+            'last_name': 'นามสกุล',
+            'username': 'ชื่อผู้ใช้',
+            'email': 'อีเมล',
+            'password1': 'รหัสผ่าน',
+            'password2': 'ยืนยันรหัสผ่าน',
+        }
         
 
     # เช็คว่าเบอร์ซ้ำมั้ย และต้องมี 10 หลัก ห้ามเป็นตัวอักษร
@@ -144,17 +153,7 @@ class BoardGamesForm(forms.ModelForm):
             'category': 'หมวดหมู่',
         }
 
-    # เช็ค ชื่อบอร์ดเกมไม่ซ้ำ
-    def clean_game_name(self):
-        game_name = self.cleaned_data["game_name"]
 
-        data = BoardGames.objects.filter(game_name= game_name)
-
-        if data.count():  
-            raise ValidationError("Board game Name Already Exist")
-        return game_name  
-
-    
     # เช็ค ต้องใส่เลขมากกว่า 0
     def clean_min_players(self):
         min_players = self.cleaned_data.get("min_players")
@@ -231,11 +230,13 @@ class ProfileEditForm(forms.ModelForm):
     ]
 
      
-    gender = forms.ChoiceField( required=False, choices=GENDER_CHOICES) #  ChoiceField ทำเปนตัวเลือก
+    gender = forms.ChoiceField( required=False, choices=GENDER_CHOICES, label='เพศ') #  ChoiceField ทำเปนตัวเลือก
 
-    phone_number = forms.CharField(max_length=10)
+    phone_number = forms.CharField(max_length=10, label='หมายเลขโทรศัพท์')
     birth_date = forms.DateField(required=False, 
-                                 widget=forms.DateInput(attrs={'type': 'date'})) # ต้องใส่ตรงนี้ด้วยไม่งั้นไม่ขึ้นเป็น type:date เพราะเปนตารางอื่น
+                                 label='วันเกิด',
+                                 widget=forms.DateInput(attrs={'type': 'date'})) 
+    # ต้องใส่ตรงนี้ด้วยไม่งั้นไม่ขึ้นเป็น type:date เพราะเปนตารางอื่น
     
     class Meta:
         model = User
@@ -248,6 +249,13 @@ class ProfileEditForm(forms.ModelForm):
             'email',
             'birth_date',
         ]
+
+        labels = {
+            'username': 'ชื่อผู้ใช้',
+            'first_name': 'ชื่อ',
+            'last_name': 'นามสกุล',
+            'email': 'อีเมล',
+        }
  
 
     def clean_phone_number(self):

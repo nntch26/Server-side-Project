@@ -1,0 +1,93 @@
+<!-- extends ก่อน ค่อย load -->
+{% extends 'layout.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}หน้าแรก{% endblock title %}
+
+
+{% block navbar %}
+
+    <div class="container mt-3 d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <i class="bi bi-arrow-left-square ms-2"></i> 
+            <span> ย้อนกลับ</span>
+        </a>
+    </div>
+
+    {% endblock navbar%}
+
+{% block content %}
+
+    <div class="container mt-5">
+        <div class="receipt p-4">
+            <div class="text-center">
+                <i class="bi bi-controller "  style="font-size: 4rem; color: black;"></i>
+                <h1 class="card-title text-center mb-2">PLAY BOARDGAME</h1>
+                <h3 class="text-center mb-4">โต๊ะ {{ user_playsession.table.id }} </h3>
+            </div>
+            <div class="mb-3">
+                <h5 class="mb-1"><strong>จำนวนลูกค้า:</strong> {{ user_playsession.num_players }} ท่าน </h5>
+            </div>
+            <div class="mb-3">
+                <h5 class="mb-1"><strong>วันที่:</strong> {{ user_playsession.created_at|date:"d/m/Y" }} </h5>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body text-center">
+                    <h1 class="mb-1">เริ่มเวลา</h1>
+                    <div id="timer" class="timer">{{ user_playsession.start_time|time:"H:i" }}</div>
+                </div>
+            </div>
+            <div class="text-center">
+                <p>ค้นหาเกมแนะนำ</p>
+                <button type="submit" class="btn btn-cusdetail"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bi bi-controller me-2"></i></i>ค้นหาเกมแนะนำ
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+     <!-- Modal -->
+     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">กรอกข้อมูลเกมที่คุณต้องการ</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form action="{% url 'filter' %}" method="get" class="product-form">
+                    {% csrf_token %}
+                   
+                    <div class="form-group row mb-4">
+                        <div class="mb-3 col-12 col-md-12">
+                            {{ form.category|as_crispy_field }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            {{ form.play_time|as_crispy_field }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            {{ form.min_players|as_crispy_field }}
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            {{ form.max_players|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="btn-footer mb-5">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="submit" class="btn btn-primary">ค้นหา</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block footer %}
+{% endblock footer %}
