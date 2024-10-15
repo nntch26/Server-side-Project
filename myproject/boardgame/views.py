@@ -85,15 +85,7 @@ class CashierView(LoginRequiredMixin, View):
             form.save()
         return redirect('cashier_table')
 
-# เด่วมาลบ
 
-class CashierPayView(LoginRequiredMixin, View):
-    login_url = 'login'
-
-    def get(self, request):
-        tables = Table.objects.all().order_by('id')
-        pack = {'tables': tables}
-        return render(request, 'cashier/cashier-pay.html', pack)
     
 class CashierBillView(View):
     def get(self, request, table_id):
@@ -230,10 +222,8 @@ class PaymentsView(View):
         playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
         return render(request, 'cashier/payments.html', {'playsession': playsession})
     
-
-# 
     
-
+    
 
 
 

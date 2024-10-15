@@ -16,9 +16,6 @@
         <li class="nav-item"></li>
             <a class="nav-link" href="{% url 'cashier_list' %}">จัดการการจองโต๊ะ</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'cashier_pay' %}">จัดการการชำระเงิน</a>
-        </li>
 
         <hr  style="color: rgb(255, 255, 255); width: 80%; border-width: 3px ; margin: 20px auto;">
 
@@ -39,7 +36,7 @@
                 <div class="mid">
                     <p><strong>รวมราคาทั้งสิ้น:</strong> {{playsession.total_cost}} <strong>บาท</strong></p>
                 </div>
-                <form action="{% url 'cashier_check_bill' playsession.table.id %}" method="POST">
+                <form action="{% url 'cashier_payments' playsession.table.id %}" method="POST">
                     {% csrf_token %}
                     <div class="mb-3 col-12 col-md-12">
                         <strong>รับเงินมา (บาท)</strong> <input type="text" id="pay">
