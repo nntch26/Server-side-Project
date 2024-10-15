@@ -10,6 +10,8 @@ pip install crispy-bootstrap5
 
 pip install django-crispy-forms
 
+pip install Pillow
+
 
 # login
 

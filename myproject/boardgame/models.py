@@ -71,7 +71,7 @@ class BoardGames(models.Model):
     min_players = models.IntegerField()
     max_players = models.IntegerField(null=True, blank=True)
     play_time = models.IntegerField()
-    image = models.FileField(upload_to='upload')
+    image = models.ImageField(upload_to='upload')
     video_url = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

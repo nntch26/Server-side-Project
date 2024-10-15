@@ -30,21 +30,37 @@
     <div class="right">
         <h1>จัดการการจองโต๊ะ</h1>
         <hr>
-        {% for i in reserv %}
-            <!-- ถ้าอยู่ในสถานะนี้ให้แสดงข้อมูล -->
-            {% if i.status == 'Pending' %}
-                <div class="item-1">
-                    <div><strong>ชื่อ-นามสกุล</strong> {{i.user.first_name}} {{i.user.last_name}}</div>
-                    <div><mark> โต๊ะ {{i.table_id}} จำนวนคน {{i.reservation_cap}}</mark></div>
-                    <div><strong>เบอร์โทรศัพท์</strong> {{i.user.userdetail.phone_number}}</div>
-                    <div><strong>วัน-เวลาที่จอง</strong> {{i.reservation_date}} : {{i.reservation_time}}</div>
-                    <div class="item-2">
-                        <a href="{% url 'cashier_confirm' i.id %}" class="btn but-1">ยืนยัน</a>
-                        <a href="{% url 'cashier_cancel' i.id %}" class="btn but-2">ยกเลิก</a>
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
+        <table id="dataTable" class="table table-hover" style="width:100%; text-align: left;">
+            <thead>
+                <tr>
+                    <th>ชื่อ-นามสกุล</th>
+                    <th>โต๊ะ</th>
+                    <th>จำนวนคน</th>
+                    <th>เบอร์โทรศัพท์</th>
+                    <th>วัน-เวลาที่จอง</th>
+                    <th>การดำเนินการ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in reserv %}
+                    <!-- ถ้าอยู่ในสถานะนี้ให้แสดงข้อมูล -->
+                    {% if i.status == 'Pending' %}
+                    <tr>
+                        <td>{{ i.user.first_name }} {{ i.user.last_name }}</td>
+                        <td>{{ i.table_id }}</td>
+                        <td>{{ i.reservation_cap }}</td>
+                        <td>{{ i.user.userdetail.phone_number }}</td>
+                        <td>{{ i.reservation_date }} : {{ i.reservation_time }}</td>
+                        <td>
+                            <a href="{% url 'cashier_confirm' i.id %}" class="btn btn-success">ยืนยัน</a>
+                            <a href="{% url 'cashier_cancel' i.id %}" class="btn btn-secondary">ยกเลิก</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        
     </div>
 </div>
 {% endblock content %}

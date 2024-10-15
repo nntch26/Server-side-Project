@@ -37,7 +37,7 @@ class indexView(View):
         return render(request, self.template_name, context)
 
 
-# Reservation
+# Reservation จองโต๊ะ
 class ReservationFormView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
     permission_required = ["boardgame.add_reservation"]
@@ -45,9 +45,16 @@ class ReservationFormView(LoginRequiredMixin,PermissionRequiredMixin, View):
     template_name = "reservation_form.html"
 
     def get(self, request):
-
         form = ReservationForm()
-        return render(request, self.template_name, {"form": form})
+        
+        user_login = request.user
+        reservation_table = Reservation.objects.filter(user=user_login) # ดูประวัติการจองของ user คนนี้
+        
+        context = {
+            "form": form,
+            "reservation_table":reservation_table
+        }
+        return render(request, self.template_name, context)
     
 
     def post(self, request):

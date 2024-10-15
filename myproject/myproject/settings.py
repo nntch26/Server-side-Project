@@ -75,8 +75,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
@@ -88,7 +86,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "boardgame_db",
         "USER": "postgres",
-        "PASSWORD": "password",
+        "PASSWORD": "1234",
         "HOST": "localhost",
         "PORT": "5432",
     }
