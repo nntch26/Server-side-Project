@@ -27,11 +27,6 @@
             {% if user.is_authenticated and not user.is_staff %}
 
             <li class="nav-item me-3 mb-1">
-                <a class="" href="{% url 'cart_list' %}" style="font-size: 1.7rem; color: #F4313F;">
-                    <i class="bi bi-cart-fill"></i></a>
-            </li>
-
-            <li class="nav-item me-3 mb-1">
                 <a class=" btn btn-cus" href="{% url 'Reservation_form' %}">จองที่นั่ง</a>
             </li>
 
@@ -93,9 +88,6 @@
 
         <li class="nav-item">
             <a class="nav-link" href="{% url 'boardgame' %}"><i class="bi bi-controller nav-icon"></i><br>บอร์ดเกม</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link " href="{% url 'cart_list' %}"><i class="bi bi-cart nav-icon"></i><br>ตะกร้าสินค้า</a>
         </li>
         <li class="nav-item">
             <a class="nav-link " href="{% url 'Reservation_form' %}"><i class="bi bi-journal-bookmark-fill nav-icon"></i><br>จองที่นั่ง</a>
