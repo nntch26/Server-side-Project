@@ -1,47 +1,106 @@
 {% extends 'cashier/layout_cashier.html' %} 
 {% load static %}
 
-{% block title %}ิbill{% endblock title %}
+{% block title %}ใบแจ้งรายการ{% endblock title %}
 
 
 {% block content %}
+
 <div class="big">
-    <div class="right">
-        <div class="box-2">
-            <h1 class="mid">ชำระเงิน โต๊ะที่ {{reservation.table.id}}</h1>
-            <hr style="width: 100%;">
-            <div class="card-cus-2">
-                <div class="mid">
-                    <p><strong>จำนวนลูกค้า:</strong> {{reservation.reservation_cap}} ท่าน</p>
-                    <p><strong>เวลาเริ่มต้น:</strong> {{playsession.start_time}}</p>
-                    <p><strong>เวลาเล่นจบ:</strong> {{playsession.end_time}}</p>
+    <div class="container mt-5">
+        <button onclick="window.print()" class="btn btn-primary mb-3 no-print">พิมพ์ใบเสร็จ</button>
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <i class="bi bi-controller"  style="font-size: 2rem; color: black;"></i>
+                    <h5 class="mt-2">ใบแจ้งรายการ</h5>
+                    <p class="mb-0"><strong>play boardgame</strong></p>
                 </div>
-                <hr>
-                <div class="games">
-                    <div><strong>รายการบอร์ดเกม</strong></div>
-                    <div><strong>ราคา</strong></div>
+                
+                <div class="row mb-2">
+                    <div class="col-6">โต๊ะ : {{reservation.table.id}}</div>
+                    <div class="col-6 text-end">จำนวนลูกค้า : {{reservation.reservation_cap}} ท่าน</div>
                 </div>
-                <!-- แสดงรายการทั้งหมด -->
-                <div class="games">
-                    <div>boardgames x {{reservation.reservation_cap}}</div>
-                    <div>{{playsession.total_cost}}</div>
-                </div><hr>
-                <div class="games">
-                    <div><strong>รวม</strong></div>
-                    <div>{{playsession.total_cost}}</div>
+                
+                <div class="row mb-2">
+                    <div class="col-6">เริ่มต้น : {{playsession.start_time}}</div>
+                    <div class="col-6 text-end">หมดเวลา : {{playsession.end_time}}</div>
+                </div>
+                
+                <div class="text-center mb-2">
+                    <small>{{playsession.start_time}}</small>
+                </div>
+                
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>รายการบอร์ดเกม</th>
+                            <th class="text-end">ราคา</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>boardgames x {{reservation.reservation_cap}}</td>
+                            <td class="text-end">{{playsession.total_cost}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row mt-3">
+                    <div class="col-6"><strong>รวม</strong></div>
+                    <div class="col-6 text-end"><strong>{{playsession.total_cost}}</strong></div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <small>ขอบคุณที่มาใช้บริการ</small>
                 </div>
             </div>
-            <div class="card-cus-3">
-                <div class="butt">
-                    <a href="{% url 'cashier_detail' reservation.table.id %}" class="btn but-7">กลับ</a>
-                    <a href="{% url 'cashier_payments' reservation.table.id %}" class="btn but-8">เช็คบิล</a>
-                </div>
+        </div>
+    </div>
+
+    <div class="box-2">
+        <div class="card-cus-2" style="width: 100%;">
+            <div class="mid">
+                <p><strong>ชำระเงิน โต๊ะที่:</strong> {{playsession.table.id}}</p>
+                <p><strong>รวมราคาทั้งสิ้น:</strong> {{playsession.total_cost}} <strong>บาท</strong></p>
             </div>
-            
+            <form action="{% url 'cashier_payments' playsession.table.id %}" method="POST">
+                {% csrf_token %}
+                <div class="mb-3 col-12 col-md-12">
+                    <strong>รับเงินมา (บาท)</strong> <input type="text" id="pay">
+                </div>
+                <div class="mb-3 col-12 col-md-12">
+                    <strong>เงินทอน (บาท)</strong> <input type="text" id="with" value="{{ default }}" disabled>
+                </div>
+                <div class="mb-3 col-12 col-md-12">
+                    <strong style="color: red;">สมาชิก</strong>
+                </div>
+                <div class="mb-3 col-12 col-md-12">
+                    <strong>เบอร์โทรศัพท์: </strong>{{playsession.user.userdetail.phone_number}}
+                </div>
+                <div class="mb-3 col-12 col-md-12">
+                    <strong>ชื่อ-นามสกุล: </strong>{{playsession.user.first_name}} {{playsession.user.last_name}}
+                </div>
+                <div class="mb-3 col-12 col-md-12">
+                    <strong>points: </strong> {{playsession.user.userdetail.points}}
+                </div>
+                <div class="mb-3 col-12 col-md-12">
+                    {{form}}
+                    <button type="submit" style="border: none; background: none; width: 100%;">ใช้คะแนน</button>
+                </div>
+                <button type="submit" class="btn but-8" style="width: 100%;">เช็คบิล</button>
+            </form>
+            <div class="butt" style="margin-top: 10px;">
+                <a href="{% url 'cashier_table' %}" class="btn but-7">ยกเลิก</a>
+            </div>
         </div>
 
     </div>
+
 </div>
+
+    
+
+
 {% endblock content %}
 {% block footer %}
 {% endblock footer %}

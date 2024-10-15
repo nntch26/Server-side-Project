@@ -285,8 +285,6 @@ class PlaySessionForm(forms.ModelForm):
     class Meta:
         model = PlaySession
         fields = [
-            'table',
-            'user',
             'num_players',
             'phone_number',
         ]

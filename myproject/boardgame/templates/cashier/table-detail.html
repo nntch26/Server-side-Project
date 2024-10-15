@@ -41,16 +41,16 @@
             <div class="card-cus-1">
                 <div class="form-group row mb-4">
                     <div class="mb-3 col-12 col-md-12">
-                        <h2>โต๊ะที่ {{i.table_id}}</h2><hr>
+                        <h2>โต๊ะที่ {{playsession.table_id}}</h2><hr>
                     </div>
                     <div class="mb-3 col-12 col-md-12">
-                        <strong>ชื่อ-นามสกุล</strong> {{i.user.first_name}} {{i.user.last_name}}
+                        <strong>ชื่อ-นามสกุล</strong> {{playsession.user.first_name}} {{playsession.user.last_name}}
                     </div>
                     <div class="mb-3 col-12 col-md-12">
-                        <strong>เบอร์โทรศัพท์</strong> {{i.user.userdetail.phone_number}}
+                        <strong>เบอร์โทรศัพท์</strong> {{playsession.user.userdetail.phone_number}}
                     </div>
                     <div class="mb-3 col-12 col-md-12">
-                        <strong>จำนวนคน</strong> {{i.reservation_cap}}
+                        <strong>จำนวนคน</strong> {{playsession.num_players}}
                     </div>
                     <div class="mb-3 col-12 col-md-12" style="color: red;">
                         <strong>เวลาที่เริ่มเล่น</strong> {{playsession.start_time}}
@@ -67,6 +67,7 @@
             {% endif %}
         {% endif %}
         {% endfor %}
+
     </div>
 </div>
 {% endblock content %}
