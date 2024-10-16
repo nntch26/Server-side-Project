@@ -240,12 +240,16 @@ class PlaySessionView(View):
             phone_number = form.cleaned_data["phone_number"]
             data = User.objects.get(userdetail__phone_number = phone_number)
 
-            play = PlaySession.objects.create(
-                table=table,
-                user=data,
-                num_players=request.POST.get('num_players'),
-                start_time=timezone.now(),
-            )
+            form.instance.table = table
+            form.instance.user = data
+            form.save()
+
+            # play = PlaySession.objects.create(
+            #     table=table,
+            #     user=data,
+            #     num_players=request.POST.get('num_players'),
+            #     start_time=timezone.now(),
+            # )
             
 
             table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะ
@@ -308,12 +312,19 @@ class UsePointsView(View):
             playsession.save()
 
         else:
-            point.points -= point.points
-            point.save()
-
+            # print('1')
+            # print(point.points)
+            # print(playsession.total_cost)
+            
             total = float(playsession.total_cost) - float(point.points)
             playsession.total_cost = total
             playsession.save()
+            print(total)
+
+            point.points -= point.points
+            point.save()
+
+            print(point.points)
         return render(request, 'cashier/bill.html', {'playsession': playsession})
 
 
