@@ -50,7 +50,15 @@ body{
                 {% endfor %}
 
             {% endif %}
-    
+
+            <!---alert --> 
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger"  role="alert">
+                {{ form.non_field_errors }} 
+                   <!-- error ในฟอร์ม -->
+            </div>
+            {% endif %}
+            
             <!-- ฟอร์มสำหรับจองโต๊ะ -->
             <div class="form-booking">
                 <div class="row">
