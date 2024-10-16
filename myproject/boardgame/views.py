@@ -218,7 +218,7 @@ class CashierDetailView(View):
         reservation = Reservation.objects.filter(table_id=table_id) # filter table_id ของ reserve = table_id ที่ส่งมา
         playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
         print(playsession)
-        # print(playsession.user.first_name)
+        print(playsession.user.first_name)
         pack = {'reservation': reservation, 'playsession': playsession}
         return render(request, 'cashier/table-detail.html', pack)
 

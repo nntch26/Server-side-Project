@@ -10,69 +10,101 @@
     <div class="right">
         <h1>จัดการโต๊ะ</h1>
         <hr>
-        {% for i in reservation %}
-        <!-- loop เอาตัวสุดท้าย -->
-        {% if forloop.last %}
-            {% if i.table.status == 'Reserved' %}
-            <div class="card-cus-1">
-                <div class="form-group row mb-4">
-                    <div class="mb-3 col-12 col-md-12">
-                        <h2>โต๊ะที่ {{i.table_id}}</h2><hr>
-                    </div>
-                    <div class="mb-3 col-12 col-md-12">
-                        <strong>ชื่อ-นามสกุล: </strong> {{i.user.first_name}} {{i.user.last_name}}
-                    </div>
-                    <div class="mb-3 col-12 col-md-12">
-                        <strong>เบอร์โทรศัพท์: </strong> {{i.user.userdetail.phone_number}}
-                    </div>
-                    <div class="mb-3 col-12 col-md-12">
-                        <strong>จำนวนคน: </strong> {{i.reservation_cap}}
-                    </div>
-                    {% if i.board_game != Null  %}
-                        <div class="mb-3 col-12 col-md-12">
-                            <strong>บอร์ดเกมที่จอง: </strong> {{ i.board_game.game_name }}
-                        </div>
-                    {% endif %}
-                    <div class="mb-3 col-12 col-md-12">
-                        <strong>วัน-เวลาที่จอง: </strong> {{i.reservation_date}} {{i.reservation_time}}
-                    </div>
-                </div>
-                <div class="butt">
-                    <a href="{% url 'cashier_table' %}" class="btn but-7">ปิด</a>
-                    <a href="{% url 'cashier_reserve' i.table_id %}" class="btn but-3">รับโต๊ะ</a>
-                </div>
-            </div>
-            {% elif i.table.status == 'Occupied' %}
-            <div class="card-cus-1">
-                <div class="form-group row mb-4">
-                    <div class="mb-3 col-12 col-md-12">
-                        <h2>โต๊ะที่ {{playsession.table_id}}</h2><hr>
-                    </div>
-                    <div class="mb-3 col-12 col-md-12">
-                        <strong>ชื่อ-นามสกุล</strong> {{playsession.user.first_name}} {{playsession.user.last_name}}
-                    </div>
-                    <div class="mb-3 col-12 col-md-12">
-                        <strong>เบอร์โทรศัพท์</strong> {{playsession.user.userdetail.phone_number}}
-                    </div>
-                    <div class="mb-3 col-12 col-md-12">
-                        <strong>จำนวนคน</strong> {{playsession.num_players}}
-                    </div>
-                    <div class="mb-3 col-12 col-md-12" style="color: red;">
-                        <strong>เวลาที่เริ่มเล่น</strong> {{playsession.start_time}}
-                    </div>
-                </div>
-                <div class="butt">
-                    <a href="{% url 'cashier_table' %}" class="btn but-7">ปิด</a>
-                    <form action="{% url 'cashier_bill' i.table.id %}" method="POST" class="btn but-8">
-                        {% csrf_token %}
-                        <button type="submit" style="border: none; background: none; width: 100%;">เช็คบิล</button>
-                    </form>
-                </div>
-            </div>
-            {% endif %}
-        {% endif %}
-        {% endfor %}
 
+        <!-- ถ้ามีการจองเข้ามา -->
+        {% if reservation %}
+            {% for i in reservation %}
+            <!-- loop เอาตัวสุดท้าย -->
+            {% if forloop.last %}
+                {% if i.table.status == 'Reserved' %}
+                <div class="card-cus-1">
+                    <div class="form-group row mb-4">
+                        <div class="mb-3 col-12 col-md-12">
+                            <h2>โต๊ะที่ {{i.table_id}}</h2><hr>
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <strong>ชื่อ-นามสกุล: </strong> {{i.user.first_name}} {{i.user.last_name}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <strong>เบอร์โทรศัพท์: </strong> {{i.user.userdetail.phone_number}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <strong>จำนวนคน: </strong> {{i.reservation_cap}}
+                        </div>
+                        {% if i.board_game != Null  %}
+                            <div class="mb-3 col-12 col-md-12">
+                                <strong>บอร์ดเกมที่จอง: </strong> {{ i.board_game.game_name }}
+                            </div>
+                        {% endif %}
+                        <div class="mb-3 col-12 col-md-12">
+                            <strong>วัน-เวลาที่จอง: </strong> {{i.reservation_date}} {{i.reservation_time}}
+                        </div>
+                    </div>
+                    <div class="butt">
+                        <a href="{% url 'cashier_table' %}" class="btn but-7">ปิด</a>
+                        <a href="{% url 'cashier_reserve' i.table_id %}" class="btn but-3">รับโต๊ะ</a>
+                    </div>
+                </div>
+                {% elif i.table.status == 'Occupied' %}
+                <div class="card-cus-1">
+                    <div class="form-group row mb-4">
+                        <div class="mb-3 col-12 col-md-12">
+                            <h2>โต๊ะที่ {{playsession.table_id}}</h2><hr>
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <strong>ชื่อ-นามสกุล</strong> {{playsession.user.first_name}} {{playsession.user.last_name}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <strong>เบอร์โทรศัพท์</strong> {{playsession.user.userdetail.phone_number}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <strong>จำนวนคน</strong> {{playsession.num_players}}
+                        </div>
+                        <div class="mb-3 col-12 col-md-12" style="color: red;">
+                            <strong>เวลาที่เริ่มเล่น</strong> {{playsession.start_time}}
+                        </div>
+                    </div>
+                    <div class="butt">
+                        <a href="{% url 'cashier_table' %}" class="btn but-7">ปิด</a>
+                        <form action="{% url 'cashier_bill' i.table.id %}" method="POST" class="btn but-8">
+                            {% csrf_token %}
+                            <button type="submit" style="border: none; background: none; width: 100%;">เช็คบิล</button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+        
+        <!-- ถ้าไม่ได้จองมา -->
+        {% else %}
+        <div class="card-cus-1">
+            <div class="form-group row mb-4">
+                <div class="mb-3 col-12 col-md-12">
+                    <h2>โต๊ะที่ {{playsession.table_id}}</h2><hr>
+                </div>
+                <div class="mb-3 col-12 col-md-12">
+                    <strong>ชื่อ-นามสกุล</strong> {{playsession.user.first_name}} {{playsession.user.last_name}}
+                </div>
+                <div class="mb-3 col-12 col-md-12">
+                    <strong>เบอร์โทรศัพท์</strong> {{playsession.user.userdetail.phone_number}}
+                </div>
+                <div class="mb-3 col-12 col-md-12">
+                    <strong>จำนวนคน</strong> {{playsession.num_players}}
+                </div>
+                <div class="mb-3 col-12 col-md-12" style="color: red;">
+                    <strong>เวลาที่เริ่มเล่น</strong> {{playsession.start_time}}
+                </div>
+            </div>
+            <div class="butt">
+                <a href="{% url 'cashier_table' %}" class="btn but-7">ปิด</a>
+                <form action="{% url 'cashier_bill' playsession.table.id %}" method="POST" class="btn but-8">
+                    {% csrf_token %}
+                    <button type="submit" style="border: none; background: none; width: 100%;">เช็คบิล</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}
