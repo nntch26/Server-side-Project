@@ -40,23 +40,6 @@ class Table(models.Model):
 
 
 
-class Reservation(models.Model):
-    STATUS_CHOICES = [
-        ('Pending', 'Pending'),
-        ('Confirmed', 'Confirmed'),
-        ('Cancelled', 'Cancelled'),
-    ]
-
-    table = models.ForeignKey(Table, on_delete=models.CASCADE)  
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  
-    reservation_date = models.DateField()  
-    reservation_time = models.TimeField()  
-    reservation_cap = models.IntegerField()  
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')  
-    created_at = models.DateTimeField(auto_now_add=True)  
-
-
-
 
 class Categories(models.Model):
     name = models.CharField(max_length=100)
@@ -67,6 +50,11 @@ class Categories(models.Model):
 
 
 class BoardGames(models.Model):
+    STATUS_CHOICES = [
+        ('Available', 'Available'),
+        ('Reserved', 'Reserved')
+    ]
+
     game_name = models.CharField(max_length=255)
     description = models.TextField()
     category = models.ManyToManyField(Categories)  
@@ -77,11 +65,29 @@ class BoardGames(models.Model):
     video_url = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='Available') 
+
 
     def __str__(self) -> str:
             return self.game_name
     
 
+
+class Reservation(models.Model):
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Confirmed', 'Confirmed'),
+        ('Cancelled', 'Cancelled'),
+    ]
+
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)  
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    board_game = models.ForeignKey(BoardGames, null=True, blank=True, on_delete=models.SET_NULL)  
+    reservation_date = models.DateField()  
+    reservation_time = models.TimeField()  
+    reservation_cap = models.IntegerField()  
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')  
+    created_at = models.DateTimeField(auto_now_add=True)  
 
 # add
 class PlaySession(models.Model):

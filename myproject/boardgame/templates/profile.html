@@ -21,8 +21,8 @@
 
 {% block content %}
     <div class="container-1">
-        <div class="intro2">
-            <h1>โปรไฟล์ บัตรสมาชิก</h1>
+        <div class="text-center">
+            <h1>บัตรสมาชิก</h1>
         </div>
         <div class="space-form">
             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" class="profile-pic">
@@ -57,7 +57,7 @@
                 <label for="password"><strong>รหัสผ่าน: </strong>*********</label>
             </div>
             <div class="info-box-1 mt-3">
-                <label for="points"><strong>คะแนนแต้มสะสม: </strong>{{user.userdetail.points}}</label>
+                <label for="points"><strong>แต้มคะแนนสะสม: </strong>{{user.userdetail.points}}</label>
             </div>
             <div class="info-box2-2 mt-3">
                 <a href="{% url 'profile_edit' %}" class="btn btn-cus2" style="width: 100%;">แก้ไขโปรไฟล์</a></button>

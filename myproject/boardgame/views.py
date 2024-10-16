@@ -47,7 +47,16 @@ class ReservationFormView(LoginRequiredMixin,PermissionRequiredMixin, View):
     def get(self, request):
 
         form = ReservationForm()
-        return render(request, self.template_name, {"form": form})
+        user_login = request.user
+        # ดูประวัติการจองของ user คนนี้
+        reservation_table = Reservation.objects.filter(user=user_login).order_by('-created_at')
+        print(reservation_table)
+        
+        context = {
+            "form": form,
+            "reservation_table":reservation_table
+        }
+        return render(request, self.template_name, context)
     
 
     def post(self, request):
@@ -57,6 +66,14 @@ class ReservationFormView(LoginRequiredMixin,PermissionRequiredMixin, View):
         if form.is_valid():
             form.instance.user = request.user  # กำหนดผู้ใช้ที่ล็อกอิน
             form.save()
+
+            # ถ้ามีการจองบอร์ดเกม ดึงข้อมูลจากฟอร์ม
+            board_game = form.cleaned_data['board_game']
+            
+            if board_game: 
+                board_game.status = 'Reserved'  # เปลี่ยนสถานะบอร์ดเกม เป็นถูกจอง
+                board_game.save() 
+
 
             # แสดงข้อความแจ้งเตือน
             messages.success(request, 'บันทึกการจองของคุณเรียบร้อยแล้ว')
@@ -125,6 +142,7 @@ class CashierConfirmView(LoginRequiredMixin, View):
     def get(self, request, reservation_id):
         reservation = Reservation.objects.get(id=reservation_id)
         table = Table.objects.get(id=reservation.table.id) # getidจองของidโต๊ะนั้นที่จอง
+
         reservation.status = 'Confirmed' # เปลี่ยนสถานะของตารางจอง
         reservation.save()
         table.status = 'Reserved' # เปลี่ยนสถานะของตารางโต๊ะ
@@ -142,6 +160,14 @@ class CashierCancelView(LoginRequiredMixin, View):
         reservation.save()
         table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะ
         table.save()
+
+        # เปลี่ยนสถานะของบอร์ดเกม
+        if reservation.board_game:
+            print("555555555555555555")
+            gameid = reservation.board_game.id
+            game = BoardGames.objects.get(pk=gameid)
+            game.status = 'Available'
+            game.save()
         return redirect('cashier_list')
     
 # พนักงานกดยกเลิกรับโต๊ะ
@@ -166,7 +192,15 @@ class CashierReServeView(View):
             table.status = 'Occupied' # เปลี่ยนสถานะของตารางโต๊ะจากจองเป็นไม่ว่าง
             table.save()
 
-            play = PlaySession.objects.create(
+            # เปลี่ยนสถานะของบอร์ดเกม
+            if reservation.board_game:
+                print("555555555555555555")
+                gameid = reservation.board_game.id
+                game = BoardGames.objects.get(pk=gameid)
+                game.status = 'Available'
+                game.save()
+
+            PlaySession.objects.create(
                 table=table,
                 user=reservation.user,
                 num_players=reservation.reservation_cap,

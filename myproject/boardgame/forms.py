@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django import forms
 from .models import *
 
-from datetime import date, timedelta, time
+from datetime import date, timedelta, time, datetime
 from django.utils import timezone
 from django.contrib.auth.forms import UserCreationForm
 
@@ -13,13 +13,17 @@ from django.contrib.auth.forms import UserCreationForm
 # ฟอร์มจองโต๊ะ
 class ReservationForm(forms.ModelForm):
     #  เพิ่มฟิลด์จากตารางอื่น เข้ามาในฟอร์มด้วย
-    table = forms.ModelChoiceField(queryset=Table.objects.filter(status='Available')) # แสดงเฉพาะโต๊ะที่ว่าง
+    table = forms.ModelChoiceField(queryset=Table.objects.filter(status='Available'),
+                                   label="เลือกโต๊ะ") # แสดงเฉพาะโต๊ะที่ว่าง
+    board_game = forms.ModelChoiceField(queryset=BoardGames.objects.filter(status='Available'), label="เลือกบอร์ดเกม",
+                                        required=False ) # ไม่บังคับให้จองบอร์ดเกม
 
 
     class Meta:
         model = Reservation
         fields = [
             "table", 
+            "board_game",
             "reservation_date", 
             "reservation_time", 
             "reservation_cap", 
@@ -48,10 +52,15 @@ class ReservationForm(forms.ModelForm):
     # เช็คเวลา ต้องอยู่ในช่วง 10 โมงถึง 5 ทุ่ม
     def clean_reservation_time(self):
         res_time = self.cleaned_data["reservation_time"]
-
-        if res_time < time(10, 0) and res_time > time(23, 0) :
-            raise forms.ValidationError("กำหนดเวลาอยู่ในช่วง 10:00 ถึง 23:00!")
-        return res_time  
+    
+        if res_time:
+            if res_time < time(10, 0) and res_time > time(23, 0):
+                raise forms.ValidationError("กำหนดเวลาอยู่ในช่วง 10:00 ถึง 23:00!")
+            
+            if res_time <= datetime.now().time():
+                raise forms.ValidationError(f"ต้องเป็นเวลาการจองล่วงหน้า!")
+    
+        return res_time
 
 
     # เช็คจำนวนคนต้องอยู่ในช่วงจำนวนที่นั่ง

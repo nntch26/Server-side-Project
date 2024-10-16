@@ -170,7 +170,7 @@
 /* ////////////// Show boardgame-sec styles ////////////// */
 
 .showboardgame-sec{
-    padding-top: 6rem;
+    padding-top: 3rem;
 }
 
 .btn-cusdetail{
@@ -248,8 +248,8 @@
 
 }
 
-.boardgamedetail-sec, .cartlist-sec{
-    padding-top: 6rem;
+.boardgamedetail-sec{
+    padding-top: 3rem;
 
 }
 
@@ -295,15 +295,15 @@ iframe{
     background-color: rgb(255, 255, 255);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
     border-radius: 20px;
-    padding: 20px;
+    padding: 10px;
 }
 
 .cont-date {
-    margin-top: 30px;
+    margin-top: 20px;
     background-color: rgb(255, 255, 255);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
     border-radius: 20px;
-    padding: 20px;
+    padding: 10px;
 }
 
 .a_nav2 {
@@ -737,7 +737,7 @@ input{
     object-fit: cover;
     display: flex;
     margin: 0 auto;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 .intro2 h1{
     text-align: center;
@@ -826,6 +826,17 @@ input{
         width:350px;
         height:260px;
     }
+
+    .product-image img {
+        width:300px;
+        height:240px;
+        object-fit: cover;
+    }
+    .form-booking {
+        display: block;
+
+    }
+    
 }
 
 @media (max-width: 1500px) {

@@ -14,6 +14,7 @@
                 <tr>
                     <th>ชื่อ-นามสกุล</th>
                     <th>โต๊ะ</th>
+                    <th>บอร์ดเกมที่จอง</th>
                     <th>จำนวนคน</th>
                     <th>เบอร์โทรศัพท์</th>
                     <th>วัน-เวลาที่จอง</th>
@@ -26,6 +27,11 @@
                     <tr>
                         <td>{{ i.user.first_name }} {{ i.user.last_name }}</td>
                         <td>{{ i.table_id }}</td>
+                        {% if i.board_game != Null  %}
+                        <td>{{ i.board_game.game_name }}</td>
+                        {% else %}
+                        <td> - </td>
+                        {% endif %}
                         <td>{{ i.reservation_cap }}</td>
                         <td>{{ i.user.userdetail.phone_number }}</td>
                         <td>{{ i.reservation_date }} : {{ i.reservation_time }}</td>

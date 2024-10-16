@@ -63,32 +63,45 @@ body{
                         <form action="" method="post">
                             {% csrf_token %}
 
-                            <div class="form-group row cont-numtable">
-                                <div class="col-sm-12">
-                                    <label for="table_id">เลือกโต๊ะ : </label>
-                                     {{ form.table }}
+                            <div class="row cont-numtable">
+                                <div class="col-12">
+                                    {{ form.table|as_crispy_field  }}
+                                </div>
+                            </div>
+                            
+                            <div class="row cont-date mb-5">
+                                <div class="mb-3 col-12 col-md-4">
+                                    {{ form.reservation_date|as_crispy_field }}
+                                    <!-- crispy จะแสดงผล validation errors ให้อัตโนมัติ ไม่ต้องกำหนด -->
+                                </div>
+                            
+                                <div class="mb-3 col-12 col-md-4">
+                                    {{ form.reservation_time|as_crispy_field }}
+                                </div>
+                            
+                                <div class="mb-3 col-12 col-md-4">
+                                    {{ form.reservation_cap|as_crispy_field }}
                                     
                                 </div>
                             </div>
                             
-    
-                            <div class="form-group row cont-date mb-5">
-                                <div class="mb-3 col-12 col-md-4">
-                                    {{ form.reservation_date|as_crispy_field }}
-                                    <!-- crispy จะแสดงผล validation errors ให้อัตโนมัติ ไม่ต้องกำหนด -->
 
+                            <!-- ฟอร์มเลือกบอร์ดเกม  -->
+                            <div id="board-game-form" >
+                                <div class="section-title mt-2">
+                                    <h4>จองบอร์ดเกมหน้าร้าน</h4>
+                                    <p style="color: crimson;">เลือกได้แค่ 1 บอร์ดเกม (ไม่บังคับ)</p>
                                 </div>
-    
-                                <div class="mb-3 col-12 col-md-4">
-                                    {{ form.reservation_time|as_crispy_field }}
+
+                                <div class="form-group row cont-date mb-3">
+                                    <div class="col-12 ">
+                                        {{ form.board_game|as_crispy_field }}
+                                    </div>
                                 </div>
+                                
+
     
-                                <div class="mb-3 col-12 col-md-4">
-                                    {{ form.reservation_cap|as_crispy_field }}
-                                </div>
-                            </div>
-    
-                            <div class="btn-footer mb-3">
+                            <div class="btn-footer mb-5">
                                 <a href="{% url 'index' %}"  class="btn btn-secondary me-2">ยกเลิก</a>
                                 <button type="submit" name="submit_booking_insert" class="btn btn-cus2">บันทึก</button>
 
