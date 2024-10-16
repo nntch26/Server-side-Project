@@ -693,7 +693,7 @@ class ProfileView(LoginRequiredMixin, View):
 class ProfileEditView(LoginRequiredMixin, View):
     login_url = 'login'
 
-    
+
     def get(self, request):
         profile = request.user # ดึงข้อมูลผู้ใช้ / ตัวที่เข้าถึงข้อมูลของ user ที่เข้าสู่ระบบ
         userdetail = UserDetail.objects.get(user=profile) # user = user login
@@ -744,7 +744,7 @@ class PlayingView(LoginRequiredMixin, View):
         form = BoardGamesForm()
         user = request.user
         print(user)
-        user_playsessions = PlaySession.objects.filter(user=user).order_by('-created_at').first() 
+        user_playsessions = PlaySession.objects.filter(user=user, is_paid=False).order_by('-created_at').first() 
 
         # ดึงข้อมูลใบเสร็จ การเล่นบอร์ดเกมของลุกค้าคนนั้น ล่าสุด
         print(user_playsessions) # ได้ออกมา 1 obj

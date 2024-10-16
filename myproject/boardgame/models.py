@@ -96,7 +96,6 @@ class PlaySession(models.Model):
     num_players = models.IntegerField(null=False, default=1)
     start_time = models.TimeField(null=False, default=timezone.now)
     end_time = models.TimeField(null=True)  
-    price_per_player = models.IntegerField(default=30)
     total_hours = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     total_cost = models.DecimalField(max_digits=8, decimal_places=2, null=True)
     is_paid = models.BooleanField(default=False) #บันทึกสถานะจ่ายตัง ว่าจ่ายตังไปยัง
