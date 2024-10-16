@@ -40,7 +40,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>boardgames x {{reservation.reservation_cap}}</td>
+                            <td>boardgames x {{playsession.num_players}}</td>
                             <td class="text-end">{{playsession.total_cost}}</td>
                         </tr>
                     </tbody>
@@ -63,7 +63,7 @@
                 <p><strong>ชำระเงิน โต๊ะที่:</strong> {{playsession.table.id}}</p>
                 <p><strong>รวมราคาทั้งสิ้น:</strong> {{playsession.total_cost}} <strong>บาท</strong></p>
             </div>
-            <form action="{% url 'cashier_payments' playsession.table.id %}" method="POST">
+            <form action="{% url 'cashier_bill' playsession.table.id %}" method="POST">
                 {% csrf_token %}
                 <div class="mb-3 col-12 col-md-12">
                     <strong>รับเงินมา (บาท)</strong> <input type="text" id="pay">
