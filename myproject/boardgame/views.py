@@ -87,9 +87,9 @@ class ReservationFormView(LoginRequiredMixin,PermissionRequiredMixin, View):
 # cashier     
 # staff1 st1@1234
 
-class CashierView(LoginRequiredMixin, View):
+class CashierView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = 'login'
-    # permission_required = ["boardgame.view_table"]
+    permission_required = ["boardgame.view_table"]
 
 
     def get(self, request):
@@ -105,8 +105,22 @@ class CashierView(LoginRequiredMixin, View):
 
 
     
-class CashierBillView(View):
+class CashierBillView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    login_url = 'login'
+    permission_required = ["boardgame.view_playsession"]
+
     def get(self, request, table_id):
+
+        #ดึงเอา group ของผู้ใช้คนนี้ อันนี้ผู้ใช้มีแค่คนละ group เดียว
+        user = request.user
+        user_groups = user.groups.all()
+        for group in user_groups:
+            print(group.name)  
+
+            # ถ้าผู้ใช้ไม่ใช่ manager
+            if group.name != "staff":
+                raise PermissionDenied # เข้าหน้าที่ไม่มีสิท  403 Forbidden
+            
         reservation = Reservation.objects.filter(table_id=table_id).order_by('created_at').last()
         playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
         pack = {'reservation': reservation, 'playsession': playsession}
@@ -134,13 +148,25 @@ class CashierListView(LoginRequiredMixin,PermissionRequiredMixin, View):
     permission_required = ["boardgame.view_reservation"]
 
     def get(self, request):
+
+        #ดึงเอา group ของผู้ใช้คนนี้ อันนี้ผู้ใช้มีแค่คนละ group เดียว
+        user = request.user
+        user_groups = user.groups.all()
+        for group in user_groups:
+            print(group.name)  
+
+            # ถ้าผู้ใช้ไม่ใช่ manager
+            if group.name != "staff":
+                raise PermissionDenied # เข้าหน้าที่ไม่มีสิท  403 Forbidden
+            
         reserv = Reservation.objects.filter(status='Pending')
         pack = {'reserv': reserv}
         return render(request, 'cashier/cashier-confirm.html', pack)
 
 # กด confirm
-class CashierConfirmView(LoginRequiredMixin, View):
+class CashierConfirmView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.change_reservation"]
 
     def get(self, request, reservation_id):
         reservation = Reservation.objects.get(id=reservation_id)
@@ -152,17 +178,16 @@ class CashierConfirmView(LoginRequiredMixin, View):
         table.save()
         return redirect('cashier_list')
 
-# กด cancel
-class CashierCancelView(LoginRequiredMixin, View):
+# กด cancel การจองที่จองเข้ามา
+class CashierCancelView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.delete_reservation"]
 
     def get(self, request, reservation_id):
         reservation = Reservation.objects.get(id=reservation_id)
-        table = Table.objects.get(id=reservation.table.id)
         reservation.status = 'Cancelled' # เปลี่ยนสถานะของตารางจอง
         reservation.save()
-        table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะ
-        table.save()
+
 
         # เปลี่ยนสถานะของบอร์ดเกม
         if reservation.board_game:
@@ -173,21 +198,36 @@ class CashierCancelView(LoginRequiredMixin, View):
             game.save()
         return redirect('cashier_list')
     
-# พนักงานกดยกเลิกรับโต๊ะ
 
-class CashierServeView(LoginRequiredMixin, View):
+# พนักงานกดยกเลิกรับโต๊ะหลังจากจองแล้ว
+
+class CashierServeView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.change_table"]
 
     def get(self, request, table_id):
         table = Table.objects.get(id=table_id)
+        reservation = Reservation.objects.filter(table_id=table_id).order_by('created_at').last()
         if table.status == 'Reserved':
             table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะจากจองเป็นว่าง
             table.save()
 
+        # เปลี่ยนสถานะของบอร์ดเกม
+        if reservation.board_game:
+            print("555555555555555555")
+            gameid = reservation.board_game.id
+            game = BoardGames.objects.get(pk=gameid)
+            game.status = 'Available'
+            game.save()
+
+
         return redirect('cashier_table')
     
 # พนักงานกดรับโต๊ะ จากตอนแรกจองพอกดด้านในเปลี่ยนเป็นไม่ว่าง
-class CashierReServeView(View):
+class CashierReServeView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    login_url = 'login'
+    permission_required = ["boardgame.change_table", "boardgame.add_playsession"]
+
     def get(self, request, table_id):
         table = Table.objects.get(id=table_id)
         reservation = Reservation.objects.filter(table_id=table_id).order_by('created_at').last()
@@ -215,9 +255,23 @@ class CashierReServeView(View):
         return render(request, 'cashier/cashier-table.html', {'playsession': playsession})
     
 
-# ดูรายละเอียดโต๊ะ
-class CashierDetailView(View):
+# ดูรายละเอียดโต๊ะทั้งจองและรับโต๊ะ
+class CashierDetailView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    login_url = 'login'
+    permission_required = ["boardgame.view_reservation", "boardgame.view_playsession"]
+
     def get(self, request, table_id):
+
+        #ดึงเอา group ของผู้ใช้คนนี้ อันนี้ผู้ใช้มีแค่คนละ group เดียว
+        user = request.user
+        user_groups = user.groups.all()
+        for group in user_groups:
+            print(group.name)  
+
+            # ถ้าผู้ใช้ไม่ใช่ manager
+            if group.name != "staff":
+                raise PermissionDenied # เข้าหน้าที่ไม่มีสิท  403 Forbidden
+            
         reservation = Reservation.objects.filter(table_id=table_id) # filter table_id ของ reserve = table_id ที่ส่งมา
         playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
         print(playsession)
@@ -225,7 +279,10 @@ class CashierDetailView(View):
         return render(request, 'cashier/table-detail.html', pack)
 
 # โชว์ฟอร์มรับโต๊ะ
-class PlaySessionView(View):
+class PlaySessionView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    login_url = 'login'
+    permission_required = ["boardgame.add_playsession"]
+
     def get(self, request, table_id):
         table = Table.objects.get(id=table_id)
         form = PlaySessionForm()
@@ -259,8 +316,11 @@ class PlaySessionView(View):
             print(form.errors)
         return render(request, 'cashier/cashier-serve.html', {'form': form, 'table': table})
         
-    
-class PaymentsView(View):
+# จ่ายเงิน add point
+class PaymentsView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    login_url = 'login'
+    permission_required = ["boardgame.view_playsession", "boardgame.change_playsession", "boardgame.add_payments"]
+
     def post(self, request, table_id):
         table = Table.objects.get(id=table_id)
         playsession = PlaySession.objects.filter(table_id=table_id).order_by('end_time').last()
@@ -294,8 +354,12 @@ class PaymentsView(View):
             money = 0
             messages.error(request, 'กรุณาจ่ายเงินให้ครบ')
         return render(request, 'cashier/bill.html', {'playsession': playsession, 'money': money})
-    
-class UsePointsView(View):
+
+# ใช้คะแนน
+class UsePointsView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    login_url = 'login'
+    permission_required = ["boardgame.add_playsession", "boardgame.change_playsession", "boardgame.change_payments"]
+
     def get(self, request, table_id):
         playsession = PlaySession.objects.filter(table_id=table_id).order_by('end_time').last()
         user = playsession.user
@@ -315,7 +379,7 @@ class UsePointsView(View):
             # print('1')
             # print(point.points)
             # print(playsession.total_cost)
-            
+
             total = float(playsession.total_cost) - float(point.points)
             playsession.total_cost = total
             playsession.save()
@@ -650,12 +714,22 @@ class DashboardBoardgameEditView(LoginRequiredMixin,PermissionRequiredMixin, Vie
 # //////////////////// member  ////////////////////
 class DashboardMemberView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
-    permission_required = ["boardgame.view_user"]
+    permission_required = ["auth.view_user"]
 
 
     template_name = "admin/dashboard-member.html"
 
     def get(self, request):
+
+        user = request.user
+        user_groups = user.groups.all()
+        for group in user_groups:
+            print(group.name)  
+
+            # ถ้าผู้ใช้ไม่ใช่ manager
+            if group.name != "manager":
+                raise PermissionDenied # เข้าหน้าที่ไม่มีสิท  403 Forbidden
+
         member_list = User.objects.exclude(
             Q(username__startswith='admin') | 
             Q(username__startswith='staff') | 
@@ -667,7 +741,7 @@ class DashboardMemberView(LoginRequiredMixin,PermissionRequiredMixin, View):
 
 class DashboardMemberDelView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
-    permission_required = ["boardgame.delete_user"]
+    permission_required = ["auth.delete_user"]
 
     def get(self, request, mem_id):
 
@@ -729,7 +803,7 @@ class DashboardCategoriesDelView(LoginRequiredMixin,PermissionRequiredMixin, Vie
         return redirect('des-categories')
 
 
-class DashboardCategoriesEditView(LoginRequiredMixin,PermissionRequiredMixin, View):
+class DashboardCategoriesEditView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = 'login'
     permission_required = ["boardgame.change_categories"]
 
@@ -764,17 +838,29 @@ class DashboardCategoriesEditView(LoginRequiredMixin,PermissionRequiredMixin, Vi
 
 
 # /////////////////// profile ////////////////////
-class ProfileView(LoginRequiredMixin, View):
+class ProfileView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["auth.view_user", "boardgame.view_userdetail"]
 
     def get(self, request):
         return render(request, 'profile.html')
     
-class ProfileEditView(LoginRequiredMixin, View):
+class ProfileEditView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.change_userdetail", "boardgame.view_userdetail"]
 
 
     def get(self, request):
+
+        user = request.user
+        user_groups = user.groups.all()
+        for group in user_groups:
+            print(group.name)  
+
+            # ถ้าผู้ใช้ไม่ใช่ manager
+            if group.name != "customer":
+                raise PermissionDenied # เข้าหน้าที่ไม่มีสิท  403 Forbidden
+            
         profile = request.user # ดึงข้อมูลผู้ใช้ / ตัวที่เข้าถึงข้อมูลของ user ที่เข้าสู่ระบบ
         userdetail = UserDetail.objects.get(user=profile) # user = user login
         # initial ตั้งค่าเริ่มต้นคนละตารางกับ user, instance ดึงข้อมูลจาก user มาใส่ฟอร์ม
@@ -797,10 +883,21 @@ class ProfileEditView(LoginRequiredMixin, View):
             return redirect('profile')
         return render(request, 'editprofile-form.html', {'form': form})
     
-class PasswordChangeView(LoginRequiredMixin, View):
+class PasswordChangeView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["auth.change_user"]
 
     def get(self, request):
+
+        user = request.user
+        user_groups = user.groups.all()
+        for group in user_groups:
+            print(group.name)  
+
+            # ถ้าผู้ใช้ไม่ใช่ manager
+            if group.name != "customer":
+                raise PermissionDenied # เข้าหน้าที่ไม่มีสิท  403 Forbidden
+
         new = request.user
         form = SetPasswordForm(user=new) # ใช้ของdjango ให้รู้ว่า user คนไหนที่ต้องการเปลี่ยนรหัส
         return render(request, 'password.html', {'form': form})
@@ -817,10 +914,21 @@ class PasswordChangeView(LoginRequiredMixin, View):
 
 # /////////////////// Playing ////////////////////
 
-class PlayingView(LoginRequiredMixin, View):
+class PlayingView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.view_playsession"]
 
     def get(self, request):
+
+        user = request.user
+        user_groups = user.groups.all()
+        for group in user_groups:
+            print(group.name)  
+
+            # ถ้าผู้ใช้ไม่ใช่ manager
+            if group.name != "customer":
+                raise PermissionDenied # เข้าหน้าที่ไม่มีสิท  403 Forbidden
+            
         form = BoardGamesForm()
         user = request.user
         print(user)

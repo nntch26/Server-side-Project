@@ -310,9 +310,11 @@ class ProfileEditForm(forms.ModelForm):
     def clean_birth_date(self):
         birth_date = self.cleaned_data.get("birth_date") # เป็นoptional
 
-        if birth_date > date.today():
-            raise ValidationError("ห้ามเป็นวันในอนาคต")
+        if birth_date:
+            if birth_date > date.today():
+                raise ValidationError("ห้ามเป็นวันในอนาคต")
         return birth_date
+        
     
 
 class PlaySessionForm(forms.ModelForm):
