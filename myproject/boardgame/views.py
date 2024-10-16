@@ -4,6 +4,7 @@ from django.db.models import F, Q, Count, Value as V, Avg, Max, Min
 from .models import *
 from .forms import * 
 
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, SetPasswordForm
 from django.contrib.auth import login, logout, update_session_auth_hash
 from .forms import CustomUserCreationForm  
@@ -512,13 +513,26 @@ class BoardgameDetailView(View):
 # //////////////////// Dashboard ////////////////////
 # manager2 mg2@1234
 
-class DashboardView(LoginRequiredMixin, View):
+class DashboardView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.view_reservation"]
 
     template_name = "admin/dashboard.html"
 
 
     def get(self, request):
+
+        #ดึงเอา group ของผู้ใช้คนนี้ อันนี้ผู้ใช้มีแค่คนละ group เดียว
+        user = request.user
+        user_groups = user.groups.all()
+        for group in user_groups:
+            print(group.name)  
+
+            # ถ้าผู้ใช้ไม่ใช่ manager
+            if group.name != "manager":
+                raise PermissionDenied # เข้าหน้าที่ไม่มีสิท  403 Forbidden
+
+
         boardgame_list = BoardGames.objects.all().count()
         member_list = User.objects.exclude(
             Q(username__startswith='admin') | 
@@ -542,8 +556,9 @@ class DashboardView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class DashboardBoardgameView(LoginRequiredMixin, View):
+class DashboardBoardgameView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.view_boardgames",]
 
     template_name = "admin/dashboard-boardgame.html"
 
@@ -552,8 +567,9 @@ class DashboardBoardgameView(LoginRequiredMixin, View):
         return render(request, self.template_name, {"product_list": product_list})
 
 
-class DashboardBoardgameAddView(LoginRequiredMixin, View):
+class DashboardBoardgameAddView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.add_boardgames",]
 
     template_name = "admin/boardgame_add.html"
 
@@ -577,8 +593,9 @@ class DashboardBoardgameAddView(LoginRequiredMixin, View):
         return render(request, self.template_name, {"form": form})
 
 
-class DashboardBoardgameDelView(LoginRequiredMixin, View):
+class DashboardBoardgameDelView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.delete_boardgames",]
 
     def get(self, request, game_id):
         project_data = BoardGames.objects.get(pk=game_id)
@@ -586,8 +603,9 @@ class DashboardBoardgameDelView(LoginRequiredMixin, View):
         return redirect('des-boardgame')
 
 
-class DashboardBoardgameEditView(LoginRequiredMixin, View):
+class DashboardBoardgameEditView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.change_boardgames",]
 
     template_name = "admin/boardgame_edit.html"
 
@@ -619,8 +637,10 @@ class DashboardBoardgameEditView(LoginRequiredMixin, View):
 
 
 # //////////////////// member  ////////////////////
-class DashboardMemberView(LoginRequiredMixin, View):
+class DashboardMemberView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.view_user"]
+
 
     template_name = "admin/dashboard-member.html"
 
@@ -634,8 +654,9 @@ class DashboardMemberView(LoginRequiredMixin, View):
 
         return render(request, self.template_name, {"member_list": member_list})
 
-class DashboardMemberDelView(LoginRequiredMixin, View):
+class DashboardMemberDelView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.delete_user"]
 
     def get(self, request, mem_id):
 
@@ -645,8 +666,9 @@ class DashboardMemberDelView(LoginRequiredMixin, View):
     
 
 # //////////////////// หมวดหมู่ ////////////////////
-class DashboardCategoriesView(LoginRequiredMixin, View):
+class DashboardCategoriesView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.view_categories"]
 
     template_name = "admin/dashboard-categories.html"
 
@@ -685,8 +707,9 @@ class DashboardCategoriesView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class DashboardCategoriesDelView(LoginRequiredMixin, View):
+class DashboardCategoriesDelView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.delete_categories"]
 
     def get(self, request, cate_id):
 
@@ -695,8 +718,9 @@ class DashboardCategoriesDelView(LoginRequiredMixin, View):
         return redirect('des-categories')
 
 
-class DashboardCategoriesEditView(LoginRequiredMixin, View):
+class DashboardCategoriesEditView(LoginRequiredMixin,PermissionRequiredMixin, View):
     login_url = 'login'
+    permission_required = ["boardgame.change_categories"]
 
     template_name = "admin/categories_edit.html"
 
