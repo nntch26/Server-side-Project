@@ -26,6 +26,20 @@
                 <div class="sidebar fixed-sidebar">
                     <div class="mb-4">
 
+                           <!---alert --> 
+                        {% if messages %}
+                            {% for message in messages %}
+                                <!-- เช็คว่า สำเร็จหรือไม่ -->
+                                {% if message.level_tag == 'error' %}
+                                <div class="alert alert-danger"  role="alert">
+                                {% endif %}
+                                    {{ message }}
+                                    {{ form.non_field_errors }} 
+                                    <!-- error ในฟอร์ม -->
+                                </div>
+
+                            {% endfor %}
+                        {% endif %}
                          <!-- ค้นหา -->
                         <form  action="{% url 'seach'%}" method="get">
                             <input type="text"  placeholder="ค้นหาชื่อบอร์ดเกม.." name="search" class="form-search">
@@ -117,7 +131,6 @@
 
                     <form action="{% url 'filter' %}" method="get" class="product-form">
                         {% csrf_token %}
-                       
                         <div class="form-group row mb-4">
                             <div class="mb-3 col-12 col-md-12">
                                 {{ form.category|as_crispy_field }}

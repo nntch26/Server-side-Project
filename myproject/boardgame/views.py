@@ -392,7 +392,7 @@ class BoardgameSearchView (View):
         boardgame_list = BoardGames.objects.filter(game_name__icontains= data)
 
         category_list = Categories.objects.all()
-        form = BoardGamesForm()
+        form = BoardGamesFilterForm()
 
         context = {
             "category_list" : category_list,
@@ -408,21 +408,30 @@ class BoardgameFilterView(View):
     template_name = "boardgame.html"
     
     def get(self, request):
-        cate = request.GET.getlist('category') # ดึงค่าแบบหลายตัว
-        time = request.GET.get('play_time')
-        minp = request.GET.get('min_players')
-        maxp = request.GET.get('max_players')
+       
+        form = BoardGamesFilterForm(request.GET)
+        boardgame_list = None
+        print(form.errors)
 
-        boardgame_list = BoardGames.objects.filter(
-            category__id__in=cate,  # หาหมวดหมู่หลายอัน 
-            play_time__lte=time,
-            min_players__gte = minp , 
-            max_players__lte = maxp
-            ).distinct() # ไม่เอาข้อมูลซ้ำ เกมเดียว แต่อยู่ในหลายหมวดหมู่ แสดงครั้งเดียว
-        print(boardgame_list)
+        if form.is_valid(): # เช็คความถูกต้องของข้อมูลที่กรอกมา
+            print(555555555555)
+            cate = form.cleaned_data['category']
+            time = form.cleaned_data['play_time']
+            minp = form.cleaned_data['min_players']
+            maxp = form.cleaned_data['max_players']
+            print(cate)
+            
+            boardgame_list = BoardGames.objects.filter(
+                category__id__in=cate,  # หาหมวดหมู่หลายอัน  เป็น list
+                play_time__lte=time,
+                min_players__gte = minp , 
+                max_players__lte = maxp
+                ).distinct() # ไม่เอาข้อมูลซ้ำ เกมเดียว แต่อยู่ในหลายหมวดหมู่ แสดงครั้งเดียว
+            print(boardgame_list)
+        else:
+            messages.error(request, "โปรดกรอกข้อมูลให้ถูกต้อง!")
 
         category_list = Categories.objects.all()
-        form = BoardGamesForm()
 
         context = {
             "category_list" : category_list,
@@ -430,6 +439,7 @@ class BoardgameFilterView(View):
             "form":form
         }
         return render(request, self.template_name, context)
+
 
 
 class BoardgameDetailView(View):

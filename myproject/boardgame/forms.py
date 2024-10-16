@@ -68,12 +68,12 @@ class ReservationForm(forms.ModelForm):
         res_cap = self.cleaned_data["reservation_cap"]
         table = self.cleaned_data["table"]
         
-        if res_cap:
-            if res_cap <= 0:
-                raise forms.ValidationError("จำนวนคนต้องมากกว่า 0!")
+        if res_cap <= 0:
+            print(res_cap)
+            raise forms.ValidationError("จำนวนคนต้องมากกว่า 0!")
 
-            if res_cap > table.table_cap:
-                raise forms.ValidationError(f"จำนวนคนต้องไม่เกิน {table.table_cap} คน!")
+        if res_cap > table.table_cap:
+            raise forms.ValidationError(f"จำนวนคนต้องไม่เกิน {table.table_cap} คน!")
         
         return res_cap
 
@@ -167,7 +167,6 @@ class BoardGamesForm(forms.ModelForm):
     def clean_min_players(self):
         min_players = self.cleaned_data.get("min_players")
 
-
         if min_players <= 0:
             raise forms.ValidationError("กำหนดต้องมากกว่า 0")
         
@@ -198,7 +197,7 @@ class BoardGamesForm(forms.ModelForm):
         min_players = cleaned_data.get("min_players")
         max_players = cleaned_data.get("max_players")
 
-        if min_players >= max_players or max_players <= min_players:
+        if min_players >= max_players or max_players <= min_players or max_players == min_players:
             raise forms.ValidationError("กำหนดจำนวนผู้เล่นขั้นต่ำต้องน้อยกว่าจำนวนผู้เล่นสูงสุด")
 
         return cleaned_data
@@ -318,3 +317,68 @@ class PlaySessionForm(forms.ModelForm):
         if num_players <= 0:
             raise ValidationError("กรุณาเพิ่มจำนวนคนที่มาให้ถูกต้อง")
         return num_players
+
+
+
+
+class BoardGamesFilterForm(forms.ModelForm):
+
+    class Meta:
+        model = BoardGames
+        fields = [
+            "min_players", 
+            "max_players",
+            "play_time",
+            "category" 
+        ]
+
+        widgets = {
+            "description": forms.Textarea(),
+        }
+
+        labels = {
+            'min_players': 'จำนวนคนขั้นต่ำ',
+            'max_players': 'จำนวนคนไม่เกิน',
+            'play_time': 'เวลาในการเล่น(นาที)',
+            'category': 'หมวดหมู่',
+        }
+
+
+    # เช็ค ต้องใส่เลขมากกว่า 0
+    def clean_min_players(self):
+        min_players = self.cleaned_data.get("min_players")
+
+        if min_players <= 0:
+            raise forms.ValidationError("กำหนดต้องมากกว่า 0")
+        
+        return min_players
+
+    def clean_max_players(self):
+        max_players = self.cleaned_data["max_players"]
+
+
+        if max_players <= 0:
+            raise forms.ValidationError("กำหนดต้องมากกว่า 0")
+        
+        return max_players
+
+
+    def clean_play_time(self):
+        play_time = self.cleaned_data["play_time"]
+
+        if play_time <= 0:
+            raise forms.ValidationError("กำหนดต้องมากกว่า 0")
+        return play_time
+    
+
+    # เช็คจำนวนคนเล่นขั้นต่ำ กับ ไม่เกินต้อง สอดคล้องกัน 
+    def clean(self):
+        cleaned_data = super().clean()  
+
+        min_players = cleaned_data.get("min_players")
+        max_players = cleaned_data.get("max_players")
+
+        if min_players >= max_players or max_players <= min_players or max_players == min_players:
+            raise forms.ValidationError("กำหนดจำนวนผู้เล่นขั้นต่ำต้องน้อยกว่าจำนวนผู้เล่นสูงสุด")
+
+        return cleaned_data
