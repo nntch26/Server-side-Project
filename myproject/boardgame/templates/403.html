@@ -3,6 +3,33 @@
 
 {% block title %} 403 Forbidden {% endblock title %}
 
+{% block styles %}
+<style>
+    body {
+        background-color: #f8f9fa;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .error-container {
+        text-align: center;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .error-code {
+        font-size: 72px;
+        font-weight: bold;
+        color: #dc3545;
+    }
+    .error-message {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock styles %}
 
 {% block navbar %}
 {% endblock navbar %}
