@@ -41,6 +41,20 @@ class ReservationForm(forms.ModelForm):
             'reservation_cap': 'จำนวนคน',
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        reservation_date = cleaned_data.get('reservation_date')
+        reservation_time = cleaned_data.get('reservation_time')
+
+        if reservation_date and reservation_time:
+            # รวมวันที่และเวลา
+            reser_datetime = datetime.combine(reservation_date, reservation_time)
+
+            if reser_datetime <= datetime.now():
+                raise forms.ValidationError("ต้องเป็นเวลาการจองล่วงหน้า!")
+
+        return cleaned_data
+
     # เช็ควันที่ ต้องไม่เกิน 1 วัน
     def clean_reservation_date(self):
         res_date = self.cleaned_data["reservation_date"]
@@ -54,7 +68,7 @@ class ReservationForm(forms.ModelForm):
         res_time = self.cleaned_data["reservation_time"]
     
         if res_time:
-            if res_time < time(10, 0) and res_time > time(23, 0):
+            if res_time < time(10, 0) or res_time > time(23, 0):
                 raise forms.ValidationError("กำหนดเวลาอยู่ในช่วง 10:00 ถึง 23:00!")
             
             # if res_time <= datetime.now().time():
@@ -78,18 +92,7 @@ class ReservationForm(forms.ModelForm):
         return res_cap
     
 
-    def clean(self):
-        cleaned_data = super().clean()
-        reservation_date = cleaned_data.get('reservation_date')
-        reservation_time = cleaned_data.get('reservation_time')
 
-        # รวมวันที่และเวลา
-        reservation_datetime = datetime.combine(reservation_date, reservation_time)
-
-        if reservation_datetime <= datetime.now():
-            raise forms.ValidationError("ต้องเป็นเวลาการจองล่วงหน้า!")
-
-        return cleaned_data
 
 
 # ฟอร์ม Register
