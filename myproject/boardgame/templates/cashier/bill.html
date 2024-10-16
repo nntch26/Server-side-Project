@@ -18,8 +18,8 @@
                 </div>
                 
                 <div class="row mb-2">
-                    <div class="col-6">โต๊ะ : {{reservation.table.id}}</div>
-                    <div class="col-6 text-end">จำนวนลูกค้า : {{reservation.reservation_cap}} ท่าน</div>
+                    <div class="col-6">โต๊ะ : {{playsession.table.id}}</div>
+                    <div class="col-6 text-end">จำนวนลูกค้า : {{playsession.num_players}} ท่าน</div>
                 </div>
                 
                 <div class="row mb-2">
@@ -63,13 +63,13 @@
                 <p><strong>ชำระเงิน โต๊ะที่:</strong> {{playsession.table.id}}</p>
                 <p><strong>รวมราคาทั้งสิ้น:</strong> {{playsession.total_cost}} <strong>บาท</strong></p>
             </div>
-            <form action="{% url 'cashier_bill' playsession.table.id %}" method="POST">
+            <form action="{% url 'cashier_payment' playsession.table.id %}" method="POST">
                 {% csrf_token %}
                 <div class="mb-3 col-12 col-md-12">
-                    <strong>รับเงินมา (บาท)</strong> <input type="text" id="pay">
+                    <strong>รับเงินมา (บาท)</strong> <input type="number" name="pay">
                 </div>
                 <div class="mb-3 col-12 col-md-12">
-                    <strong>เงินทอน (บาท)</strong> <input type="text" id="with" value="{{ default }}" disabled>
+                    <strong>เงินทอน (บาท)</strong> <input type="number" name="with" value="{{ money }}" disabled>
                 </div>
                 <div class="mb-3 col-12 col-md-12">
                     <strong style="color: red;">สมาชิก</strong>
@@ -84,10 +84,11 @@
                     <strong>points: </strong> {{playsession.user.userdetail.points}}
                 </div>
                 <div class="mb-3 col-12 col-md-12">
-                    {{form}}
                     <button type="submit" style="border: none; background: none; width: 100%;">ใช้คะแนน</button>
                 </div>
-                <button type="submit" class="btn but-8" style="width: 100%;">เช็คบิล</button>
+                {% if playsession.is_paid == False %}
+                    <button type="submit" class="btn but-8" style="width: 100%;">เช็คบิล</button>
+                {% endif %}
             </form>
             <div class="butt" style="margin-top: 10px;">
                 <a href="{% url 'cashier_table' %}" class="btn but-7">ยกเลิก</a>
