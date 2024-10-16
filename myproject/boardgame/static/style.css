@@ -565,7 +565,7 @@ input{
     background-color: rgba(255, 255, 255, 0.827);
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgb(0, 0, 0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.275);
     margin: 20px;
     padding: 15px;
     flex-basis: calc(25%);

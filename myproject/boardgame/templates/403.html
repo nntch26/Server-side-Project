@@ -1,0 +1,26 @@
+{% extends 'layout.html' %} 
+{% load static %}
+
+{% block title %} 403 Forbidden {% endblock title %}
+
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto mt-5">
+                <div class="error-container">
+                    <h1 class="error-code">403</h1>
+                    <h2 class="error-message">ข้อผิดพลาด: การเข้าถึงถูกปฏิเสธ</h2>
+                    <p class="lead">ขออภัย คุณไม่ได้รับอนุญาตให้เข้าถึงหน้านี้</p>
+                    <a href="{% url 'index' %}" class="btn btn-primary">กลับไปยังหน้าหลัก</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+    {% block footer %}
+    {% endblock footer %}
