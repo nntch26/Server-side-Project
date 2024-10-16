@@ -279,17 +279,42 @@ class PaymentsView(View):
             table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะ
             table.save()
 
+            pay = Payments.objects.create(
+                session = playsession,
+                payment_amount = playsession.total_cost,
+                payment_date = timezone.now()
+            )
+
         else:
             money = 0
             messages.error(request, 'กรุณาจ่ายเงินให้ครบ')
         return render(request, 'cashier/bill.html', {'playsession': playsession, 'money': money})
     
 class UsePointsView(View):
-    def post(self, request, table_id):
+    def get(self, request, table_id):
         playsession = PlaySession.objects.filter(table_id=table_id).order_by('end_time').last()
         user = playsession.user
         getuser = User.objects.get(id=user.id)
         print(getuser.id)
+
+        point = getuser.userdetail
+        if point.points >= 30:
+            point.points -= 30
+            point.save()
+
+            total = float(playsession.total_cost) - 30
+            playsession.total_cost = total
+            playsession.save()
+
+        else:
+            point.points -= point.points
+            point.save()
+
+            total = float(playsession.total_cost) - float(point.points)
+            playsession.total_cost = total
+            playsession.save()
+        return render(request, 'cashier/bill.html', {'playsession': playsession})
+
 
 
 

@@ -6,7 +6,18 @@
 
 {% block content %}
 
+
+
 <div class="big">
+    <!---alert --> 
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
+
     <div class="container mt-5">
         <button onclick="window.print()" class="btn btn-primary mb-3 no-print">พิมพ์ใบเสร็จ</button>
         <div class="card">
@@ -83,10 +94,10 @@
                 <div class="mb-3 col-12 col-md-12">
                     <strong>points: </strong> {{playsession.user.userdetail.points}}
                 </div>
-                <div class="mb-3 col-12 col-md-12">
-                    <button type="submit" style="border: none; background: none; width: 100%;">ใช้คะแนน</button>
-                </div>
                 {% if playsession.is_paid == False %}
+                    <div class="mb-3 col-12 col-md-12">
+                        <a href="{% url 'cashier_point' playsession.table.id %}" class="btn but-3">ใช้คะแนน</a>
+                    </div>
                     <button type="submit" class="btn but-8" style="width: 100%;">เช็คบิล</button>
                 {% endif %}
             </form>

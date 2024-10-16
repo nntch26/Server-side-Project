@@ -18,6 +18,7 @@ urlpatterns = [
     path("cashier/detail/<int:table_id>", views.CashierDetailView.as_view(), name="cashier_detail"),
     path("cashier/serve/table/<int:table_id>", views.PlaySessionView.as_view(), name="cashier_serve_table"),
     path("cashier/payment/<int:table_id>", views.PaymentsView.as_view(), name="cashier_payment"),
+    path("cashier/point/<int:table_id>", views.UsePointsView.as_view(), name="cashier_point"),
 
 
     # profile
