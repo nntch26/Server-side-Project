@@ -220,7 +220,6 @@ class CashierDetailView(View):
         reservation = Reservation.objects.filter(table_id=table_id) # filter table_id ของ reserve = table_id ที่ส่งมา
         playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
         print(playsession)
-        print(playsession.user.first_name)
         pack = {'reservation': reservation, 'playsession': playsession}
         return render(request, 'cashier/table-detail.html', pack)
 
@@ -256,22 +255,41 @@ class PlaySessionView(View):
         return render(request, 'cashier/cashier-serve.html', {'form': form, 'table': table})
         
     
-# class PaymentsView(View):
-#     def post(self, request, table_id):
-#         playsession = PlaySession.objects.filter(table_id=table_id).order_by('start_time').last()
-#         point, create = UserDetail.objects.get_or_create(defaults={'points': 0})
-#         default = 0 # set default
-#         amount = request.POST.get('pay')  # รับเงินจากฟอร์ม
-#         total_cost = playsession.total_cost  # ค่าใช้จ่ายทั้งหมด
-#         default = max(amount - total_cost, 0)
-#         if create:
-#             point = total_cost / 10
-#         else:
-#             point += total_cost /10
+class PaymentsView(View):
+    def post(self, request, table_id):
+        table = Table.objects.get(id=table_id)
+        playsession = PlaySession.objects.filter(table_id=table_id).order_by('end_time').last()
+        user = playsession.user # playsession ของ user นั้น
+        getuser = User.objects.get(id=user.id) # get user.id เพื่อเพิ่ม points
+        print(getuser.id)
+        pay = request.POST.get('pay') # จำนวนเงินที่กรอกเข้ามาใน input
         
-#         return render(request, 'cashier/payments.html', {'playsession': playsession, 'default': default})
-    
+        # ถ้าจ่ายเงินเยอะกว่าเงินที่ต้องจ่าย
+        if float(pay) >= float(playsession.total_cost):
+            money = float(pay) - float(playsession.total_cost)
+            playsession.is_paid = True # เปลี่ยนเป็นจ่ายแล้ว
+            playsession.save()
 
+            # .points เพื่อเพิ่ม point ใน userdetail
+            point = getuser.userdetail
+            point.points += float(playsession.total_cost) / 10
+            point.save()
+            print(point)
+
+            table.status = 'Available' # เปลี่ยนสถานะของตารางโต๊ะ
+            table.save()
+
+        else:
+            money = 0
+            messages.error(request, 'กรุณาจ่ายเงินให้ครบ')
+        return render(request, 'cashier/bill.html', {'playsession': playsession, 'money': money})
+    
+class UsePointsView(View):
+    def post(self, request, table_id):
+        playsession = PlaySession.objects.filter(table_id=table_id).order_by('end_time').last()
+        user = playsession.user
+        getuser = User.objects.get(id=user.id)
+        print(getuser.id)
 
 
 
