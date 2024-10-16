@@ -691,6 +691,9 @@ class ProfileView(LoginRequiredMixin, View):
         return render(request, 'profile.html')
     
 class ProfileEditView(LoginRequiredMixin, View):
+    login_url = 'login'
+
+    
     def get(self, request):
         profile = request.user # ดึงข้อมูลผู้ใช้ / ตัวที่เข้าถึงข้อมูลของ user ที่เข้าสู่ระบบ
         userdetail = UserDetail.objects.get(user=profile) # user = user login

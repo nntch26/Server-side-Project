@@ -133,6 +133,8 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class BoardGamesForm(forms.ModelForm):
+    min_players = forms.IntegerField(min_value=1)
+    max_players = forms.IntegerField(min_value=1) # กำหนดค่าเริ่มต้นต้องเริ่ม 1
 
     class Meta:
         model = BoardGames
@@ -165,7 +167,7 @@ class BoardGamesForm(forms.ModelForm):
 
     # เช็ค ต้องใส่เลขมากกว่า 0
     def clean_min_players(self):
-        min_players = self.cleaned_data.get("min_players")
+        min_players = self.cleaned_data["min_players"]
 
         if min_players <= 0:
             raise forms.ValidationError("กำหนดต้องมากกว่า 0")
@@ -313,7 +315,7 @@ class PlaySessionForm(forms.ModelForm):
         return phone_number
     
     def clean_num_players(self):
-        num_players = self.cleaned_data.get("num_players")
+        num_players = self.cleaned_data["num_players"]
         if num_players <= 0:
             raise ValidationError("กรุณาเพิ่มจำนวนคนที่มาให้ถูกต้อง")
         return num_players
@@ -322,6 +324,9 @@ class PlaySessionForm(forms.ModelForm):
 
 
 class BoardGamesFilterForm(forms.ModelForm):
+
+    min_players = forms.IntegerField(min_value=1)
+    max_players = forms.IntegerField(min_value=1)
 
     class Meta:
         model = BoardGames
@@ -332,9 +337,6 @@ class BoardGamesFilterForm(forms.ModelForm):
             "category" 
         ]
 
-        widgets = {
-            "description": forms.Textarea(),
-        }
 
         labels = {
             'min_players': 'จำนวนคนขั้นต่ำ',
@@ -346,7 +348,7 @@ class BoardGamesFilterForm(forms.ModelForm):
 
     # เช็ค ต้องใส่เลขมากกว่า 0
     def clean_min_players(self):
-        min_players = self.cleaned_data.get("min_players")
+        min_players = self.cleaned_data["min_players"]
 
         if min_players <= 0:
             raise forms.ValidationError("กำหนดต้องมากกว่า 0")
