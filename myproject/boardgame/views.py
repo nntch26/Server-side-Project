@@ -484,7 +484,7 @@ class BoardgameView(View):
         random.shuffle(boardgame_list)
         print(boardgame_list)
 
-        form = BoardGamesForm()
+        form = BoardGamesFilterForm()
         select_cate = None # อันที่กด
 
         if cate_name:
