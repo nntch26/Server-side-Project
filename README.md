@@ -8,11 +8,12 @@
 
 
 ## หน้าแรก
-![image](https://github.com/user-attachments/assets/bbecd98b-58fb-42cb-ba59-ee09637b7f06)
+![image](https://github.com/user-attachments/assets/7ea7c582-ace7-4576-94cb-e6fb29ee1a3a)
 
 
 ## หน้าบอร์ดเกม
-![image](https://github.com/user-attachments/assets/7ea7c582-ace7-4576-94cb-e6fb29ee1a3a)
+![image](https://github.com/user-attachments/assets/9032435c-292d-48d4-bd0e-f84b7ab79f48)
+
 
 ## หน้าแสดงสถานะกำลังเล่นบอร์ดเกม
 ![image](https://github.com/user-attachments/assets/c885adde-14c0-4aae-9313-32b80026850f)
