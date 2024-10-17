@@ -130,7 +130,7 @@ class CashierBillView(LoginRequiredMixin, PermissionRequiredMixin, View):
         reservation = Reservation.objects.filter(table_id=table_id).order_by('created_at').last()
         playsession = PlaySession.objects.filter(table_id=table_id, end_time__isnull=True).order_by('start_time').last() # โต๊ะนั้นจาก playsession ที่ยังไม่ได้มี end_time 
         if playsession:
-            playsession.end_time = timezone.now().time()  # บันทึกเวลาตอนนี้เป็น end_time เฉพาะเวลาเท่านั้น
+            playsession.end_time = datetime.now().time()  # บันทึกเวลาตอนนี้เป็น end_time เฉพาะเวลาเท่านั้น
             start_datetime = datetime.combine(timezone.now().date(), playsession.start_time) # รวมวันนี้กับเวลาเริ่ม
             end_datetime = datetime.combine(timezone.now().date(), playsession.end_time) # รวมวันนี้กับเวลาจบ
             total_hours = int((end_datetime - start_datetime).total_seconds() / 3600 + 1) # แปลงเป็นชั่วโมง + 1 เพราะคิดขั้นต่ำเป็น 1 ชั่วโมง
@@ -292,10 +292,11 @@ class PlaySessionView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def post(self, request, table_id):
         table = Table.objects.get(id=table_id)
         form = PlaySessionForm(request.POST)
-
+        print(form.instance.start_time)
         if form.is_valid():
             phone_number = form.cleaned_data["phone_number"]
             data = User.objects.get(userdetail__phone_number = phone_number)
+
 
             form.instance.table = table
             form.instance.user = data
@@ -703,9 +704,10 @@ class DashboardBoardgameEditView(LoginRequiredMixin,PermissionRequiredMixin, Vie
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'บันทึกข้อมูลของคุณเรียบร้อยแล้ว')
             return redirect('des-boardgame')
             # แสดงข้อความแจ้งเตือน
-            messages.success(request, 'บันทึกข้อมูลของคุณเรียบร้อยแล้ว')
+           
         
         messages.error(request, 'เกิดข้อผิดพลาด ไม่สามารถบันทึกข้อมูลได้! โปรดลองใหม่')
         return render(request, self.template_name, {"form": form})
@@ -828,9 +830,11 @@ class DashboardCategoriesEditView(LoginRequiredMixin, PermissionRequiredMixin, V
 
         if form.is_valid():
             form.save()
+            
+            messages.success(request, 'บันทึกข้อมูลของคุณเรียบร้อยแล้ว')
             return redirect('des-categories')
             # แสดงข้อความแจ้งเตือน
-            messages.success(request, 'บันทึกข้อมูลของคุณเรียบร้อยแล้ว')
+            
 
 
         return render(request, self.template_name, {"form": form})

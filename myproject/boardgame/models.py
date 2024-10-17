@@ -94,7 +94,7 @@ class PlaySession(models.Model):
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     num_players = models.IntegerField(null=False, default=1)
-    start_time = models.TimeField(null=False, default=timezone.now)
+    start_time = models.TimeField(null=False, auto_now_add=True)
     end_time = models.TimeField(null=True)  
     total_hours = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     total_cost = models.DecimalField(max_digits=8, decimal_places=2, null=True)
